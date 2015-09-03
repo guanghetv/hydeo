@@ -1,0 +1,22 @@
+{
+  "name": "hydeo",
+  "version": "1.0.0",
+  "description": "Video Interaction Extension of Videogular",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/centsent/hydeo.git"
+  },
+  "author": "centsent",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/centsent/hydeo/issues"
+  },
+  "homepage": "https://github.com/centsent/hydeo#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
