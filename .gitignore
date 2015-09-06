@@ -19,9 +19,13 @@ docs/downloads
 docs/vendor/bundle
 examples/shared/*.js
 test/the-files-to-test.generated.js
+test/bower_components
 *.log*
 chrome-user-data
 *.sublime-project
 *.sublime-workspace
 .idea
 *.iml
+.tmp
+.sass-cach
+dist
