@@ -18,6 +18,7 @@
     "angular-sanitize": "~1.4.5",
     "videogular": "~1.2.6",
     "videogular-controls": "~1.2.6",
+    "videogular-cuepoints": "~2.0.0",
     "videogular-themes-default": "~1.2.6"
   },
   "resolutions": {

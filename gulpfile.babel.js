@@ -25,14 +25,6 @@ const testLintOptions = {
 gulp.task('lint', lint('app/scripts/**/*.js'));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
-gulp.task('fonts', () => {
-  return gulp.src(require('main-bower-files')({
-    filter: '**/*.{eot,svg,ttf,woff,woff2}'
-  }).concat('app/fonts/**/*'))
-    .pipe(gulp.dest('.tmp/fonts'))
-    .pipe(gulp.dest('dist/fonts'));
-});
-
 gulp.task('extras', () => {
   return gulp.src([
     'app/*.*',
@@ -44,7 +36,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', [], () => {
+gulp.task('serve', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -58,14 +50,13 @@ gulp.task('serve', [], () => {
 
   gulp.watch([
     'app/*.html',
+    'app/views/**/*.html',
     'app/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('app/styles/**/*.css', ['styles']);
-  gulp.watch('app/fonts/**/*', ['fonts']);
-  gulp.watch('bower.json', ['wiredep', 'fonts']);
+  gulp.watch('bower.json', ['wiredep']);
 });
 
 gulp.task('serve:dist', () => {
@@ -104,7 +95,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', extras'], () => {
+gulp.task('build', ['lint', 'extras', 'coffee'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
