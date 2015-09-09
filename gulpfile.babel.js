@@ -25,6 +25,15 @@ const testLintOptions = {
 gulp.task('lint', lint('app/scripts/**/*.js'));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
+gulp.task('styles', () => {
+  return gulp.src('app/styles/*.css')
+    .pipe($.sourcemaps.init())
+    .pipe($.autoprefixer({browsers: ['last 1 version']}))
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('.tmp/styles'))
+    .pipe(reload({stream: true}));
+});
+
 gulp.task('extras', () => {
   return gulp.src([
     'app/*.*',
@@ -36,7 +45,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', () => {
+gulp.task('serve', ['styles'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -56,6 +65,7 @@ gulp.task('serve', () => {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
+  gulp.watch('app/styles/**/*.css', ['styles']);
   gulp.watch('bower.json', ['wiredep']);
 });
 

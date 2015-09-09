@@ -1,0 +1,15 @@
+.quiz-container {
+  /* Positioning */
+  position: absolute;
+  z-index: 99;
+
+  /* Box model */
+  width: 100%;
+  height: 100%;
+
+  /* Visual */
+  background-color: #fff;
+
+  /* Misc */
+  opacity: 0.5;
+}

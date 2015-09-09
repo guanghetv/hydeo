@@ -4,6 +4,12 @@
  *
  */
 (function() {
+  'use strict';
+
+  /**
+   * Gloabal variable.
+   */
+  var global = {};
 
   var app = angular.module('hydeo', [
     'ngSanitize',
@@ -15,7 +21,7 @@
   /**
    * Simplified and transform the vg-cue-points configurations.
    */
-  function toCuePoint(cuepointList, api) {
+  function toCuePoint(cuepointList, promiseApi) {
     if(!cuepointList || !cuepointList.length) {
       return ;
     }
@@ -30,6 +36,8 @@
         var timeLapse = {
           start: cp.time
         };
+        // prevent onEnter callback executed twice or more in 1 second.
+        var isFirstTime = true;
 
         if(_.isPlainObject(cp.time)) {
           timeLapse = cp.time;
@@ -39,15 +47,25 @@
           timeLapse: timeLapse,
           // mapping onEnter to onUpdate
           onUpdate: function onEnter(currentTime, timeLapse, params) {
-            if(_.isFunction(cp.onEnter)) {
-              cp.onEnter(currentTime, timeLapse, api, params);
-            }
+            promiseApi.then(function(api) {
+              var start = _.parseInt(timeLapse.start);
+              var now = _.parseInt(currentTime);
+
+              if(_.isFunction(cp.onEnter) && start === now && isFirstTime) {
+                cp.onEnter(currentTime, timeLapse, api, params);
+                isFirstTime = false;
+              }
+            });
           },
+
           // mapping onLeave to onComplete
           onComplete: function onLeave(currentTime, timeLapse, params) {
-            if(_.isFunction(cp.onLeave)) {
-              cp.onLeave(currentTime, timeLapse, api, params);
-            }
+            promiseApi.then(function(api) {
+              if(_.isFunction(cp.onLeave)) {
+                cp.onLeave(currentTime, timeLapse, api, params);
+                isFirstTime = true;
+              }
+            });
           },
           params: cp.params
         };
@@ -59,12 +77,12 @@
     return result;
   }
 
-  app.directive('hydeo', ['$sce', function($sce) {
+  app.directive('hydeo', ['$sce', '$q', function($sce, $q) {
     return {
       // only work on Element.
       resctrict: 'E',
 
-      templateUrl: 'scripts/directives/hydeo.html',
+      templateUrl: 'views/directives/hydeo.html',
 
       scope: {
 
@@ -89,9 +107,12 @@
       },
 
       link: function ($scope, elem, attr) {
+        var deferredApi = $q.defer();
+
         // TODO configurable event
         $scope.onPlayerReady = function onPlayerReady(api) {
           $scope.api = api;
+          deferredApi.resolve($scope.api);
         };
 
         $scope.config = {
@@ -102,7 +123,7 @@
           }],
           // TODO styling a default theme
           theme: 'bower_components/videogular-themes-default/videogular.css',
-          cuePoints: toCuePoint($scope.cuepoints, api),
+          cuePoints: toCuePoint($scope.cuepoints, deferredApi.promise),
           plugins: {
             // TODO more controls & plugins
             cuepoints: {

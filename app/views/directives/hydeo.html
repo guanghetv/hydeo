@@ -1,6 +1,8 @@
 <div>
   <videogular vg-theme="config.theme" vg-cue-points="config.cuePoints"
               vg-player-ready="onPlayerReady($API)">
+    <div ng-if="api.currentState === 'pause'" class="quiz-container"></div>
+
     <vg-media vg-src="config.sources"></vg-media>
 
     <vg-controls>
@@ -24,6 +26,7 @@
 
       <vg-fullscreen-button></vg-fullscreen-button>
     </vg-controls>
+
   </videogular>
 </div>
 
