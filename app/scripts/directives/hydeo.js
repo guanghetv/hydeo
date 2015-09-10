@@ -18,59 +18,86 @@
     'uk.ac.soton.ecs.videogular.plugins.cuepoints'
   ]);
 
-  // mapping onEnter to onUpdate
-  _this.onEnter = function onEner(cp, currentTime, timeLapse, params) {
+  _this.play = function play() {
+    var API = _this.API;
 
+    if (API && API.currentState !== 'play') {
+      API.play();
+    }
+  };
+
+  _this.pause = function pause() {
+    var API = _this.API;
+
+    if (API && API.currentState !== 'pause') {
+      API.pause();
+    }
+  };
+
+  // mapping onEnter to onUpdate
+  _this.onEnter = function onEner() {
+    var cp = _this.currentCuePoint;
+
+    if (!_.isPlainObject(cp)) {
+      return ;
+    }
+
+    if (_.isFunction(cp.onEnter)) {
+      cp.onEnter(cp.currentTime, cp.timeLapse, _this.API, cp.params);
+    }
+
+    _this.pause();
+    cp.$$isPristine = false;
   };
 
   // mapping onLeave to onComplete
-  _this.onLeave = function onLeave(cp, currentTime, timeLapse, params) {
-    //
+  _this.onLeave = function onLeave() {
+    var cp = _this.currentCuePoint;
+
+    if (_.isFunction(cp.onLeave)) {
+      cp.onLeave(cp.currentTime, cp.timeLapse, _this.API, cp.params);
+    }
+
+    _this.play();
+    delete _this.currentCuePoint;
   };
 
   // Simplified and transform to vg-cue-point.
   _this.toCuePoint = function toCuePoint(cp) {
-    var timeLapse = {
+    cp.$$isPristine = true;
+    cp.timeLapse = {
       start: cp.time
     };
-    var cuepoint;
 
     if (_.isPlainObject(cp.time)) {
-      timeLapse = cp.time;
+      cp.timeLapse = cp.time;
     }
 
-    // convert cuepoint mappings.
-    cuepoint = {
-      timeLapse: timeLapse,
-      onUpdate: function onUpdate(currentTime, timeLapse, params) {
-        var start = _.parseInt(timeLapse.start);
-        var currentSecond = _.parseInt(currentTime);
-        var currentCuePoint = _.assign({}, cp);
-        console.log(currentCuePoint);
+    cp.onUpdate = function onUpdate(currentTime, timeLapse, params) {
+      var start = _.parseInt(timeLapse.start);
+      var currentSecond = _.parseInt(currentTime);
+      var callbackParameters = {
+        currentTime: currentTime,
+        timeLapse: timeLapse,
+        params: params
+      };
 
-        if (!cp.$$isDirty && start === currentSecond) {
-          _this.API.pause();
-          cp.$$isDirty = true;
-          _this.isShowOverlay = true;
+      _this.currentCuePoint = _.assign(callbackParameters, cp);
+console.log(_this.currentCuePoint);
+console.log('ct: ' + currentSecond);
+console.log('start: ' + start);
 
-          if (_.isFunction(cp.onEnter)) {
-            cp.onEnter(currentTime, timeLapse, _this.API, params);
-          }
-        }
-
-      },
-
-      onComplete: function onComplete(currentTime, timeLapse, params) {
-        if (_.isFunction(cp.onLeave)) {
-          cp.onLeave(currentTime, timeLapse, _this.API, params);
-          cp.$$isDirty = false;
-          _this.isShowOverlay = false;
-        }
-      },
-      params: cp.params
+      // prevent enter a lot of times in 1 second.
+      if(_this.currentCuePoint.$$isPristine && start === currentSecond) {
+        _this.onEnter();
+      }
     };
 
-    return cuepoint;
+    cp.onComplete = function onComplete(currentTime, timeLapse, paras) {
+      _this.onLeave();
+    };
+
+    return cp;
   };
 
   /**
