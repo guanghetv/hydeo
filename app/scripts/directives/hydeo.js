@@ -18,18 +18,44 @@
     'uk.ac.soton.ecs.videogular.plugins.cuepoints'
   ]);
 
+  // Check if the video is paused.
+  _this.isPause = function isPause() {
+    return _this.API.currentState === 'pause';
+  };
+
+  // Check if the video is playing.
+  _this.isPlay = function isPlay() {
+    return _this.API.currentState === 'play';
+  };
+
+  // Check if the video is stoped.
+  _this.isStop = function isStop() {
+    return _this.API.currentState === 'stop';
+  };
+
+  // play
   _this.play = function play() {
     var API = _this.API;
 
-    if (API && API.currentState !== 'play') {
+    if (API && !_this.isPlay()) {
       API.play();
     }
   };
 
+  // stop
+  _this.stop = function stop() {
+    var API = _this.API;
+
+    if (API && !_this.isStop()) {
+      API.stop();
+    }
+  };
+
+  // pause
   _this.pause = function pause() {
     var API = _this.API;
 
-    if (API && API.currentState !== 'pause') {
+    if (API && !_this.isPause()) {
       API.pause();
     }
   };
@@ -82,13 +108,10 @@
         params: params
       };
 
-      _this.currentCuePoint = _.assign(callbackParameters, cp);
-console.log(_this.currentCuePoint);
-console.log('ct: ' + currentSecond);
-console.log('start: ' + start);
+      _this.currentCuePoint = _this.currentCuePoint || _.assign(callbackParameters, cp);
 
       // prevent enter a lot of times in 1 second.
-      if(_this.currentCuePoint.$$isPristine && start === currentSecond) {
+      if (_this.currentCuePoint.$$isPristine && start === currentSecond) {
         _this.onEnter();
       }
     };
@@ -184,12 +207,18 @@ console.log('start: ' + start);
         };
 
         $scope.isShowOverlay = function isShowOverlay() {
-          return _this.API.currentState === 'pause' && _this.isShowOverlay;
+          if(!_this.currentCuePoint) {
+            return false;
+          }
+
+          var timePoint = _.parseInt(_this.currentCuePoint.currentTime);
+          var currentSecond = _.parseInt(_this.API.currentTime / 1000);
+
+          return _this.isPause() && timePoint === currentSecond;
         };
 
         $scope.closeOverlay = function closeOverlay() {
-          _this.isShowOverlay = false;
-          _this.API.play();
+          _this.play();
         };
       }
 
