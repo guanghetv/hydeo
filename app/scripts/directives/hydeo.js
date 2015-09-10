@@ -18,38 +18,53 @@
     'uk.ac.soton.ecs.videogular.plugins.cuepoints'
   ]);
 
-    // Simplified and transform to vg-cue-point.
+  // mapping onEnter to onUpdate
+  _this.onEnter = function onEner(cp, currentTime, timeLapse, params) {
+
+  };
+
+  // mapping onLeave to onComplete
+  _this.onLeave = function onLeave(cp, currentTime, timeLapse, params) {
+    //
+  };
+
+  // Simplified and transform to vg-cue-point.
   _this.toCuePoint = function toCuePoint(cp) {
     var timeLapse = {
       start: cp.time
     };
-    // prevent onEnter callback executed twice or more in 1 second.
-    var isFirstTime = true;
     var cuepoint;
 
-    if(_.isPlainObject(cp.time)) {
+    if (_.isPlainObject(cp.time)) {
       timeLapse = cp.time;
     }
 
     // convert cuepoint mappings.
     cuepoint = {
       timeLapse: timeLapse,
-      // mapping onEnter to onUpdate
-      onUpdate: function onEnter(currentTime, timeLapse, params) {
+      onUpdate: function onUpdate(currentTime, timeLapse, params) {
         var start = _.parseInt(timeLapse.start);
-        var now = _.parseInt(currentTime);
+        var currentSecond = _.parseInt(currentTime);
+        var currentCuePoint = _.assign({}, cp);
+        console.log(currentCuePoint);
 
-        if(_.isFunction(cp.onEnter) && start === now && isFirstTime) {
-          cp.onEnter(currentTime, timeLapse, _this.API, params);
-          isFirstTime = false;
+        if (!cp.$$isDirty && start === currentSecond) {
+          _this.API.pause();
+          cp.$$isDirty = true;
+          _this.isShowOverlay = true;
+
+          if (_.isFunction(cp.onEnter)) {
+            cp.onEnter(currentTime, timeLapse, _this.API, params);
+          }
         }
+
       },
 
-      // mapping onLeave to onComplete
-      onComplete: function onLeave(currentTime, timeLapse, params) {
-        if(_.isFunction(cp.onLeave)) {
+      onComplete: function onComplete(currentTime, timeLapse, params) {
+        if (_.isFunction(cp.onLeave)) {
           cp.onLeave(currentTime, timeLapse, _this.API, params);
-          isFirstTime = true;
+          cp.$$isDirty = false;
+          _this.isShowOverlay = false;
         }
       },
       params: cp.params
@@ -62,7 +77,7 @@
    * Transform multiple vg-cue-points.
    */
   _this.toCuePoints = function toCuepoints(cuepointList) {
-    if(!cuepointList || !cuepointList.length) {
+    if (!cuepointList || !cuepointList.length) {
       return ;
     }
 
@@ -71,7 +86,7 @@
     };
 
     _.forEach(cuepointList, function(cp) {
-      if(!_.isPlainObject(cp)) {
+      if (!_.isPlainObject(cp)) {
         return ;
       }
 
@@ -113,7 +128,7 @@
       },
 
       link: function ($scope, elem, attr) {
-        // TODO configurable event
+        // TODO onPlayerReady should be configurable by an options param
         $scope.onPlayerReady = function onPlayerReady(api) {
           $scope.api = api;
           _this.API = api;
@@ -123,7 +138,7 @@
         $scope.config = {
           sources: [{
             src: $sce.trustAsResourceUrl($scope.src),
-            // TODO configurable media type
+            // TODO type should be configurable by an options param
             type: 'video/mp4'
           }],
           // TODO styling a default theme
@@ -139,6 +154,15 @@
               points: $scope.cuepoints
             }
           }
+        };
+
+        $scope.isShowOverlay = function isShowOverlay() {
+          return _this.API.currentState === 'pause' && _this.isShowOverlay;
+        };
+
+        $scope.closeOverlay = function closeOverlay() {
+          _this.isShowOverlay = false;
+          _this.API.play();
         };
       }
 
