@@ -148,7 +148,7 @@
     return result;
   };
 
-  app.directive('hydeo', ['$sce', '$q', function($sce, $q) {
+  function hydeoDirective($sce, $q) {
     return {
       // only work on Element.
       resctrict: 'E',
@@ -213,6 +213,7 @@
 
           var timePoint = _.parseInt(_this.currentCuePoint.currentTime);
           var currentSecond = _.parseInt(_this.API.currentTime / 1000);
+          $scope.templateUrl = _this.currentCuePoint.templateUrl;
 
           return _this.isPause() && timePoint === currentSecond;
         };
@@ -223,7 +224,9 @@
       }
 
     };
-  }]);
+  }
+
+  app.directive('hydeo', ['$sce', '$q', hydeoDirective]);
 
 })();
 

@@ -1,0 +1,13 @@
+<div ng-controller="QuizController as quiz"
+  style="width:100%;height:100%;background:#c0c0c0">
+  <div style="text-align: center;">
+    <div>
+      <a href ng-click="quiz.pick('A')">Option A</a>
+      <a href ng-click="quiz.pick('B')">Option B</a>
+    </div>
+    <div>
+      <p>Option A is correct answer, choose it will skip minutes.</p>
+      <p>Option B is wrong answer, choose it will keep playing.</p>
+    </div>
+  </div>
+</div>
