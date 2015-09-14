@@ -19,6 +19,7 @@
   "devDependencies": {
     "babel-core": "^5.8.23",
     "browser-sync": "^2.9.1",
+    "browserify": "^11.1.0",
     "del": "^2.0.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
