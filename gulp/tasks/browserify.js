@@ -1,23 +1,22 @@
-import config       from '../config';
+import config from '../config';
 import handleErrors from '../util/handleErrors';
-import gulp         from 'gulp';
-import gulpif       from 'gulp-if';
-import gutil        from 'gulp-util';
-import source       from 'vinyl-source-stream';
-import sourcemaps   from 'gulp-sourcemaps';
-import buffer       from 'vinyl-buffer';
-import streamify    from 'gulp-streamify';
-import watchify     from 'watchify';
-import browserify   from 'browserify';
-import babelify     from 'babelify';
-import uglify       from 'gulp-uglify';
-import browserSync  from 'browser-sync';
-import debowerify   from 'debowerify';
-import ngAnnotate   from 'browserify-ngannotate';
+import gulp from 'gulp';
+import gulpif from 'gulp-if';
+import gutil from 'gulp-util';
+import source from 'vinyl-source-stream';
+import sourcemaps from 'gulp-sourcemaps';
+import buffer from 'vinyl-buffer';
+import streamify from 'gulp-streamify';
+import watchify from 'watchify';
+import browserify from 'browserify';
+import babelify from 'babelify';
+import uglify from 'gulp-uglify';
+import browserSync from 'browser-sync';
+import debowerify from 'debowerify';
+import ngAnnotate from 'browserify-ngannotate';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-let buildScript = (file) => {
-
+const buildScript = (file) => {
   let bundler = browserify({
     entries: config.browserify.entries,
     debug: true,
@@ -26,14 +25,7 @@ let buildScript = (file) => {
     fullPaths: !global.isProd
   });
 
-  if ( !global.isProd ) {
-    bundler = watchify(bundler);
-    bundler.on('update', () => {
-      rebundle();
-    });
-  }
-
-  let transforms = [
+  const transforms = [
     babelify,
     debowerify,
     ngAnnotate,
@@ -45,9 +37,9 @@ let buildScript = (file) => {
     bundler.transform(transform);
   });
 
-  var rebundle = () => {
-    var stream = bundler.bundle();
-    var createSourcemap = global.isProd && config.browserify.prodSourcemap;
+  const rebundle = () => {
+    const stream = bundler.bundle();
+    const createSourcemap = global.isProd && config.browserify.prodSourcemap;
 
     gutil.log('Rebundle...');
 
@@ -63,12 +55,16 @@ let buildScript = (file) => {
       .pipe(browserSync.stream({ once: true }));
   };
 
-  return rebundle();
+  if ( !global.isProd ) {
+    bundler = watchify(bundler);
+    bundler.on('update', () => {
+      rebundle();
+    });
+  }
 
+  return rebundle();
 };
 
 gulp.task('browserify', () => {
-
   return buildScript('index.js');
-
 });

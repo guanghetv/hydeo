@@ -1,46 +1,24 @@
 
 module.exports = {
 
-  'browserPort'  : 3000,
-  'UIPort'       : 3001,
-  'serverPort'   : 3002,
-
-  'styles': {
-    'src' : 'app/styles/**/*.css',
-    'dest': 'build/css',
-    'prodSourcemap': false
-    //'sassIncludePaths': []
-  },
-
   'scripts': {
-    'src' : 'app/scripts/**/*.js',
+    'src': 'app/scripts/**/*.js',
     'dest': 'build/scripts'
   },
 
   'images': {
-    'src' : 'app/images/**/*',
+    'src': 'app/images/**/*',
     'dest': 'build/images'
   },
 
-  /*'fonts': {*/
-    //'src' : ['app/fonts/**/*'],
-    //'dest': 'build/fonts'
-  //},
-
-  /*'views': {*/
-    //'watch': [
-      //'app/index.html',
-      //'app/views/**/*.html'
-    //],
-    //'src': 'app/views/**/*.html',
-    //'dest': 'app/js'
-  //},
-
-  /*'gzip': {*/
-    //'src': 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
-    //'dest': 'build/',
-    //'options': {}
-  /*},*/
+  'views': {
+    'watch': [
+      'app/index.html',
+      'app/views/**/*.html'
+    ],
+    'src': 'app/views/**/*.html',
+    'dest': 'build'
+  },
 
   'dist': {
     'root': 'build'

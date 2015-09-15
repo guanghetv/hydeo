@@ -1,11 +1,10 @@
-import config        from '../config';
-import gulp          from 'gulp';
-import browserSync   from 'browser-sync';
+import config from '../config';
+import gulp from 'gulp';
+import browserSync from 'browser-sync';
 import templateCache from 'gulp-angular-templatecache';
 
 // Views task
 gulp.task('views', () => {
-
   // Put our index.html in the dist folder
   gulp.src('app/index.html')
     .pipe(gulp.dest(config.dist.root));
