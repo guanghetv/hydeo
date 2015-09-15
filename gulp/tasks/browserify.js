@@ -20,8 +20,8 @@ const buildScript = (file) => {
   let bundler = browserify({
     entries: config.browserify.entries,
     debug: true,
-    cache,
-    packageCache,
+    cache: {},
+    packageCache: {},
     fullPaths: !global.isProd
   });
 
@@ -66,5 +66,5 @@ const buildScript = (file) => {
 };
 
 gulp.task('browserify', () => {
-  return buildScript('index.js');
+  return buildScript('main.js');
 });
