@@ -17,7 +17,7 @@ module.exports = {
       'app/views/**/*.html'
     ],
     'src': 'app/views/**/*.html',
-    'dest': 'build'
+    'dest': 'app/scripts'
   },
 
   'dist': {

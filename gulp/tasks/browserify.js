@@ -14,6 +14,7 @@ import uglify from 'gulp-uglify';
 import browserSync from 'browser-sync';
 import debowerify from 'debowerify';
 import ngAnnotate from 'browserify-ngannotate';
+import bulkify from 'bulkify';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 const buildScript = (file) => {
@@ -30,7 +31,7 @@ const buildScript = (file) => {
     debowerify,
     ngAnnotate,
     'brfs',
-    'bulkify'
+    bulkify
   ];
 
   transforms.forEach((transform) => {

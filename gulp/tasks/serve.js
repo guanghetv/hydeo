@@ -3,7 +3,7 @@ import browserSync from 'browser-sync';
 
 const reload = browserSync.reload;
 
-gulp.task('serve', ['styles', 'views'], () => {
+gulp.task('serve', ['styles', 'views', 'browserify'], () => {
   browserSync({
     notify: false,
     port: 9000,
