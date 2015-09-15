@@ -2,11 +2,8 @@ import gulp        from 'gulp';
 import runSequence from 'run-sequence';
 
 gulp.task('dev', ['clean'], (cb) => {
-
-  cb = cb || () => {};
-
+  const buffer = cb || () => {};
   global.isProd = false;
 
-  runSequence(['styles', 'images', 'fonts', 'views', 'browserify'], 'watch', cb);
-
+  runSequence(['styles', 'images', 'views', 'browserify'], 'watch', buffer);
 });
