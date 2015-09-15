@@ -1,9 +1,9 @@
 import gulp        from 'gulp';
 import runSequence from 'run-sequence';
 
-gulp.task('prod', ['clean'], function(cb) {
+gulp.task('prod', ['clean'], (cb) => {
 
-  cb = cb || function() {};
+  cb = cb || () => {};
 
   global.isProd = true;
 

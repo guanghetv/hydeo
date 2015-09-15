@@ -4,7 +4,7 @@ import browserSync   from 'browser-sync';
 import templateCache from 'gulp-angular-templatecache';
 
 // Views task
-gulp.task('views', function() {
+gulp.task('views', () => {
 
   // Put our index.html in the dist folder
   gulp.src('app/index.html')

@@ -6,7 +6,7 @@ import handleErrors from '../util/handleErrors';
 import browserSync  from 'browser-sync';
 import autoprefixer from 'gulp-autoprefixer';
 
-gulp.task('styles', function () {
+gulp.task('styles', () => {
 
   return gulp.src(config.styles.src)
     .pipe(autoprefixer('last 2 versions', '> 1%', 'ie 8'))

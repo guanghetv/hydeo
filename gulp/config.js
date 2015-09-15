@@ -36,18 +36,18 @@ module.exports = {
     //'dest': 'app/js'
   //},
 
-  'gzip': {
-    'src': 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
-    'dest': 'build/',
-    'options': {}
-  },
+  /*'gzip': {*/
+    //'src': 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
+    //'dest': 'build/',
+    //'options': {}
+  /*},*/
 
   'dist': {
     'root': 'build'
   },
 
   'browserify': {
-    'entries': ['./app/js/main.js'],
+    'entries': ['./app/index.js'],
     'bundleName': 'main.js',
     'prodSourcemap': false
   },

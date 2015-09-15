@@ -16,13 +16,13 @@ import debowerify   from 'debowerify';
 import ngAnnotate   from 'browserify-ngannotate';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-var buildScript = (file) => {
+let buildScript = (file) => {
 
-  var bundler = browserify({
+  let bundler = browserify({
     entries: config.browserify.entries,
     debug: true,
-    cache: {},
-    packageCache: {},
+    cache,
+    packageCache,
     fullPaths: !global.isProd
   });
 
@@ -33,7 +33,7 @@ var buildScript = (file) => {
     });
   }
 
-  var transforms = [
+  let transforms = [
     babelify,
     debowerify,
     ngAnnotate,
@@ -69,6 +69,6 @@ var buildScript = (file) => {
 
 gulp.task('browserify', () => {
 
-  return buildScript('main.js');
+  return buildScript('index.js');
 
 });
