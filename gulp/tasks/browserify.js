@@ -1,5 +1,4 @@
 import config from '../config';
-import handleErrors from '../util/handleErrors';
 import gulp from 'gulp';
 import gulpif from 'gulp-if';
 import gutil from 'gulp-util';
@@ -9,15 +8,13 @@ import buffer from 'vinyl-buffer';
 import streamify from 'gulp-streamify';
 import watchify from 'watchify';
 import browserify from 'browserify';
-import babelify from 'babelify';
 import uglify from 'gulp-uglify';
+import handleErrors from '../util/handleErrors';
 import browserSync from 'browser-sync';
-import debowerify from 'debowerify';
 import ngAnnotate from 'browserify-ngannotate';
-import bulkify from 'bulkify';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-const buildScript = (file) => {
+function buildScript(file) {
   let bundler = browserify({
     entries: config.browserify.entries,
     debug: true,
@@ -25,20 +22,19 @@ const buildScript = (file) => {
     packageCache: {},
     fullPaths: !global.isProd
   });
-
   const transforms = [
-    babelify,
-    debowerify,
+    'babelify',
+    'debowerify',
     ngAnnotate,
     'brfs',
-    bulkify
+    'bulkify'
   ];
 
   transforms.forEach((transform) => {
     bundler.transform(transform);
   });
 
-  const rebundle = () => {
+  function rebundle() {
     const stream = bundler.bundle();
     const createSourcemap = global.isProd && config.browserify.prodSourcemap;
 
@@ -54,7 +50,7 @@ const buildScript = (file) => {
       .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
       .pipe(gulp.dest(config.scripts.dest))
       .pipe(browserSync.stream({ once: true }));
-  };
+  }
 
   if ( !global.isProd ) {
     bundler = watchify(bundler);
@@ -64,7 +60,7 @@ const buildScript = (file) => {
   }
 
   return rebundle();
-};
+}
 
 gulp.task('browserify', () => {
   return buildScript('main.js');

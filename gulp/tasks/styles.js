@@ -1,16 +1,28 @@
+import config from '../config';
 import gulp from 'gulp';
+import gulpif from 'gulp-if';
+import sourcemaps from 'gulp-sourcemaps';
+import sass from 'gulp-sass';
+import handleErrors from '../util/handleErrors';
 import browserSync from 'browser-sync';
-import gulpLoadPlugins from 'gulp-load-plugins';
-
-const $ = gulpLoadPlugins();
-const reload = browserSync.reload;
+import autoprefixer from 'gulp-autoprefixer';
 
 gulp.task('styles', () => {
-  return gulp.src('app/styles/*.css')
-    .pipe($.sourcemaps.init())
-    .pipe($.autoprefixer({browsers: ['last 1 version']}))
-    .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('build/styles'))
-    .pipe(reload({stream: true}));
-});
+  const createSourcemap = !global.isProd || config.styles.prodSourcemap;
 
+  return gulp.src(config.styles.src)
+    .pipe(gulpif(createSourcemap, sourcemaps.init()))
+    .pipe(sass({
+      sourceComments: !global.isProd,
+      outputStyle: global.isProd ? 'compressed' : 'nested',
+      includePaths: config.styles.sassIncludePaths
+    }))
+    .pipe(autoprefixer('last 2 versions', '> 1%', 'ie 8'))
+    .on('error', handleErrors)
+    .pipe(gulpif(
+      createSourcemap,
+      sourcemaps.write( global.isProd ? './' : null ))
+    )
+    .pipe(gulp.dest(config.styles.dest))
+    .pipe(browserSync.stream({ once: true }));
+});
