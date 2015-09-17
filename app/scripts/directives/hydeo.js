@@ -1,5 +1,4 @@
 import directivesModule from './_index';
-import template from 'views/directives/hydeo.html';
 
 /**
  *
@@ -8,78 +7,80 @@ import template from 'views/directives/hydeo.html';
  */
 // @ngInject
 function HydeoDirective($sce) {
+  let _this = this || {};
+
   // Check if the video is paused.
-  this.isPause = () => {
-    return this.API.currentState === 'pause';
+  _this.isPause = () => {
+    return _this.API.currentState === 'pause';
   };
 
   // Check if the video is playing.
-  this.isPlay = () => {
-    return this.API.currentState === 'play';
+  _this.isPlay = () => {
+    return _this.API.currentState === 'play';
   };
 
   // Check if the video is stoped.
-  this.isStop = () => {
-    return this.API.currentState === 'stop';
+  _this.isStop = () => {
+    return _this.API.currentState === 'stop';
   };
 
   // play
-  this.play = () => {
-    const API = this.API;
+  _this.play = () => {
+    const API = _this.API;
 
-    if (API && !this.isPlay()) {
+    if (API && !_this.isPlay()) {
       API.play();
     }
   };
 
   // stop
-  this.stop = () => {
-    const API = this.API;
+  _this.stop = () => {
+    const API = _this.API;
 
-    if (API && !this.isStop()) {
+    if (API && !_this.isStop()) {
       API.stop();
     }
   };
 
   // pause
-  this.pause = () => {
-    const API = this.API;
+  _this.pause = () => {
+    const API = _this.API;
 
-    if (API && !this.isPause()) {
+    if (API && !_this.isPause()) {
       API.pause();
     }
   };
 
   // mapping onEnter to onUpdate
-  this.onEnter = () => {
-    const cp = this.currentCuePoint;
+  _this.onEnter = () => {
+    const cp = _this.currentCuePoint;
 
     if (!_.isPlainObject(cp)) {
       return;
     }
 
     if (_.isFunction(cp.onEnter)) {
-      cp.onEnter(cp.currentTime, cp.timeLapse, this.API, cp.params);
+      cp.onEnter(cp.currentTime, cp.timeLapse, _this.API, cp.params);
     }
 
-    this.pause();
+    _this.pause();
     cp.$$isPristine = false;
   };
 
   // mapping onLeave to onComplete
-  this.onLeave = () => {
-    const cp = this.currentCuePoint;
+  _this.onLeave = () => {
+    const cp = _this.currentCuePoint;
 
     if (_.isFunction(cp.onLeave)) {
-      cp.onLeave(cp.currentTime, cp.timeLapse, this.API, cp.params);
+      cp.onLeave(cp.currentTime, cp.timeLapse, _this.API, cp.params);
     }
 
-    this.play();
-    delete this.currentCuePoint;
+    _this.play();
+    delete _this.currentCuePoint;
   };
 
   // Simplified and transform to vg-cue-point.
-  this.toCuePoint = (cp) => {
+  _this.toCuePoint = (cp) => {
     cp.$$isPristine = true;
     cp.timeLapse = {
       start: cp.time
@@ -98,16 +99,16 @@ function HydeoDirective($sce) {
         params: params
       };
 
-      this.currentCuePoint = this.currentCuePoint || _.assign(callbackParameters, cp);
+      _this.currentCuePoint = this.currentCuePoint || _.assign(callbackParameters, cp);
 
       // prevent enter a lot of times in 1 second.
-      if (this.currentCuePoint.$$isPristine && start === currentSecond) {
-        this.onEnter();
+      if (_this.currentCuePoint.$$isPristine && start === currentSecond) {
+        _this.onEnter();
       }
     };
 
     cp.onComplete = () => {
-      this.onLeave();
+      _this.onLeave();
     };
 
     return cp;
@@ -116,7 +117,7 @@ function HydeoDirective($sce) {
   /**
    * Transform multiple vg-cue-points.
    */
-  this.toCuePoints = (cuepointList) => {
+  _this.toCuePoints = (cuepointList) => {
     if (!cuepointList || !cuepointList.length) {
       return;
     }
@@ -130,7 +131,7 @@ function HydeoDirective($sce) {
         return;
       }
 
-      const cuepoint = this.toCuePoint(cp);
+      const cuepoint = _this.toCuePoint(cp);
 
       result.list.push(cuepoint);
     });
@@ -138,13 +139,13 @@ function HydeoDirective($sce) {
 
   return {
     restrict: 'E',
-    template: template,
+    templateUrl: 'views/directives/hydeo.html',
     scope: {
       /**
        * Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition
        * <pre>
        * {
-       *  time: Define in seconds when this timeline is active, can be an integer or an Object with start and end properties.
+       *  time: Define in seconds when _this timeline is active, can be an integer or an Object with start and end properties.
        *  onEnter: Callback function that will be called when timeline reach to the time property.
        *  onUpdate: Callback function that will be called when the progress is in the time property.
        *  onLeave: Callback function that will be called when the progress is over the time property.
@@ -164,8 +165,8 @@ function HydeoDirective($sce) {
       // TODO onPlayerReady should be configurable by an options param
       $scope.onPlayerReady = (api) => {
         $scope.api = api;
-        this.API = api;
-        $scope.config.cuePoints = this.toCuePoints($scope.cuepoints);
+        _this.API = api;
+        $scope.config.cuePoints = _this.toCuePoints($scope.cuepoints);
       };
 
       $scope.config = {
@@ -189,19 +190,19 @@ function HydeoDirective($sce) {
       };
 
       $scope.isShowOverlay = () => {
-        if (!this.currentCuePoint) {
+        if (!_this.currentCuePoint) {
           return false;
         }
 
-        const timePoint = _.parseInt(this.currentCuePoint.currentTime);
-        const currentSecond = _.parseInt(this.API.currentTime / 1000);
-        $scope.templateUrl = this.currentCuePoint.templateUrl;
+        const timePoint = _.parseInt(_this.currentCuePoint.currentTime);
+        const currentSecond = _.parseInt(_this.API.currentTime / 1000);
+        $scope.templateUrl = _this.currentCuePoint.templateUrl;
 
-        return this.isPause() && timePoint === currentSecond;
+        return _this.isPause() && timePoint === currentSecond;
       };
 
       $scope.closeOverlay = () => {
-        this.play();
+        _this.play();
       };
     }
   };

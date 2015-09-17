@@ -1,7 +1,7 @@
 import servicesModule from './_index';
 
-class HydeoControlService {
+class HydeoControl {
 }
 
-servicesModule.factory('$hydeoControl', HydeoControlService);
+servicesModule.factory('$hydeoControl', HydeoControl);
 

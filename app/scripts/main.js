@@ -6,8 +6,8 @@ import onRun from './on_run';
 import 'angular-ui-router';
 import './templates';
 import './controllers/_index';
-//import './services/_index';
-//import './directives/_index';
+import './services/_index';
+import './directives/_index';
 
 // create and bootstrap application
 angular.element(document).ready(() => {
@@ -15,9 +15,9 @@ angular.element(document).ready(() => {
   const modules = [
     'ui.router',
     'templates',
-    'hydeo.controllers'
-    //'hydeo.services',
-    /*'hydeo.directives'*/
+    'hydeo.controllers',
+    'hydeo.services',
+    'hydeo.directives'
   ];
   const app = angular.module(appName, modules);
 

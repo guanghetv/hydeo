@@ -1,5 +1,5 @@
 import angular from 'angular';
-import bulk from 'bulk-require';
+const bulk = require('bulk-require');
 
 module.exports = angular.module('hydeo.services', []);
 

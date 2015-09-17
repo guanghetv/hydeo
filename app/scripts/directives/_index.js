@@ -1,11 +1,13 @@
 import angular from 'angular';
-import bulk from'bulk-require';
+import 'angular-sanitize';
+import 'videogular/videogular';
+import 'videogular-controls/vg-controls';
 
+const bulk = require('bulk-require');
 const modules = [
   'ngSanitize',
   'com.2fdevs.videogular',
-  'com.2fdevs.videogular.plugins.controls',
-  'uk.ac.soton.ecs.videogular.plugins.cuepoints'
+  'com.2fdevs.videogular.plugins.controls'
 ];
 module.exports = angular.module('hydeo.directives', modules);
 
