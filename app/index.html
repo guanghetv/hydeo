@@ -3,27 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <title>Hydeo</title>
-    <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/videogular-themes-default/videogular.css" />
-    <!-- endbower -->
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/hydeo.css">
     <!-- endbuild -->
   </head>
   <body>
-    <div ng-app="hydeoApp" style="width:800px;height:600px"
+    <h1>What the fuck am i doing</h1>
+    <div style="width:800px;height:600px"
       ng-controller="HomeController as ctrl">
+      {{src}}
       <hydeo cuepoints="ctrl.cuepoints" src="ctrl.src"></hydeo>
     </div>
-    <!-- bower:js -->
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="/bower_components/lodash/lodash.js"></script>
-    <script src="/bower_components/videogular/videogular.js"></script>
-    <script src="/bower_components/videogular-controls/vg-controls.js"></script>
-    <script src="/bower_components/videogular-cuepoints/cuepoints.js"></script>
-    <!-- endbower -->
     <script src="scripts/main.js"></script>
   </body>
 </html>

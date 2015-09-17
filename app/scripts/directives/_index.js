@@ -1,4 +1,4 @@
-import angular from'angular';
+import angular from 'angular';
 import bulk from'bulk-require';
 
 const modules = [
