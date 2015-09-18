@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import directivesModule from './_index';
+import template from '../../views/directives/hydeo.html';
 
 /**
  *
@@ -6,8 +8,8 @@ import directivesModule from './_index';
  *
  */
 // @ngInject
-function HydeoDirective($sce) {
-  let _this = this || {};
+function hydeoDirective($sce) {
+  let _this = {};
 
   // Check if the video is paused.
   _this.isPause = () => {
@@ -139,7 +141,7 @@ function HydeoDirective($sce) {
 
   return {
     restrict: 'E',
-    templateUrl: 'views/directives/hydeo.html',
+    template: template,
     scope: {
       /**
        * Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition
@@ -176,7 +178,6 @@ function HydeoDirective($sce) {
           type: 'video/mp4'
         }],
         // TODO styling a default theme
-        theme: 'bower_components/videogular-themes-default/videogular.css',
         plugins: {
           // TODO more controls & plugins
           cuepoints: {
@@ -208,4 +209,4 @@ function HydeoDirective($sce) {
   };
 }
 
-directivesModule.directive('hydeo', HydeoDirective);
+directivesModule.directive('hydeo', hydeoDirective);

@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title ng-bind="pageTitle"></title>
     <title>Hydeo</title>
 
     <!-- build:css styles/main.css -->
@@ -9,9 +13,8 @@
     <!-- endbuild -->
   </head>
   <body>
-    <h1>What the fuck am i doing</h1>
     <div style="width:800px;height:600px"
-      ng-controller="HomeController as ctrl">
+         ng-controller="HomeController as ctrl">
       {{src}}
       <hydeo cuepoints="ctrl.cuepoints" src="ctrl.src"></hydeo>
     </div>
