@@ -101,7 +101,7 @@ function hydeoDirective($sce) {
         params: params
       };
 
-      _this.currentCuePoint = this.currentCuePoint || _.assign(callbackParameters, cp);
+      _this.currentCuePoint = _this.currentCuePoint || _.assign(callbackParameters, cp);
 
       // prevent enter a lot of times in 1 second.
       if (_this.currentCuePoint.$$isPristine && start === currentSecond) {
@@ -137,6 +137,8 @@ function hydeoDirective($sce) {
 
       result.list.push(cuepoint);
     });
+
+    return result;
   };
 
   return {
