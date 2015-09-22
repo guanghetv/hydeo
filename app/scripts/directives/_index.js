@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'angular-sanitize';
-import 'videogular/videogular';
+import 'videogular';
 import 'videogular-controls/vg-controls';
 
 const bulk = require('bulk-require');

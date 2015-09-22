@@ -1,8 +1,8 @@
 {
   "name": "hydeo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Video Interaction Extension of Videogular",
-  "main": "index.js",
+  "main": "gulpfile.babel.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/centsent/hydeo.git"
@@ -19,7 +19,7 @@
     "angular-sanitize": "^1.4.6",
     "angular-ui-router": "^0.2.13",
     "babel": "^5.8.23",
-    "babel-core": "^5.8.24",
+    "babel-core": "^5.8.25",
     "babelify": "^5.0.4",
     "brfs": "^1.2.0",
     "browser-sync": "^2.7.6",
@@ -70,9 +70,8 @@
     "stringify": "^3.1.0",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
-    "videogular": "2fdevs/bower-videogular",
+    "videogular": "^1.2.7",
     "videogular-controls": "2fdevs/bower-videogular-controls",
-    "videogular-themes-default": "2fdevs/bower-videogular-themes-default",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^2.0.0"
