@@ -8,52 +8,9 @@ import template from '../../views/directives/hydeo.html';
  *
  */
 // @ngInject
-function hydeoDirective($sce) {
+function hydeoDirective($sce, $hydeoControl) {
   let _this = {};
 
-  // Check if the video is paused.
-  _this.isPause = () => {
-    return _this.API.currentState === 'pause';
-  };
-
-  // Check if the video is playing.
-  _this.isPlay = () => {
-    return _this.API.currentState === 'play';
-  };
-
-  // Check if the video is stoped.
-  _this.isStop = () => {
-    return _this.API.currentState === 'stop';
-  };
-
-  // play
-  _this.play = () => {
-    const API = _this.API;
-
-    if (API && !_this.isPlay()) {
-      API.play();
-    }
-  };
-
-  // stop
-  _this.stop = () => {
-    const API = _this.API;
-
-    if (API && !_this.isStop()) {
-      API.stop();
-    }
-  };
-
-  // pause
-  _this.pause = () => {
-    const API = _this.API;
-
-    if (API && !_this.isPause()) {
-      API.pause();
-    }
-  };
-
-  // mapping onEnter to onUpdate
   _this.onEnter = () => {
     const cp = _this.currentCuePoint;
 
@@ -61,15 +18,10 @@ function hydeoDirective($sce) {
       return;
     }
 
-    if (_.isFunction(cp.onEnter)) {
-      cp.onEnter(cp.currentTime, cp.timeLapse, _this.API, cp.params);
-    }
-
-    _this.pause();
-    cp.$$isPristine = false;
+    $hydeoControl.pause();
+    // TODO show overlay
   };
 
-  // mapping onLeave to onComplete
   _this.onLeave = () => {
     const cp = _this.currentCuePoint;
 
@@ -77,13 +29,13 @@ function hydeoDirective($sce) {
       cp.onLeave(cp.currentTime, cp.timeLapse, _this.API, cp.params);
     }
 
-    _this.play();
+    $hydeoControl.play();
     delete _this.currentCuePoint;
+    // TODO hide overlay
   };
 
-  // Simplified and transform to vg-cue-point.
   _this.toCuePoint = (cp) => {
-    cp.$$isPristine = true;
+    const onEnter = cp.onEnter;
     cp.timeLapse = {
       start: cp.time
     };
@@ -92,9 +44,7 @@ function hydeoDirective($sce) {
       cp.timeLapse = cp.time;
     }
 
-    cp.onUpdate = (currentTime, timeLapse, params) => {
-      const start = _.parseInt(timeLapse.start);
-      const currentSecond = _.parseInt(currentTime);
+    cp.onEnter = (currentTime, timeLapse, params) => {
       const callbackParameters = {
         currentTime: currentTime,
         timeLapse: timeLapse,
@@ -102,10 +52,9 @@ function hydeoDirective($sce) {
       };
 
       _this.currentCuePoint = _this.currentCuePoint || _.assign(callbackParameters, cp);
-
-      // prevent enter a lot of times in 1 second.
-      if (_this.currentCuePoint.$$isPristine && start === currentSecond) {
-        _this.onEnter();
+      _this.onEnter();
+      if (_.isFunction(onEnter)) {
+        onEnter(currentTime, timeLapse, params);
       }
     };
 
@@ -116,9 +65,6 @@ function hydeoDirective($sce) {
     return cp;
   };
 
-  /**
-   * Transform multiple vg-cue-points.
-   */
   _this.toCuePoints = (cuepointList) => {
     if (!cuepointList || !cuepointList.length) {
       return;
@@ -144,6 +90,7 @@ function hydeoDirective($sce) {
   return {
     restrict: 'E',
     template: template,
+    //templateUrl: 'views/directives/hydeo.html',
     scope: {
       /**
        * Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition
@@ -168,7 +115,7 @@ function hydeoDirective($sce) {
     link: function link($scope) {
       // TODO onPlayerReady should be configurable by an options param
       $scope.onPlayerReady = (api) => {
-        $scope.api = api;
+        $hydeoControl.setApi(api);
         _this.API = api;
         $scope.config.cuePoints = _this.toCuePoints($scope.cuepoints);
       };
@@ -178,35 +125,9 @@ function hydeoDirective($sce) {
           src: $sce.trustAsResourceUrl($scope.src),
           // TODO type should be configurable by an options param
           type: 'video/mp4'
-        }],
-        // TODO styling a default theme
-        plugins: {
-          // TODO more controls & plugins
-          cuepoints: {
-            // TODO styling a default theme
-            theme: {
-              url: 'bower_components/videogular-cuepoints/cuepoints.css'
-            },
-            points: $scope.cuepoints
-          }
-        }
+        }]
       };
 
-      $scope.isShowOverlay = () => {
-        if (!_this.currentCuePoint) {
-          return false;
-        }
-
-        const timePoint = _.parseInt(_this.currentCuePoint.currentTime);
-        const currentSecond = _.parseInt(_this.API.currentTime / 1000);
-        $scope.templateUrl = _this.currentCuePoint.templateUrl;
-
-        return _this.isPause() && timePoint === currentSecond;
-      };
-
-      $scope.closeOverlay = () => {
-        _this.play();
-      };
     }
   };
 }

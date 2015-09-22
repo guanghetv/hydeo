@@ -1,16 +1,16 @@
 <div>
   <videogular vg-theme="config.theme" vg-cue-points="config.cuePoints"
               vg-player-ready="onPlayerReady($API)">
-    <div ng-if="isShowOverlay()" class="quiz-container">
-      <span class="quiz-container-close">
+    <div ng-if="isShowOverlay" class="quiz-container">
+
+     <span class="quiz-container-close">
         <a href ng-click="closeOverlay()">Close</a>
       </span>
-      <div class="quiz-problem" ng-if="templateUrl" ng-include="templateUrl">
+     <div class="quiz-problem" ng-if="templateUrl" ng-include="templateUrl">
       </div>
     </div>
 
     <vg-media vg-src="config.sources"></vg-media>
-
     <vg-controls>
       <vg-play-pause-button></vg-play-pause-button>
 
@@ -18,8 +18,6 @@
 
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-        <vg-cuepoints vg-cuepoints-config="config.plugins.cuepoints"
-                      vg-cuepoints-theme="config.plugins.cuepoints.theme.url">
         </vg-cuepoints>
       </vg-scrub-bar>
 
