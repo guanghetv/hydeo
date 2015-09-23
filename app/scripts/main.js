@@ -5,6 +5,7 @@ import './templates';
 import './controllers/_index';
 import './services/_index';
 import './directives/_index';
+import './index'
 
 const modules = [
   'templates',
@@ -13,6 +14,6 @@ const modules = [
   'hydeo.directives',
 ];
 
-module.exports = angular.module(appName, modules).constant('AppSettings', constants);
+module.exports = angular.module('hydeo', modules).constant('AppSettings', constants);
 // mount on window for testing
 //window.app = app;

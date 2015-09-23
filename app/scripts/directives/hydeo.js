@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import _ from 'lodash';
 import directivesModule from './_index';
 import template from '../../views/directives/hydeo.html';
@@ -8,7 +9,7 @@ import template from '../../views/directives/hydeo.html';
  *
  */
 // @ngInject
-function hydeoDirective($sce, $hydeoControl) {
+function hydeoDirective($sce, $hydeoControl, $http) {
   let _this = {};
 
   _this.onEnter = () => {
@@ -18,20 +19,18 @@ function hydeoDirective($sce, $hydeoControl) {
       return;
     }
 
-    $hydeoControl.pause();
-    // TODO show overlay
+    _this.showOverlay();
   };
 
   _this.onLeave = () => {
     const cp = _this.currentCuePoint;
 
-    if (_.isFunction(cp.onLeave)) {
+    if (cp && _.isFunction(cp.onLeave)) {
       cp.onLeave(cp.currentTime, cp.timeLapse, _this.API, cp.params);
     }
 
     $hydeoControl.play();
     delete _this.currentCuePoint;
-    // TODO hide overlay
   };
 
   _this.toCuePoint = (cp) => {
@@ -90,7 +89,6 @@ function hydeoDirective($sce, $hydeoControl) {
   return {
     restrict: 'E',
     template: template,
-    //templateUrl: 'views/directives/hydeo.html',
     scope: {
       /**
        * Object containing a list of timelines with cue points. Each property in the object represents a timeline, which is an Array of objects with the next definition
@@ -112,7 +110,9 @@ function hydeoDirective($sce, $hydeoControl) {
       src: '='
     },
 
-    link: function link($scope) {
+    link: function link($scope, elem) {
+      const overlay = $(elem).find('.quiz-container');
+      $hydeoControl.setOverlay(overlay);
       // TODO onPlayerReady should be configurable by an options param
       $scope.onPlayerReady = (api) => {
         $hydeoControl.setApi(api);
@@ -128,6 +128,29 @@ function hydeoDirective($sce, $hydeoControl) {
         }]
       };
 
+      $scope.showOverlay = () => {
+        const currentCuePoint = _this.currentCuePoint;
+        if (!currentCuePoint) {
+          return;
+        }
+
+        $scope.templateUrl = currentCuePoint.templateUrl;
+        $hydeoControl.pause();
+      };
+
+      $scope.hideOverlay = () => {
+        $hydeoControl.play();
+      };
+
+      $scope.calcLeft = (point) => {
+        if (_this.API.totalTime === 0) {
+          return '-1000';
+        }
+        const videoLength = _this.API.totalTime / 1000;
+        return (point.time * 100 / videoLength).toString();
+      };
+
+      _this.showOverlay = $scope.showOverlay;
     }
   };
 }

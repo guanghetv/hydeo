@@ -11,12 +11,19 @@ class HydeoControl {
     if(!this.isPause()) {
       this.api.pause();
     }
+    this.overlay.show();
   }
 
   play() {
     if(!this.isPlay()) {
       this.api.play();
     }
+    this.overlay.hide();
+  }
+
+  seek(time) {
+    this.api.seekTime(time);
+    this.play();
   }
 
   stop() {
@@ -30,7 +37,7 @@ class HydeoControl {
   }
 
   isPlay() {
-   return this.api.currentState === 'play';
+    return this.api.currentState === 'play';
   }
 
   isStop() {
@@ -39,6 +46,10 @@ class HydeoControl {
 
   get currentTime() {
     return this.api.currentTime;
+  }
+
+  setOverlay(overlay) {
+    this.overlay = overlay;
   }
 }
 
