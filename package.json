@@ -2,7 +2,7 @@
   "name": "hydeo",
   "version": "0.0.1",
   "description": "Video Interaction Extension of Videogular",
-  "main": "gulpfile.babel.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/centsent/hydeo.git"
@@ -70,7 +70,7 @@
     "stringify": "^3.1.0",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
-    "videogular": "^1.2.7",
+    "videogular": "2fdevs/bower-videogular",
     "videogular-controls": "2fdevs/bower-videogular-controls",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^0.1.1",
