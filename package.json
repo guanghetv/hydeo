@@ -54,6 +54,7 @@
     "gulp-util": "^3.0.1",
     "imagemin-pngcrush": "^0.1.0",
     "isparta": "^3.0.3",
+    "jquery": "^2.1.4",
     "jshint-stylish": "^1.0.0",
     "karma": "^0.13.10",
     "karma-babel-preprocessor": "^4.0.1",
