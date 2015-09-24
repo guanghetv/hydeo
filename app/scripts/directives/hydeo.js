@@ -9,8 +9,9 @@ import template from '../../views/directives/hydeo.html';
  *
  */
 // @ngInject
-function hydeoDirective($sce, $hydeoControl, $http) {
-  let _this = {};
+function hydeoDirective($sce, $hydeoControl) {
+  // const cuepoint = new CuePoint();
+  const _this = {};
 
   _this.onEnter = () => {
     const cp = _this.currentCuePoint;
@@ -26,7 +27,7 @@ function hydeoDirective($sce, $hydeoControl, $http) {
     const cp = _this.currentCuePoint;
 
     if (cp && _.isFunction(cp.onLeave)) {
-      cp.onLeave(cp.currentTime, cp.timeLapse, _this.API, cp.params);
+      cp.onLeave(cp.currentTime, cp.timeLapse, cp.params);
     }
 
     $hydeoControl.play();
@@ -66,7 +67,7 @@ function hydeoDirective($sce, $hydeoControl, $http) {
 
   _this.toCuePoints = (cuepointList) => {
     if (!cuepointList || !cuepointList.length) {
-      return;
+      return null;
     }
 
     const result = {
