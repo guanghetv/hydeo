@@ -2,20 +2,20 @@ import servicesModule from './_index';
 
 class HydeoControl {
   setApi(api) {
-    if(!this.api) {
+    if (!this.api) {
       this.api = api;
     }
   }
 
   pause() {
-    if(!this.isPause()) {
+    if (!this.isPause()) {
       this.api.pause();
     }
     this.overlay.show();
   }
 
   play() {
-    if(!this.isPlay()) {
+    if (!this.isPlay()) {
       this.api.play();
     }
     this.overlay.hide();
@@ -27,7 +27,7 @@ class HydeoControl {
   }
 
   stop() {
-    if(!this.isStop()) {
+    if (!this.isStop()) {
       this.api.stop();
     }
   }
@@ -53,8 +53,4 @@ class HydeoControl {
   }
 }
 
-function $hydeoControl() {
-  return new HydeoControl();
-}
-
-servicesModule.factory('$hydeoControl', $hydeoControl);
+servicesModule.factory('$hydeoControl', new HydeoControl());
