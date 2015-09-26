@@ -1,6 +1,5 @@
 <div>
-  <videogular vg-cue-points="config.cuePoints"
-              vg-player-ready="onPlayerReady($API)">
+  <videogular vg-cue-points="config.cuePoints" vg-player-ready="onPlayerReady($API)">
     <div class="quiz-container">
       <span class="quiz-container-close">
         <a href ng-click="hideOverlay()">Close</a>
@@ -17,8 +16,8 @@
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <div class="cuepoints">
-          <div ng-repeat="point in cuepoints" class="cuepoint"
-               style="left:{{calcLeft(point)}}%"></div>
+          <div ng-repeat="point in cuepoints" class="cuepoint" ng-mouseover="point.onMouseOver()"
+          style="left:{{calcLeft(point)}}%"></div>
         </div>
       </vg-scrub-bar>
 
@@ -33,4 +32,3 @@
     </vg-controls>
   </videogular>
 </div>
-

@@ -5,7 +5,15 @@ import _ from 'lodash';
  */
 class CuePoint {
 
+  /* Proxies on cue point callback events. */
+
   /* Events */
+
+  /**
+   *
+   */
+  onMouseOver() {
+  }
 
   /**
    * Callback function that will be called when timeline reach to the time
