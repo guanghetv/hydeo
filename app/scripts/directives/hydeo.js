@@ -113,7 +113,7 @@ function hydeoDirective($sce, $hydeoControl) {
 
     link: function link($scope, elem) {
       const overlay = $(elem).find('.quiz-container');
-      $hydeoControl.setOverlay(overlay);
+      $hydeoControl.overlay = overlay;
       // TODO onPlayerReady should be configurable by an options param
       $scope.onPlayerReady = (api) => {
         $hydeoControl.setApi(api);

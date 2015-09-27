@@ -44,13 +44,10 @@ class HydeoControl {
     return this.api.currentState === 'stop';
   }
 
-  get currentTime() {
-    return this.api.currentTime;
-  }
-
-  setOverlay(overlay) {
-    this.overlay = overlay;
-  }
 }
 
-servicesModule.factory('$hydeoControl', new HydeoControl());
+function hydeoControl() {
+  return new HydeoControl();
+}
+
+servicesModule.factory('$hydeoControl', hydeoControl);
