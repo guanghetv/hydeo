@@ -1,12 +1,13 @@
 import servicesModule from './_index';
 
-class HydeoControl {
-  setApi(api) {
-    if (!this.api) {
-      this.api = api;
-    }
-  }
+/**
+ *
+ */
+class HydeoControlService {
 
+  /**
+   *
+   */
   pause() {
     if (!this.isPause()) {
       this.api.pause();
@@ -14,6 +15,9 @@ class HydeoControl {
     this.overlay.show();
   }
 
+  /**
+   *
+   */
   play() {
     if (!this.isPlay()) {
       this.api.play();
@@ -21,33 +25,50 @@ class HydeoControl {
     this.overlay.hide();
   }
 
+  /**
+   *
+   */
   seek(time) {
     this.api.seekTime(time);
     this.play();
   }
 
+  /**
+   *
+   */
   stop() {
     if (!this.isStop()) {
       this.api.stop();
     }
   }
 
+  /**
+   *
+   */
   isPause() {
     return this.api.currentState === 'pause';
   }
 
+  /**
+   *
+   */
   isPlay() {
     return this.api.currentState === 'play';
   }
 
+  /**
+   *
+   */
   isStop() {
     return this.api.currentState === 'stop';
   }
 
+  /**
+   *
+   */
+  static factory() {
+    return new HydeoControlService();
+  }
 }
 
-function hydeoControl() {
-  return new HydeoControl();
-}
-
-servicesModule.factory('$hydeoControl', hydeoControl);
+servicesModule.factory('$hydeoControl', HydeoControlService.factory);

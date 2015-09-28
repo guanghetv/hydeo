@@ -51,6 +51,9 @@ class CuePoint {
   onUpdate() {
   }
 
+  /**
+   *
+   */
   onLeave() {
   }
 
