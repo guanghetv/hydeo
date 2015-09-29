@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import directivesModule from './_index';
 import template from '../../views/directives/csHydeo.html';
 
@@ -17,8 +16,7 @@ function hydeoDirective() {
       cuepoints: '=',
       src: '='
     },
-    link: function link($scope, elem) {
-    }
+    controller: 'hydeoController'
   };
 }
 
