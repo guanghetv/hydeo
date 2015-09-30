@@ -3,7 +3,7 @@ import servicesModule from './_index';
 /**
  *
  */
-class HydeoControlService {
+class HyMediaService {
 
   /**
    *
@@ -67,8 +67,8 @@ class HydeoControlService {
    *
    */
   static factory() {
-    return new HydeoControlService();
+    return new HyMediaService();
   }
 }
 
-servicesModule.factory('$hydeoControl', HydeoControlService.factory);
+servicesModule.factory('$hyMedia', HyMediaService.factory);
