@@ -1,10 +1,10 @@
 import directivesModule from './_index';
-import template from '../../views/directives/csHydeo.html';
+import template from '../../views/directives/hyHydeo.html';
 
 /**
  *
  */
-class HydeoDirective {
+class HyHydeoDirective {
 
   constructor() {
     this.restrict = 'E';
@@ -20,9 +20,9 @@ class HydeoDirective {
    *
    */
   static factory() {
-    return new HydeoDirective();
+    return new HyHydeoDirective();
   }
 
 }
 
-directivesModule.directive('csHydeo', HydeoDirective.factory);
+directivesModule.directive('hyHydeo', HyHydeoDirective.factory);

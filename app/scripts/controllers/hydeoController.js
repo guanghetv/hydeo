@@ -32,13 +32,13 @@ class HydeoController {
       }]
     };
 
-    this.binding();
+    this._binding();
   }
 
   /**
    *
    */
-  binding() {
+  _binding() {
     const $scope = _scope.get(this);
     $scope.calcLeft = this.calcLeft;
     $scope.onPlayerReady = this.onPlayerReady;
@@ -48,18 +48,18 @@ class HydeoController {
    *
    */
   onPlayerReady(api) {
-    this.api = api;
+    this.$$api = api;
   }
 
   /**
    *
    */
   calcLeft(point) {
-    if (!this.api || this.api.totalTime === 0) {
+    if (!this.$$api || this.$$api.totalTime === 0) {
       // Don't show the cuepoints if video not ready.
       return '-1000';
     }
-    const videoLength = this.api.totalTime / 1000;
+    const videoLength = this.$$api.totalTime / 1000;
     return (point.time * 100 / videoLength).toString();
   }
 
