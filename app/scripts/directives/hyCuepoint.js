@@ -12,21 +12,20 @@ class CuepointDirective {
       cuepoints: '='
     };
 
-    this.link = {
-      pre: ($scope) => {
-        _scope.set(this, $scope);
-        $scope.calcLeft = this.calcLeft;
-      }
+    this.link = ($scope) => {
+      _scope.set(this, $scope);
     };
   }
 
   binding() {
     const $scope = _scope.get(this);
-    $scope.calcLeft = this.calcLeft;
+    $scope.styling = this.styling;
   }
 
-  calcLeft(point) {
-    console.log(point);
+  styling(point) {
+    const style = {};
+
+    return style;
   }
 
   static factory() {

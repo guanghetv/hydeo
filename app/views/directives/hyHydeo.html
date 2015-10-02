@@ -16,10 +16,6 @@
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <hy-cuepoint cuepoints="cuepoints"></hy-cuepoint>
-        <div class="cuepoints">
-          <div class="cuepoint" ng-repeat="point in cuepoints" ng-mouseover="point.onMouseOver()"
-          style="left:{{calcLeft(point)}}%"></div>
-        </div>
       </vg-scrub-bar>
 
       <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
