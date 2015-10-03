@@ -1,5 +1,7 @@
 import servicesModule from './_index';
 
+const _api = new WeakMap();
+
 /**
  *
  */
@@ -8,28 +10,38 @@ class HyMediaService {
   /**
    *
    */
+  setApi(api) {
+    _api.set(this, api);
+  }
+
+  /**
+   *
+   */
   pause() {
+    const api = _api.get(this);
     if (!this.isPause()) {
-      this.api.pause();
+      api.pause();
     }
-    this.overlay.show();
+    // this.overlay.show();
   }
 
   /**
    *
    */
   play() {
+    const api = _api.get(this);
     if (!this.isPlay()) {
-      this.api.play();
+      api.play();
     }
-    this.overlay.hide();
+    // this.overlay.hide();
   }
 
   /**
    *
    */
   seek(time) {
-    this.api.seekTime(time);
+    const api = _api.get(this);
+    api.seekTime(time);
     this.play();
   }
 
@@ -37,8 +49,9 @@ class HyMediaService {
    *
    */
   stop() {
+    const api = _api.get(this);
     if (!this.isStop()) {
-      this.api.stop();
+      api.stop();
     }
   }
 
@@ -46,21 +59,24 @@ class HyMediaService {
    *
    */
   isPause() {
-    return this.api.currentState === 'pause';
+    const api = _api.get(this);
+    return api.currentState === 'pause';
   }
 
   /**
    *
    */
   isPlay() {
-    return this.api.currentState === 'play';
+    const api = _api.get(this);
+    return api.currentState === 'play';
   }
 
   /**
    *
    */
   isStop() {
-    return this.api.currentState === 'stop';
+    const api = _api.get(this);
+    return api.currentState === 'stop';
   }
 
   /**

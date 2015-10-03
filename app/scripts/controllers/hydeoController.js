@@ -2,6 +2,8 @@ import controllersModuel from './_index';
 
 const _scope = new WeakMap();
 const _sce = new WeakMap();
+const _hyMedia = new WeakMap();
+const _api = new WeakMap();
 
 /**
  *
@@ -11,9 +13,10 @@ class HydeoController {
   /**
    * @ngInject
    */
-  constructor($scope, $sce) {
+  constructor($scope, $sce, $hyMedia) {
     _scope.set(this, $scope);
     _sce.set(this, $sce);
+    _hyMedia.set(this, $hyMedia);
     this.init();
   }
 
@@ -48,7 +51,10 @@ class HydeoController {
    *
    */
   onPlayerReady(api) {
-    this.$$api = api;
+    console.log(this);
+    const $hyMedia = _hyMedia.get(this);
+    $hyMedia.setApi(api);
+    _api.set(this, api);
   }
 
   /**
