@@ -28,7 +28,9 @@ function buildScript(file) {
 
   const transforms = [
     stringify(['.html']),
-    babelify,
+    babelify.configure({
+      stage: 0
+    }),
     debowerify,
     ngAnnotate,
     'brfs',
@@ -50,14 +52,18 @@ function buildScript(file) {
       .pipe(gulpif(createSourcemap, buffer()))
       .pipe(gulpif(createSourcemap, sourcemaps.init()))
       .pipe(gulpif(global.isProd, streamify(uglify({
-        compress: { drop_console: true }
+        compress: {
+          drop_console: true
+        }
       }))))
       .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
       .pipe(gulp.dest(config.scripts.dest))
-      .pipe(browserSync.stream({ once: true }));
+      .pipe(browserSync.stream({
+        once: true
+      }));
   }
 
-  if ( !global.isProd ) {
+  if (!global.isProd) {
     bundler = watchify(bundler);
     bundler.on('update', () => {
       rebundle();
