@@ -43,15 +43,13 @@ class HydeoController {
    */
   _binding() {
     const $scope = _scope.get(this);
-    $scope.calcLeft = this.calcLeft;
-    $scope.onPlayerReady = this.onPlayerReady;
+    $scope.onPlayerReady = this.onPlayerReady.bind(this);
   }
 
   /**
    *
    */
   onPlayerReady(api) {
-    console.log(this);
     const $hyMedia = _hyMedia.get(this);
     $hyMedia.setApi(api);
     _api.set(this, api);
