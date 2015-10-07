@@ -79,6 +79,11 @@ class HyMediaService {
     return api.currentState === 'stop';
   }
 
+  totalTime() {
+    const api = _api.get(this);
+    return api.totalTime;
+  }
+
   /**
    *
    */
