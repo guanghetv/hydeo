@@ -1,4 +1,4 @@
-var gulpConfig = require('../gulp/config');
+// import gulpConfig from '../gulp/config';
 
 exports.config = {
 
