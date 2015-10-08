@@ -1,6 +1,6 @@
 import gulp from 'gulp';
 import runSequence from 'run-sequence';
 
-gulp.task('test', ['serve'], () => {
+gulp.task('test', ['server'], () => {
   return runSequence('unit', 'protractor');
 });

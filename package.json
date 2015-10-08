@@ -44,7 +44,6 @@
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^1.1.0",
     "gulp-jshint": "^1.8.3",
-    "gulp-karma": "0.0.4",
     "gulp-notify": "^2.0.0",
     "gulp-protractor": "^1.0.0",
     "gulp-rename": "^1.2.0",

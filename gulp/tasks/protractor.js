@@ -5,7 +5,7 @@ import {protractor, webdriver, webdriverUpdate} from 'gulp-protractor';
 gulp.task('webdriver-update', webdriverUpdate);
 gulp.task('webdriver', webdriver);
 
-gulp.task('protractor', ['webdriver-update', 'webdriver', 'serve'], (cb) => {
+gulp.task('protractor', ['webdriver-update', 'webdriver', 'server'], (cb) => {
   gulp.src('test/e2e/**/*.js').pipe(protractor({
     configFile: config.test.protractor
   })).on('error', (err) => {
