@@ -8,7 +8,7 @@ const _hydeoController = new WeakMap();
 /**
  *
  */
-class CuepointDirective {
+class HyCuepointDirective {
 
   constructor($hyMedia) {
     this.restrict = 'E';
@@ -25,7 +25,7 @@ class CuepointDirective {
    *
    */
   compile() {
-    return this.link.bind(this);
+    return this::this.link;
   }
 
   /**
@@ -43,21 +43,23 @@ class CuepointDirective {
    */
   binding() {
     const $scope = _scope.get(this);
-    $scope.styling = this.styling.bind(this);
+    $scope.styling = this::this.styling;
   }
 
   /**
-   *
+   * Styling the cuepint.
    */
   styling(point) {
     const $hyMedia = _hyMedia.get(this);
     const totalTime = $hyMedia.totalTime;
+    const style = {};
 
     if (totalTime === 0) {
-      return null;
+      // Don't show cuepoint if video not loaded.
+      style.display = 'none';
+      return style;
     }
 
-    const style = {};
     // Convert millisecond to second.
     const videoLength = totalTime / 1000;
     const left = `${point.time / videoLength * 100}%`;
@@ -71,14 +73,16 @@ class CuepointDirective {
    */
   onEnter(cuepoint) {
     const $hyMedia = _hyMedia.get(this);
+    const hydeoController = _hydeoController.get(this);
     const tempOnEnter = cuepoint.onEnter;
-    this.current = this.current || cuepoint;
+
     cuepoint.timeLapse = {
       start: cuepoint.time
     };
 
     cuepoint.onEnter = (currentTime, timeLapse, params) => {
       $hyMedia.pause();
+      hydeoController.showOverlay(cuepoint.templateUrl);
 
       if (typeof tempOnEnter === 'function') {
         tempOnEnter(currentTime, timeLapse, params);
@@ -91,10 +95,12 @@ class CuepointDirective {
    */
   onComplete(cuepoint) {
     const $hyMedia = _hyMedia.get(this);
+    const $scope = _scope.get(this);
     const tempOnComplete = cuepoint.onComplete;
 
     cuepoint.onComplete = (currentTime, timeLapse, params) => {
       $hyMedia.play();
+      $scope.templateUrl = null;
 
       if (typeof tempOnComplete === 'function') {
         tempOnComplete(currentTime, timeLapse, params);
@@ -140,9 +146,9 @@ class CuepointDirective {
   /**
    * @ngInject
    */
-  static factory($hyMedia) {
-    return new CuepointDirective($hyMedia);
+  static factory($hyMedia, $compile) {
+    return new HyCuepointDirective($hyMedia);
   }
 }
 
-directivesModule.directive('hyCuepoint', CuepointDirective.factory);
+directivesModule.directive('hyCuepoint', HyCuepointDirective.factory);

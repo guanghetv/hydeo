@@ -42,7 +42,7 @@ class HydeoController {
    */
   _binding() {
     const $scope = _scope.get(this);
-    $scope.onPlayerReady = this.onPlayerReady.bind(this);
+    $scope.onPlayerReady = this::this.onPlayerReady;
   }
 
   /**
@@ -61,6 +61,13 @@ class HydeoController {
     $scope.config.cuePoints = cuepoints;
   }
 
+  /**
+   *
+   */
+  showOverlay(templateUrl) {
+    const $scope = _scope.get(this);
+    $scope.cuepointTemplateUrl = templateUrl;
+  }
 }
 
 controllersModuel.controller('hydeoController', HydeoController);
