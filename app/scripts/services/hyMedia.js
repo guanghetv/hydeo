@@ -36,6 +36,17 @@ class HyMediaService {
     // this.overlay.hide();
   }
 
+
+  /**
+   *
+   */
+  set onPlay(onPlay) {
+    const api = _api.get(this);
+    const mediaElement = api.mediaElement[0];
+
+    mediaElement.addEventListener('play', onPlay);
+  }
+
   /**
    *
    */

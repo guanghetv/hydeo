@@ -40,6 +40,19 @@ class HydeoController {
   /**
    *
    */
+  onPlay() {
+    const $hyMedia = _hyMedia.get(this);
+    const $scope = _scope.get(this);
+    $hyMedia.onPlay = () => {
+      if ($scope.cuepointTemplateUrl) {
+        delete $scope.cuepointTemplateUrl;
+      }
+    };
+  }
+
+  /**
+   *
+   */
   _binding() {
     const $scope = _scope.get(this);
     $scope.onPlayerReady = this::this.onPlayerReady;
@@ -51,6 +64,7 @@ class HydeoController {
   onPlayerReady(api) {
     const $hyMedia = _hyMedia.get(this);
     $hyMedia.setApi(api);
+    this.onPlay();
   }
 
   /**
