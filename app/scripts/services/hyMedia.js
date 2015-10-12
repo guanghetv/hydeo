@@ -1,106 +1,76 @@
+/**
+ * TODO
+ */
 import servicesModule from './_index';
 
-const _api = new WeakMap();
+const _mediaElement = new WeakMap();
 
 /**
- *
+ * TODO
  */
 class HyMediaService {
 
   /**
-   *
+   * TODO
    */
-  setApi(api) {
-    _api.set(this, api);
+  setMediaElement(element) {
+    _mediaElement.set(this, element);
   }
 
   /**
-   *
+   * TODO
    */
   pause() {
-    const api = _api.get(this);
-    if (!this.isPause()) {
-      api.pause();
-    }
-    // this.overlay.show();
   }
 
   /**
-   *
+   * TODO
    */
   play() {
-    const api = _api.get(this);
-    if (!this.isPlay()) {
-      api.play();
-    }
-    // this.overlay.hide();
   }
 
 
   /**
-   *
+   * TODO
    */
   set onPlay(onPlay) {
-    const api = _api.get(this);
-    const mediaElement = api.mediaElement[0];
-
-    mediaElement.addEventListener('play', onPlay);
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.bind('play', onPlay);
   }
 
   /**
-   *
+   * TODO
    */
   seek(time) {
-    const api = _api.get(this);
-    api.seekTime(time);
-    this.play();
   }
 
   /**
-   *
+   * TODO
    */
   stop() {
-    const api = _api.get(this);
-    if (!this.isStop()) {
-      api.stop();
-    }
   }
 
   /**
-   *
+   * TODO
    */
   isPause() {
-    const api = _api.get(this);
-    return api.currentState === 'pause';
   }
 
   /**
-   *
+   * TODO
    */
   isPlay() {
-    const api = _api.get(this);
-    return api.currentState === 'play';
   }
 
   /**
-   *
+   * TODO
    */
   isStop() {
-    const api = _api.get(this);
-    return api.currentState === 'stop';
   }
 
-
-  /*
-   *
-   */
-  get totalTime() {
-    const api = _api.get(this);
-    return api.totalTime;
-  }
 
   /**
-   *
+   * TODO
    */
   static factory() {
     return new HyMediaService();

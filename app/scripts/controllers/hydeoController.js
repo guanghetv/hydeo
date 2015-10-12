@@ -1,57 +1,33 @@
+/**
+ * TODO
+ */
 import controllersModuel from './_index';
 
 const _scope = new WeakMap();
-const _sce = new WeakMap();
 const _hyMedia = new WeakMap();
 
 /**
- *
+ * TODO
  */
 class HydeoController {
 
   /**
    * @ngInject
    */
-  constructor($scope, $sce, $hyMedia) {
+  constructor($scope, $hyMedia) {
     _scope.set(this, $scope);
-    _sce.set(this, $sce);
     _hyMedia.set(this, $hyMedia);
+
     this.init();
   }
 
   /**
-   *
+   * TODO
    */
-  init() {
-    const $scope = _scope.get(this);
-    const $sce = _sce.get(this);
-
-    $scope.config = {
-      sources: [{
-        src: $sce.trustAsResourceUrl($scope.src),
-        // TODO type should be configurable by an options param.
-        type: 'video/mp4'
-      }]
-    };
-
-    this._binding();
-  }
+  init() {}
 
   /**
-   *
-   */
-  onPlay() {
-    const $hyMedia = _hyMedia.get(this);
-    const $scope = _scope.get(this);
-    $hyMedia.onPlay = () => {
-      if ($scope.cuepointTemplateUrl) {
-        delete $scope.cuepointTemplateUrl;
-      }
-    };
-  }
-
-  /**
-   *
+   * TODO
    */
   _binding() {
     const $scope = _scope.get(this);
@@ -59,7 +35,7 @@ class HydeoController {
   }
 
   /**
-   *
+   * TODO
    */
   onPlayerReady(api) {
     const $hyMedia = _hyMedia.get(this);
@@ -68,7 +44,7 @@ class HydeoController {
   }
 
   /**
-   *
+   * TODO
    */
   set vgCuepoints(cuepoints) {
     const $scope = _scope.get(this);
@@ -76,7 +52,7 @@ class HydeoController {
   }
 
   /**
-   *
+   * TODO
    */
   showOverlay(templateUrl) {
     const $scope = _scope.get(this);

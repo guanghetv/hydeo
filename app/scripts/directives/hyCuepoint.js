@@ -146,7 +146,7 @@ class HyCuepointDirective {
   /**
    * @ngInject
    */
-  static factory($hyMedia, $compile) {
+  static factory($hyMedia) {
     return new HyCuepointDirective($hyMedia);
   }
 }
