@@ -17,8 +17,6 @@ class HydeoController {
   constructor($scope, $hyMedia) {
     _scope.set(this, $scope);
     _hyMedia.set(this, $hyMedia);
-
-    this.init();
   }
 
   /**
@@ -34,30 +32,6 @@ class HydeoController {
     $scope.onPlayerReady = this::this.onPlayerReady;
   }
 
-  /**
-   * TODO
-   */
-  onPlayerReady(api) {
-    const $hyMedia = _hyMedia.get(this);
-    $hyMedia.setApi(api);
-    this.onPlay();
-  }
-
-  /**
-   * TODO
-   */
-  set vgCuepoints(cuepoints) {
-    const $scope = _scope.get(this);
-    $scope.config.cuePoints = cuepoints;
-  }
-
-  /**
-   * TODO
-   */
-  showOverlay(templateUrl) {
-    const $scope = _scope.get(this);
-    $scope.cuepointTemplateUrl = templateUrl;
-  }
 }
 
 controllersModuel.controller('hydeoController', HydeoController);

@@ -57,17 +57,16 @@ class HyMediaDirective {
   /**
    * TODO
    */
-  link($scope, elem) {
+  link($scope, elem, attrs, hydeoController) {
     const $hyMedia = _hyMedia.get(this);
+    _scope.set(this, $scope);
     // TODO detecting media type.
     // TODO video should be configurable by an options param.
     // only support video for now.
     this.mediaElement = elem.find('video');
     $hyMedia.setMediaElement(this.mediaElement);
-
-    _scope.set(this, $scope);
     this.settings();
-    this.addListeners();
+    hydeoController.init();
   }
 
   /**
@@ -80,16 +79,18 @@ class HyMediaDirective {
 
     elem.prop('src', $sce.trustAsResourceUrl($scope.src));
     elem.prop('autoplay', $scope.autoplay);
+
+    this.addListeners();
   }
 
   /**
-   * TODO
+   * Binding default events that define in eventMap to the media element.
    */
   addListeners() {
     const elem = this.mediaElement;
-    for (const eventName in eventMap) {
-      const method = eventMap[eventName];
-      if (method && this[method]) elem.bind(eventName, this::this[method]);
+    for (const eventType in eventMap) {
+      const method = eventMap[eventType];
+      if (method && this[method]) elem.bind(eventType, this::this[method]);
     }
   }
 
@@ -139,7 +140,7 @@ class HyMediaDirective {
   }
 
   /**
-   * TODO
+   * @ngInject
    */
   static factory($sce, $hyMedia, AppSettings) {
     return new HyMediaDirective($sce, $hyMedia, AppSettings);
