@@ -70,8 +70,6 @@
     "stringify": "^3.1.0",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
-    "videogular": "2fdevs/bower-videogular",
-    "videogular-controls": "2fdevs/bower-videogular-controls",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^2.0.0"
