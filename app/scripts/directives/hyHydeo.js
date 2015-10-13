@@ -9,7 +9,8 @@ import template from '../../views/directives/hyHydeo.html';
  */
 const options = {
   src: '',
-  autoplay: false
+  autoplay: false,
+  cuepoints: []
 };
 
 /**

@@ -122,6 +122,17 @@ class HyMediaService {
   }
 
   /**
+   * Play the audio/video if it's paused, else play it.
+   */
+  togglePlay() {
+    if (this.isPlay()) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
+  /**
    * Check the audio/video is paused or not.
    *
    * @returns {boolean} Returns `true` the audio/video is paused, else `false`.
@@ -138,11 +149,13 @@ class HyMediaService {
    */
   isPlay() {
     const AppSettings = _AppSettings.get(this);
-    return this.currentState === AppSettings.mediaState.paly;
+    return this.currentState === AppSettings.mediaState.play;
   }
 
   /**
    * Check the video if stopped.
+   *
+   * @return {boolean}
    */
   isStop() {
     const AppSettings = _AppSettings.get(this);

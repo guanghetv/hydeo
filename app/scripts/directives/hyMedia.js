@@ -1,6 +1,7 @@
 /**
  * TODO
  */
+import angular from 'angular';
 import directivesModule from './_index';
 import template from '../../views/directives/hyMedia.html';
 
@@ -66,7 +67,7 @@ class HyMediaDirective {
     this.mediaElement = elem.find('video');
     $hyMedia.setMediaElement(this.mediaElement);
     this.settings();
-    hydeoController.init();
+    hydeoController.ready();
   }
 
   /**
@@ -88,14 +89,13 @@ class HyMediaDirective {
    */
   addListeners() {
     const elem = this.mediaElement;
-    for (const eventType in eventMap) {
-      const method = eventMap[eventType];
-      if (method && this[method]) elem.bind(eventType, this::this[method]);
-    }
+    angular.forEach(eventMap, (handler, eventType) => {
+      if (handler && this[handler]) elem.bind(eventType, this::this[handler]);
+    });
   }
 
   /**
-   * TODO
+   * Fires when the audio/video has been started or is no longer paused.
    */
   onPlay() {
     const $hyMedia = _hyMedia.get(this);
@@ -105,7 +105,7 @@ class HyMediaDirective {
   }
 
   /**
-   * TODO
+   * Fires when the audio/video has been paused.
    */
   onPause() {
     const $hyMedia = _hyMedia.get(this);
@@ -115,7 +115,8 @@ class HyMediaDirective {
   }
 
   /**
-   * TODO
+   * Fires when the audio/video is playing after having been paused or stopped
+   * for buffering.
    */
   onPlaying() {
     const $hyMedia = _hyMedia.get(this);
@@ -123,7 +124,7 @@ class HyMediaDirective {
   }
 
   /**
-   * TODO
+   * Fires when the current playback position has changed.
    */
   onTimeUpdate(event) {
     const $hyMedia = _hyMedia.get(this);
