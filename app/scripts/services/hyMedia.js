@@ -1,6 +1,7 @@
 /**
- * TODO
+ * @author centsent
  */
+import angular from 'angular';
 import servicesModule from './_index';
 
 const _mediaElement = new WeakMap();
@@ -16,27 +17,27 @@ class HyMediaService {
   }
 
   /**
-   * TODO
+   * Store the audio/video element.
    */
   setMediaElement(element) {
     _mediaElement.set(this, element);
   }
 
   /**
-   * Pause.
+   * Pauses the currently playing audio/video.
    */
   pause() {
     const mediaElement = _mediaElement.get(this);
     const AppSettings = _AppSettings.get(this);
 
-    if (this.isPause() && mediaElement) {
+    if (!this.isPause() && mediaElement) {
       mediaElement[0].pause();
       this.currentState = AppSettings.mediaState.pause;
     }
   }
 
   /**
-   * Play.
+   * Starts playing the audio/video.
    */
   play() {
     const mediaElement = _mediaElement.get(this);
@@ -49,7 +50,7 @@ class HyMediaService {
   }
 
   /**
-   * Pause and reset the video current time to 0.
+   * Pauses the currently playing audio/video and reset current time to 0.
    */
   stop() {
     const mediaElement = _mediaElement.get(this);
@@ -63,40 +64,56 @@ class HyMediaService {
     }
   }
 
-
   /**
-   * Trigger the handler when video is playing.
+   * Fires when the audio/video has been started or is no longer paused.
+   *
+   * @param handler {Function} A function to execute each time the `play` event
+   * is triggered.
+   *
    */
-  set onPlay(onPlay) {
-    this.bindEvent('play', onPlay);
+  onPlay(handler) {
+    this.bindEvent('play', handler);
   }
 
   /**
-   * Trigger the handler when video is pause.
+   * Fires when the audio/video has been paused.
+   *
+   * @param handler {Function} A function to execute each time the `pause` event
+   * is triggered.
+   *
    */
-  set onPause(onPause) {
-    this.bindEvent('pause', onPause);
+  onPause(handler) {
+    this.bindEvent('pause', handler);
   }
 
   /**
-   * Trigger the handler when video is stop.
+   * Fires when the current playback position has changed.
+   *
+   * @param handler {Function} A function to execute each time the `timeupdate`
+   * event is triggered.
+   *
    */
-  set onStop(onStop) {
-    this.bindEvent('stop', onStop);
+  onTimeUpdate(handler) {
+    this.bindEvent('timeupdate', handler);
   }
 
   /**
-   * Binding event to media element.
+   * Attach a handler to an event for the video/audio elements.
+   *
+   * @param eventType {String} A string containing a DOM event types.
+   * @param handler {Function} A function to execute each time the event is triggered.
    */
   bindEvent(eventType, handler) {
     const mediaElement = _mediaElement.get(this);
-    if (eventType && (typeof handler === 'function')) {
+    if (eventType && angular.isFunction(handler)) {
       mediaElement.bind(eventType, handler);
     }
   }
 
   /**
-   * Seek a time point.
+   * Moving/skipping to a new position in the audio/video.
+   *
+   * @param time {number} A time point in second.
    */
   seek(time) {
     const mediaElement = _mediaElement.get(this);
@@ -105,7 +122,9 @@ class HyMediaService {
   }
 
   /**
-   * Check the video if paused.
+   * Check the audio/video is paused or not.
+   *
+   * @returns {boolean} Returns `true` the audio/video is paused, else `false`.
    */
   isPause() {
     const AppSettings = _AppSettings.get(this);
@@ -113,7 +132,9 @@ class HyMediaService {
   }
 
   /**
-   * Check the video if playing.
+   * Check the audio/video if played or not.
+   *
+   * @returns {boolean} Returns `true` the audio/video is played, else `false`.
    */
   isPlay() {
     const AppSettings = _AppSettings.get(this);
@@ -121,13 +142,12 @@ class HyMediaService {
   }
 
   /**
-   * Check the video if stop.
+   * Check the video if stopped.
    */
   isStop() {
     const AppSettings = _AppSettings.get(this);
     return this.currentState === AppSettings.mediaState.stop;
   }
-
 
   /**
    * @ngInject
