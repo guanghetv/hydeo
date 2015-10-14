@@ -1,2 +1,36 @@
 @import 'overlay'
 @import 'cuepoint'
+@import 'controls'
+
+@font-face
+  font-family: 'hydeo'
+  src: url('../fonts/hydeo.eot'), url('../fonts/hydeo.eot') format('embedded-opentype'), url('../fonts/hydeo.ttf') format('truetype'), url('../fonts/hydeo.woff') format('woff'), url('../fonts/hydeo.svg') format('svg')
+  font-weight: normal
+  font-style: normal
+
+hy-hydeo
+  /* Positioning */
+  position: relative
+
+  /* Box Model */
+  width: 100%
+  height: 100%
+
+  /* Visual */
+  display: block
+
+  hy-media
+    /* Box Model */
+    width: 100%
+    height: 100%
+    max-width: 100%
+    max-height: 100%
+    /* Visual */
+    display: block
+
+    video
+      /* Box Model */
+      width: 100%
+      height: 100%
+      max-width: 100%
+      max-height: 100%
