@@ -85,7 +85,7 @@ class HyMediaDirective {
   }
 
   /**
-   * Binding default events that define in eventMap to the media element.
+   * Binding default events that has been defined in eventMap to the audio/video element.
    */
   addListeners() {
     const elem = this.mediaElement;
@@ -95,7 +95,7 @@ class HyMediaDirective {
   }
 
   /**
-   * Fires when the audio/video has been started or is no longer paused.
+   * Fires when the audio/video was started or was no longer paused.
    */
   onPlay() {
     const $hyMedia = _hyMedia.get(this);
@@ -105,7 +105,7 @@ class HyMediaDirective {
   }
 
   /**
-   * Fires when the audio/video has been paused.
+   * Fires when the audio/video was paused.
    */
   onPause() {
     const $hyMedia = _hyMedia.get(this);
@@ -115,7 +115,7 @@ class HyMediaDirective {
   }
 
   /**
-   * Fires when the audio/video is playing after having been paused or stopped
+   * Fires when the audio/video resumed playing after been paused or stopped
    * for buffering.
    */
   onPlaying() {
