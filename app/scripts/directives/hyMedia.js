@@ -1,5 +1,5 @@
 /**
- * TODO
+ * @author centsent
  */
 import angular from 'angular';
 import directivesModule from './_index';
@@ -11,22 +11,39 @@ const _hyMedia = new WeakMap();
 const _AppSettings = new WeakMap();
 // Mapping media event to function of HyMediaDirective class.
 const eventMap = {
+  // Fires when the browser can start playing the audio/video.
   canplay: 'onCanPlay',
+  // Fires when the loading of an audio/video is aborted.
   abort: 'onAbort',
+  // Fires when the current playlist is ended.
   ended: 'onEnded',
+  // Fires when an error occurred during the loading of an audio/video.
   error: 'onErroe',
+  // Fires when the browser has loaded meta data for the audio/video.
   loadedmetadata: 'onLoadedMetaData',
+  // Fires when the audio/video has been paused.
   pause: 'onPause',
+  // Fires when the audio/video has been started or is no longer paused.
   play: 'onPlay',
+  // Fires when the audio/video is playing after having been paused or stopped
+  // for buffering.
   playing: 'onPlaying',
+  // Fires when the user is finished moving/skipping to a new position in the
+  // audio/video.
   seeked: 'onSeeked',
+  // Fires when the user starts moving/skipping to a new position in the
+  // audio/video.
   seeking: 'onSeeking',
+  // Fires when the volume has been changed.
   onvolumechange: 'onVolumeChange',
+  // Fires when the video stops because it needs to buffer the next frame.
   waiting: 'onWaiting',
+  // Fires when the current playback position has changed.
   timeupdate: 'onTimeUpdate',
+  // Fires when the browser is downloading the audio/video.
   progress: 'onProgress',
-  ratechange: 'onRateChange',
-  playbackchange: 'onPlayBackChange'
+  // Fires when the playing speed of the audio/video is changed.
+  ratechange: 'onRateChange'
 };
 
 /**
@@ -95,13 +112,22 @@ class HyMediaDirective {
   }
 
   /**
-   * Fires when the audio/video was started or was no longer paused.
+   * Set audio/video's current state to `play`.
    */
   onPlay() {
     const $hyMedia = _hyMedia.get(this);
     const AppSettings = _AppSettings.get(this);
 
     $hyMedia.currentState = AppSettings.mediaState.play;
+  }
+
+  /**
+   * Start buffering.
+   */
+  onWaiting() {
+    const $hyMedia = _hyMedia.get(this);
+
+    $hyMedia.isBuffering = true;
   }
 
   /**
@@ -124,7 +150,16 @@ class HyMediaDirective {
   }
 
   /**
-   * Fires when the current playback position has changed.
+   * TODO
+   */
+  onCanPlay() {
+    const $hyMedia = _hyMedia.get(this);
+    $hyMedia.isBuffering = false;
+  }
+
+  /**
+   * Update `currentTime`, `totalTime`, `timeLeft` when the current playback
+   * position has changed.
    */
   onTimeUpdate(event) {
     const $hyMedia = _hyMedia.get(this);
