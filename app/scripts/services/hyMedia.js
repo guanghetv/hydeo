@@ -8,7 +8,7 @@ const _mediaElement = new WeakMap();
 const _AppSettings = new WeakMap();
 
 /**
- * TODO
+ * TODO Provide APIs and event bindings for audio/video
  */
 class HyMediaService {
 
@@ -65,7 +65,7 @@ class HyMediaService {
   }
 
   /**
-   * Fires when the audio/video has been started or is no longer paused.
+   * Fires when the audio/video was started or no longer paused.
    *
    * @param handler {Function} A function to execute each time the `play` event
    * is triggered.
@@ -76,7 +76,7 @@ class HyMediaService {
   }
 
   /**
-   * Fires when the audio/video has been paused.
+   * Fires when the audio/video was paused.
    *
    * @param handler {Function} A function to execute each time the `pause` event
    * is triggered.
@@ -87,7 +87,7 @@ class HyMediaService {
   }
 
   /**
-   * Fires when the current playback position has changed.
+   * Fires when the current playback position was changed.
    *
    * @param handler {Function} A function to execute each time the `timeupdate`
    * event is triggered.
@@ -122,7 +122,7 @@ class HyMediaService {
   }
 
   /**
-   * Play the audio/video if it's paused, else play it.
+   * Play the audio/video if it's paused, else pause it.
    */
   togglePlay() {
     if (this.isPlay()) {
@@ -133,9 +133,9 @@ class HyMediaService {
   }
 
   /**
-   * Check the audio/video is paused or not.
+   * Check whether the audio/video is paused or not.
    *
-   * @returns {boolean} Returns `true` the audio/video is paused, else `false`.
+   * @returns {boolean} Returns `true` for the audio/video is paused, else `false`.
    */
   isPause() {
     const AppSettings = _AppSettings.get(this);
@@ -143,9 +143,9 @@ class HyMediaService {
   }
 
   /**
-   * Check the audio/video if played or not.
+   * Check whether the audio/video is on playing or not.
    *
-   * @returns {boolean} Returns `true` the audio/video is played, else `false`.
+   * @returns {boolean} Returns `true` in case the audio/video is playing, else `false`.
    */
   isPlay() {
     const AppSettings = _AppSettings.get(this);
@@ -153,9 +153,9 @@ class HyMediaService {
   }
 
   /**
-   * Check the video if stopped.
+   * Check whether the audio/video is stopped or not.
    *
-   * @return {boolean}
+   * @return {boolean} Returns `true` in case the audio/video is stopped, else `false`.
    */
   isStop() {
     const AppSettings = _AppSettings.get(this);
