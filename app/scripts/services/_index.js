@@ -1,6 +1,7 @@
-import angular from 'angular';
+/**
+ * @author centsent
+ */
+export default angular.module('hydeo.services', []);
+
 const bulk = require('bulk-require');
-
-module.exports = angular.module('hydeo.services', []);
-
 bulk(__dirname, ['./**/!(*_index|*.spec).js']);

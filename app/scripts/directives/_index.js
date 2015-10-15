@@ -1,10 +1,13 @@
-import angular from 'angular';
+/**
+ * @author centsent
+ */
 import 'angular-sanitize';
 
 const bulk = require('bulk-require');
 const modules = [
   'ngSanitize'
 ];
-module.exports = angular.module('hydeo.directives', modules);
+
+export default angular.module('hydeo.directives', modules);
 
 bulk(__dirname, ['./**/!(*_index|*.spec).js']);

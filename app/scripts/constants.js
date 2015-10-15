@@ -7,4 +7,4 @@ const AppSettings = {
   }
 };
 
-module.exports = AppSettings;
+export default AppSettings;
