@@ -1,0 +1,74 @@
+hy-controls {
+  /* Positioning */
+  position: absolute;
+  bottom: 0;
+  z-index: 3;
+
+  /* Box Model */
+  width: 100%;
+  height: 3.0em;
+
+  /* Visual */
+  background: black;
+  color: white;
+  display: block;
+  opacity: 1;
+}
+
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+.hy-controls-play-control {
+  font-family: "hydeo";
+  cursor: pointer;
+  float: left;
+  position: relative;
+  text-align: center;
+  width: 2.5rem;
+  left: .4rem;
+  margin: 0 .5rem 0 0;
+  padding: 0;
+
+  &.play::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 2;
+    font-size: 1.5em;
+    content: "\e803";
+  }
+
+  &.pause::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 2;
+    font-size: 1.5em;
+    content: "\e802";
+  }
+}
+
+.hy-controls-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1em;
+  width: auto;
+  height: 1em;
+  transition: all .4s;
+  background: red;
+  opacity: .9;
+
+  .play-progress {
+    background: #ccc;
+    height: 100%;
+    width: 0;
+  }
+}

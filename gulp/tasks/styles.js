@@ -21,8 +21,9 @@ gulp.task('styles', () => {
     .on('error', handleErrors)
     .pipe(gulpif(
       createSourcemap,
-      sourcemaps.write( global.isProd ? './' : null ))
-    )
+      sourcemaps.write(global.isProd ? './' : null)))
     .pipe(gulp.dest(config.styles.dest))
-    .pipe(browserSync.stream({ once: true }));
+    .pipe(browserSync.stream({
+      once: true
+    }));
 });

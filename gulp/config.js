@@ -5,7 +5,7 @@ module.exports = {
   'serverPort': 3002,
 
   'styles': {
-    'src': 'app/styles/**/*.sass',
+    'src': 'app/styles/**/*.scss',
     'dest': 'build/styles',
     'prodSourcemap': false,
     'sassIncludePaths': []
