@@ -1,5 +1,5 @@
 /**
- * TODO
+ * @author centsent
  */
 import directivesModule from './_index';
 import template from '../../views/directives/hyHydeo.html';

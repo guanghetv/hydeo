@@ -1,7 +1,6 @@
 /**
- * TODO
+ * @author centsent
  */
-import angular from 'angular';
 import controllersModuel from './_index';
 
 const _scope = new WeakMap();

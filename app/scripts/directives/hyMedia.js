@@ -1,7 +1,6 @@
 /**
  * @author centsent
  */
-import angular from 'angular';
 import directivesModule from './_index';
 import template from '../../views/directives/hyMedia.html';
 

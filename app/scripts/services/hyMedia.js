@@ -8,7 +8,7 @@ const _mediaElement = new WeakMap();
 const _AppSettings = new WeakMap();
 
 /**
- * TODO Provide APIs and event bindings for audio/video
+ * Provide APIs and event bindings for audio/video.
  */
 class HyMediaService {
 
@@ -95,6 +95,13 @@ class HyMediaService {
    */
   onTimeUpdate(handler) {
     this.bindEvent('timeupdate', handler);
+  }
+
+  /**
+   * Fires when the browser is downloading the audio/video.
+   */
+  onProgress(handler) {
+    this.bindEvent('progress', handler);
   }
 
   /**
