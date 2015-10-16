@@ -8,6 +8,8 @@ const _hyMedia = new WeakMap();
 const _scope = new WeakMap();
 const _timeout = new WeakMap();
 
+const events = ['onPlay', 'onPause', 'onTimeUpdate', 'onProgress'];
+
 /**
  * The audio/video controls bar, we do not need the native controls bar for more
  * control.
@@ -33,6 +35,8 @@ class HyControlsDirective {
   link($scope) {
     _scope.set(this, $scope);
     $scope.playControlClass = 'play';
+    $scope.playProgress = {};
+    $scope.loadProgress = {};
     this.binding();
   }
 
@@ -41,8 +45,13 @@ class HyControlsDirective {
     const $hyMedia = _hyMedia.get(this);
 
     $scope.playControl = this::this.playControl;
-    $hyMedia.onPlay(this::this.onPlay);
-    $hyMedia.onPause(this::this.onPause);
+    angular.forEach(events, (eventType) => {
+      const event = $hyMedia[eventType];
+      const handler = this[eventType];
+      if (angular.isFunction(event) && angular.isFunction(handler)) {
+        $hyMedia::event(this::handler);
+      }
+    });
   }
 
   /**
@@ -70,6 +79,46 @@ class HyControlsDirective {
   }
 
   /**
+   * Update the audio/video play progress bar when playing.
+   */
+  onTimeUpdate() {
+    this::this.updatePlayProgressStyle();
+  }
+
+  /**
+   * TODO
+   */
+  updatePlayProgressStyle() {
+    const $scope = _scope.get(this);
+    const $hyMedia = _hyMedia.get(this);
+    const $timeout = _timeout.get(this);
+    const totalTime = $hyMedia.totalTime;
+    const currentTime = $hyMedia.currentTime;
+    const percentTime = currentTime / totalTime * 100;
+
+    $timeout(() => {
+      $scope.playProgress.width = `${percentTime}%`;
+    });
+  }
+
+  /**
+   * TODO
+   */
+  onProgress(event) {
+    this::this.updateLoadProgressStyle(event);
+  }
+
+  /**
+   * TODO
+   */
+  updateLoadProgressStyle(event) {
+    console.log(event.target.buffered);
+    angular.forEach(event.target.buffered, (i) => {
+      console.log(i);
+    });
+  }
+
+  /**
    * Play the audio/video if paused, pause the audio/video if playing.
    */
   playControl() {
@@ -77,9 +126,6 @@ class HyControlsDirective {
     $hyMedia.togglePlay();
   }
 
-  /**
-   * A static method to generate a directive instance.
-   */
   static factory($hyMedia, $timeout) {
     return new HyControlsDirective($hyMedia, $timeout);
   }
