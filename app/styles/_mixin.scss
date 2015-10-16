@@ -1,0 +1,15 @@
+// TODO
+@mixin font-face($font) {
+  $font-path: "../fonts/" + $font;
+
+  @font-face {
+    font-family: $font;
+    src: url($font-path + ".eot"),
+      url($font-path + ".eot") format("embedded-opentype"),
+      url($font-path + ".ttf") format("truetype"),
+      url($font-path + ".woff") format("woff"),
+      url($font-path + ".svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+  }
+}
