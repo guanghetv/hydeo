@@ -45,6 +45,8 @@ class HyControlsDirective {
     const $hyMedia = _hyMedia.get(this);
 
     $scope.playControl = this::this.playControl;
+    $scope.seek = this::this.seek;
+
     angular.forEach(events, (eventType) => {
       const event = $hyMedia[eventType];
       const handler = this[eventType];
@@ -52,6 +54,16 @@ class HyControlsDirective {
         $hyMedia::event(this::handler);
       }
     });
+  }
+
+  /**
+   *
+   */
+  seek(event) {
+    const $hyMedia = _hyMedia.get(this);
+    const time = event.offsetX;
+
+    $hyMedia.seek(time);
   }
 
   /**
@@ -82,13 +94,6 @@ class HyControlsDirective {
    * Update the audio/video play progress bar when playing.
    */
   onTimeUpdate() {
-    this::this.updatePlayProgressStyle();
-  }
-
-  /**
-   * TODO
-   */
-  updatePlayProgressStyle() {
     const $scope = _scope.get(this);
     const $hyMedia = _hyMedia.get(this);
     const $timeout = _timeout.get(this);
@@ -102,20 +107,18 @@ class HyControlsDirective {
   }
 
   /**
-   * TODO
+   * Update load progress bar when the browser is downloading the audio/video.
    */
   onProgress(event) {
-    this::this.updateLoadProgressStyle(event);
-  }
+    const target = event.target;
+    const buffered = target.buffered;
+    //const duration = target.duration;
 
-  /**
-   * TODO
-   */
-  updateLoadProgressStyle(event) {
-    console.log(event.target.buffered);
-    angular.forEach(event.target.buffered, (i) => {
-      console.log(i);
-    });
+    for (let i = 0; i < buffered.length; i++) {
+      const start = buffered.start(i);
+      const end = buffered.end(i);
+      console.log(start, end);
+    }
   }
 
   /**

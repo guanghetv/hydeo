@@ -1,5 +1,5 @@
 <div class="hy-controls-play-control" ng-click="playControl()" ng-class="playControlClass"></div>
-<div class="hy-controls-progress" role="slider">
+<div class="hy-controls-progress" role="slider" ng-click="seek($event)">
   <div class="load-progress" ng-style="loadProgress"></div>
   <div class="play-progress" ng-style="playProgress"></div>
 </div>

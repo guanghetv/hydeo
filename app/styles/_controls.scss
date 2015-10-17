@@ -65,6 +65,7 @@ video::-webkit-media-controls {
   transition: all .4s;
   background: red;
   opacity: .9;
+  cursor: pointer;
 
   .play-progress {
     background: #ccc;
