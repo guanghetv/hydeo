@@ -60,8 +60,8 @@ class HyControlsDirective {
    *
    */
   seek(event) {
-    const $hyMedia = _hyMedia.get(this);
     const time = event.offsetX;
+    const $hyMedia = _hyMedia.get(this);
 
     $hyMedia.seek(time);
   }
@@ -103,6 +103,8 @@ class HyControlsDirective {
 
     $timeout(() => {
       $scope.playProgress.width = `${percentTime}%`;
+      $scope.currentTime = currentTime;
+      $scope.totalTime = totalTime;
     });
   }
 
@@ -112,12 +114,11 @@ class HyControlsDirective {
   onProgress(event) {
     const target = event.target;
     const buffered = target.buffered;
-    //const duration = target.duration;
+    // const duration = target.duration;
 
     for (let i = 0; i < buffered.length; i++) {
       const start = buffered.start(i);
       const end = buffered.end(i);
-      console.log(start, end);
     }
   }
 
