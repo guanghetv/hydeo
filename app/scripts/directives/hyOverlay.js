@@ -32,18 +32,14 @@ class HyOverlayDirective {
    */
   link($scope) {
     _scope.set(this, $scope);
-    this.binding();
-  }
-
-  /**
-   *
-   */
-  binding() {
-  }
-
-  static factory() {
-    return new HyOverlayDirective();
   }
 }
 
-directivesModule.directive('hyOverlay', HyOverlayDirective.factory);
+/**
+ * @ngInject
+ */
+function factory() {
+  return new HyOverlayDirective();
+}
+
+directivesModule.directive('hyOverlay', factory);

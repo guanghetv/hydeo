@@ -145,13 +145,13 @@ class HyCuepointDirective {
 
     hydeoController.vgCuepoints = result;
   }
-
-  /**
-   * @ngInject
-   */
-  static factory($hyMedia) {
-    return new HyCuepointDirective($hyMedia);
-  }
 }
 
-directivesModule.directive('hyCuepoint', HyCuepointDirective.factory);
+/**
+ * @ngInject
+ */
+function factory() {
+  return new HyCuepointDirective($hyMedia);
+}
+
+directivesModule.directive('hyCuepoint', factory);

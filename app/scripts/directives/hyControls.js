@@ -11,8 +11,7 @@ const _timeout = new WeakMap();
 const events = ['onPlay', 'onPause', 'onTimeUpdate', 'onProgress'];
 
 /**
- * The audio/video controls bar, we do not need the native controls bar for more
- * control.
+ * The audio/video controls bar, for more media control we do not need the native controls bar.
  */
 class HyControlsDirective {
 
@@ -40,6 +39,9 @@ class HyControlsDirective {
     this.binding();
   }
 
+  /**
+   * Binding some functions to $scope, and binding some media events.
+   */
   binding() {
     const $scope = _scope.get(this);
     const $hyMedia = _hyMedia.get(this);
@@ -57,7 +59,7 @@ class HyControlsDirective {
   }
 
   /**
-   *
+   * Seek a time point when click the progress bar.
    */
   seek(event) {
     const time = event.offsetX;
@@ -103,13 +105,36 @@ class HyControlsDirective {
 
     $timeout(() => {
       $scope.playProgress.width = `${percentTime}%`;
-      $scope.currentTime = currentTime;
-      $scope.totalTime = totalTime;
+      $scope.currentTime = this.formatTime(currentTime);
+      $scope.totalTime = this.formatTime(totalTime);
     });
   }
 
   /**
+   * Format the time like '02:11'.
+   *
+   * @param ms {number} The time in milliseconds.
+   * @returns {String} Returns a formatted string.
+   *
+   */
+  formatTime(ms) {
+    const time = ms / 1000;
+    const hour = parseInt(time / 3600, 10);
+    const minute = parseInt(time / 60, 10);
+    const second = parseInt(time % 60, 10);
+    const minuteString = minute < 10 ? `0${minute}` : minute;
+    const secondString = second < 10 ? `0${second}` : second;
+
+    if (hour) {
+      return `${hour}:${minuteString}:${secondString}`;
+    }
+
+    return `${minuteString}:${secondString}`;
+  }
+
+  /**
    * Update load progress bar when the browser is downloading the audio/video.
+   *
    */
   onProgress(event) {
     const target = event.target;
@@ -130,10 +155,13 @@ class HyControlsDirective {
     $hyMedia.togglePlay();
   }
 
-  static factory($hyMedia, $timeout) {
-    return new HyControlsDirective($hyMedia, $timeout);
-  }
-
 }
 
-directivesModule.directive('hyControls', HyControlsDirective.factory);
+/**
+ * @ngInject
+ */
+function factory($hyMedia, $timeout) {
+  return new HyControlsDirective($hyMedia, $timeout);
+}
+
+directivesModule.directive('hyControls', factory);

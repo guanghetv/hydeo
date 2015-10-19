@@ -3,18 +3,14 @@
  */
 import angular from 'angular';
 import servicesModule from './_index';
+import AppSettings from './../AppSettings';
 
 const _mediaElement = new WeakMap();
-const _AppSettings = new WeakMap();
 
 /**
  * Provide APIs and event bindings for audio/video.
  */
 class HyMediaService {
-
-  constructor(AppSettings) {
-    _AppSettings.set(this, AppSettings);
-  }
 
   /**
    * Store the audio/video element.
@@ -28,7 +24,6 @@ class HyMediaService {
    */
   pause() {
     const mediaElement = _mediaElement.get(this);
-    const AppSettings = _AppSettings.get(this);
 
     if (!this.isPause() && mediaElement) {
       mediaElement[0].pause();
@@ -41,7 +36,6 @@ class HyMediaService {
    */
   play() {
     const mediaElement = _mediaElement.get(this);
-    const AppSettings = _AppSettings.get(this);
 
     if (!this.isPlay() && mediaElement) {
       mediaElement[0].play();
@@ -54,7 +48,6 @@ class HyMediaService {
    */
   stop() {
     const mediaElement = _mediaElement.get(this);
-    const AppSettings = _AppSettings.get(this);
 
     if (!this.isStop() && mediaElement) {
       const elem = mediaElement[0];
@@ -72,7 +65,9 @@ class HyMediaService {
    *
    */
   onPlay(handler) {
-    this.bindEvent('play', handler);
+    if (angular.isFunction(handler)) {
+      this.bindEvent('play', handler);
+    }
   }
 
   /**
@@ -83,7 +78,9 @@ class HyMediaService {
    *
    */
   onPause(handler) {
-    this.bindEvent('pause', handler);
+    if (angular.isFunction(handler)) {
+      this.bindEvent('pause', handler);
+    }
   }
 
   /**
@@ -94,14 +91,22 @@ class HyMediaService {
    *
    */
   onTimeUpdate(handler) {
-    this.bindEvent('timeupdate', handler);
+    if (angular.isFunction(handler)) {
+      this.bindEvent('timeupdate', handler);
+    }
   }
 
   /**
    * Fires when the browser is downloading the audio/video.
+   *
+   * @param handler {Function} A function to execute each time the `progress`
+   * event is triggered.
+   *
    */
   onProgress(handler) {
-    this.bindEvent('progress', handler);
+    if (angular.isFunction(handler)) {
+      this.bindEvent('progress', handler);
+    }
   }
 
   /**
@@ -145,7 +150,6 @@ class HyMediaService {
    * @returns {boolean} Returns `true` for the audio/video is paused, else `false`.
    */
   isPause() {
-    const AppSettings = _AppSettings.get(this);
     return this.currentState === AppSettings.mediaState.PAUSE;
   }
 
@@ -155,7 +159,6 @@ class HyMediaService {
    * @returns {boolean} Returns `true` in case the audio/video is playing, else `false`.
    */
   isPlay() {
-    const AppSettings = _AppSettings.get(this);
     return this.currentState === AppSettings.mediaState.PLAY;
   }
 
@@ -165,7 +168,6 @@ class HyMediaService {
    * @return {boolean} Returns `true` in case the audio/video is stopped, else `false`.
    */
   isStop() {
-    const AppSettings = _AppSettings.get(this);
     return this.currentState === AppSettings.mediaState.STOP;
   }
 }
@@ -173,8 +175,8 @@ class HyMediaService {
 /**
  * @ngInject
  */
-function factory(AppSettings) {
-  return new HyMediaService(AppSettings);
+function factory() {
+  return new HyMediaService();
 }
 
 servicesModule.factory('$hyMedia', factory);

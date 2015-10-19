@@ -2,12 +2,12 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import template from '../../views/directives/hyMedia.html';
+import template from './../../views/directives/hyMedia.html';
+import AppSettings from './../AppSettings';
 
 const _sce = new WeakMap();
 const _scope = new WeakMap();
 const _hyMedia = new WeakMap();
-const _AppSettings = new WeakMap();
 // Mapping media event to function of HyMediaDirective class.
 const eventMap = {
   // Fires when the browser can start playing the audio/video.
@@ -50,7 +50,7 @@ const eventMap = {
  */
 class HyMediaDirective {
 
-  constructor($sce, $hyMedia, AppSettings) {
+  constructor($sce, $hyMedia) {
     this.restrict = 'E';
     this.template = template;
     this.require = '^hyHydeo';
@@ -61,7 +61,6 @@ class HyMediaDirective {
 
     _sce.set(this, $sce);
     _hyMedia.set(this, $hyMedia);
-    _AppSettings.set(this, AppSettings);
   }
 
   /**
@@ -115,9 +114,8 @@ class HyMediaDirective {
    */
   onPlay() {
     const $hyMedia = _hyMedia.get(this);
-    const AppSettings = _AppSettings.get(this);
 
-    $hyMedia.currentState = AppSettings.mediaState.play;
+    $hyMedia.currentState = AppSettings.mediaState.PLAY;
   }
 
   /**
@@ -134,9 +132,8 @@ class HyMediaDirective {
    */
   onPause() {
     const $hyMedia = _hyMedia.get(this);
-    const AppSettings = _AppSettings.get(this);
 
-    $hyMedia.currentState = AppSettings.mediaState.pause;
+    $hyMedia.currentState = AppSettings.mediaState.PAUSE;
   }
 
   /**
@@ -173,14 +170,13 @@ class HyMediaDirective {
       $hyMedia.isLive = true;
     }
   }
-
-  /**
-   * @ngInject
-   */
-  static factory($sce, $hyMedia, AppSettings) {
-    return new HyMediaDirective($sce, $hyMedia, AppSettings);
-  }
-
 }
 
-directivesModule.directive('hyMedia', HyMediaDirective.factory);
+/**
+ * @ngInject
+ */
+function factory($sce, $hyMedia) {
+  return new HyMediaDirective($sce, $hyMedia);
+}
+
+directivesModule.directive('hyMedia', factory);

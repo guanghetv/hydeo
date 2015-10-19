@@ -2,7 +2,7 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import template from '../../views/directives/hyHydeo.html';
+import template from './../../views/directives/hyHydeo.html';
 
 /**
  * Default options.
@@ -43,19 +43,10 @@ class HyHydeoDirective {
       }
     };
   }
-
-  /**
-   * A static method to generate a directive instance.
-   */
-  static factory() {
-    return new HyHydeoDirective();
-  }
-
 }
 
-// You can define a directive simply without factory method,
-// like below, but don't do that cause it's not good to read and inject
-// parameters.
-// eg:
-// directivesModule.directive('hyHydeo', () => new HyHydeoDirective());
-directivesModule.directive('hyHydeo', HyHydeoDirective.factory);
+function factory() {
+  return new HyHydeoDirective();
+}
+
+directivesModule.directive('hyHydeo', factory);

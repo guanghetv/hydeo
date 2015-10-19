@@ -5,7 +5,7 @@
  *
  */
 import 'angular';
-import constants from './constants';
+import AppSettings from './AppSettings';
 import controllersModule from './controllers/_index';
 import servicesModule from './services/_index';
 import directivesModule from './directives/_index';
@@ -15,8 +15,8 @@ const modules = [
   servicesModule.name,
   directivesModule.name
 ];
-const app = angular.module(constants.appName, modules);
+const app = angular.module(AppSettings.appName, modules);
 
-app.constant('AppSettings', constants);
+app.constant('AppSettings', AppSettings);
 
 export default app;
