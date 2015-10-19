@@ -1,16 +1,22 @@
+/**
+ * App main file.
+ *
+ * @author centsent
+ *
+ */
 import 'angular';
 import constants from './constants';
-// angular modules
-import './controllers/_index';
-import './services/_index';
-import './directives/_index';
-import './';
+import controllersModule from './controllers/_index';
+import servicesModule from './services/_index';
+import directivesModule from './directives/_index';
 
 const modules = [
-  'hydeo.controllers',
-  'hydeo.services',
-  'hydeo.directives'
+  controllersModule.name,
+  servicesModule.name,
+  directivesModule.name
 ];
-const app = angular.module('hydeo', modules).constant('AppSettings', constants);
+const app = angular.module(constants.appName, modules);
+
+app.constant('AppSettings', constants);
 
 export default app;

@@ -32,7 +32,7 @@ class HyMediaService {
 
     if (!this.isPause() && mediaElement) {
       mediaElement[0].pause();
-      this.currentState = AppSettings.mediaState.pause;
+      this.currentState = AppSettings.mediaState.PAUSE;
     }
   }
 
@@ -45,7 +45,7 @@ class HyMediaService {
 
     if (!this.isPlay() && mediaElement) {
       mediaElement[0].play();
-      this.currentState = AppSettings.mediaState.play;
+      this.currentState = AppSettings.mediaState.PLAY;
     }
   }
 
@@ -60,7 +60,7 @@ class HyMediaService {
       const elem = mediaElement[0];
       elem.pause();
       elem.currentTime = 0;
-      this.currentState = AppSettings.mediaState.stop;
+      this.currentState = AppSettings.mediaState.STOP;
     }
   }
 
@@ -146,7 +146,7 @@ class HyMediaService {
    */
   isPause() {
     const AppSettings = _AppSettings.get(this);
-    return this.currentState === AppSettings.mediaState.pause;
+    return this.currentState === AppSettings.mediaState.PAUSE;
   }
 
   /**
@@ -156,7 +156,7 @@ class HyMediaService {
    */
   isPlay() {
     const AppSettings = _AppSettings.get(this);
-    return this.currentState === AppSettings.mediaState.play;
+    return this.currentState === AppSettings.mediaState.PLAY;
   }
 
   /**
@@ -166,15 +166,15 @@ class HyMediaService {
    */
   isStop() {
     const AppSettings = _AppSettings.get(this);
-    return this.currentState === AppSettings.mediaState.stop;
-  }
-
-  /**
-   * @ngInject
-   */
-  static factory(AppSettings) {
-    return new HyMediaService(AppSettings);
+    return this.currentState === AppSettings.mediaState.STOP;
   }
 }
 
-servicesModule.factory('$hyMedia', HyMediaService.factory);
+/**
+ * @ngInject
+ */
+function factory(AppSettings) {
+  return new HyMediaService(AppSettings);
+}
+
+servicesModule.factory('$hyMedia', factory);
