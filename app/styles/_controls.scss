@@ -23,32 +23,18 @@ video::-webkit-media-controls {
   font-family: "hydeo";
   cursor: pointer;
   float: left;
-  position: relative;
   text-align: center;
   width: 2.5rem;
-  left: .4rem;
   margin: 0 .5rem 0 0;
   padding: 0;
 
   &.play::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
     line-height: 2;
     font-size: 1.5em;
     content: "\e803";
   }
 
   &.pause::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
     line-height: 2;
     font-size: 1.5em;
     content: "\e802";
