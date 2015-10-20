@@ -68,9 +68,10 @@ video::-webkit-media-controls {
   padding-right: 10px;
   i{
    float: left;
-   margin-top: 10px;
+   margin-top: 14px;
    margin-right: 10px;
    display: block;
+   cursor: pointer;
    font-style: normal;
    font-size: 20px;
    font-family: "hydeo";
@@ -84,6 +85,7 @@ video::-webkit-media-controls {
 .hy-volume-box {
   position: relative;
   float: left;
+  margin-top: 20px;
   width: 60px;
   height: 8px;
   cursor: pointer;
@@ -108,5 +110,17 @@ video::-webkit-media-controls {
   float: left;
   line-height: 48px;
 }
-
+.hy-pullscreen{
+  float: left;
+  margin-top: 11px;
+  margin-right: 2px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 26px;
+   font-family: "hydeo";
+   &::before {
+     content: "\e800";
+     color: white;
+   }
+}
 
