@@ -45,8 +45,8 @@ class HyHydeoDirective {
   }
 }
 
-function factory() {
+const factory = () => {
   return new HyHydeoDirective();
-}
+};
 
 directivesModule.directive('hyHydeo', factory);

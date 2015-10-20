@@ -67,7 +67,7 @@ class HyMediaDirective {
    * TODO
    */
   compile() {
-    return this::this.link;
+    return this.link.bind(this);
   }
 
   /**
@@ -76,11 +76,9 @@ class HyMediaDirective {
   link($scope, elem, attrs, hydeoController) {
     const $hyMedia = _hyMedia.get(this);
     _scope.set(this, $scope);
-    // TODO detecting media type.
-    // TODO video should be configurable by an options param.
-    // only support video for now.
+
     this.mediaElement = elem.find('video');
-    $hyMedia.setMediaElement(this.mediaElement);
+    $hyMedia.setElement(elem);
     this.settings();
     hydeoController.ready();
   }
@@ -105,7 +103,7 @@ class HyMediaDirective {
   addListeners() {
     const elem = this.mediaElement;
     angular.forEach(eventMap, (handler, eventType) => {
-      if (handler && this[handler]) elem.bind(eventType, this::this[handler]);
+      if (handler && this[handler]) elem.bind(eventType, this[handler].bind(this));
     });
   }
 
@@ -175,8 +173,8 @@ class HyMediaDirective {
 /**
  * @ngInject
  */
-function factory($sce, $hyMedia) {
+const factory = ($sce, $hyMedia) => {
   return new HyMediaDirective($sce, $hyMedia);
-}
+};
 
 directivesModule.directive('hyMedia', factory);

@@ -6,6 +6,7 @@ import servicesModule from './_index';
 import AppSettings from './../AppSettings';
 
 const _mediaElement = new WeakMap();
+const _hydeoElement = new WeakMap();
 
 /**
  * Provide APIs and event bindings for audio/video.
@@ -15,8 +16,14 @@ class HyMediaService {
   /**
    * Store the audio/video element.
    */
-  setMediaElement(element) {
-    _mediaElement.set(this, element);
+  setElement(element) {
+    // TODO detecting media type.
+    // TODO video should be configurable by an options param.
+    // only support video for now.
+    const mediaElement = element.find('video');
+
+    _hydeoElement.set(this, element);
+    _mediaElement.set(this, mediaElement);
   }
 
   /**
@@ -170,13 +177,24 @@ class HyMediaService {
   isStop() {
     return this.currentState === AppSettings.mediaState.STOP;
   }
+
+  toggleFullScreen() {
+    const hydeoElement = _hydeoElement.get(this);
+    if (!this.isFullScreen) {
+      hydeoElement[0].webkitRequestFullscreen();
+      this.isFullScreen = true;
+    } else {
+      hydeoElement[0].webkitExitFullscreen();
+      this.isFullScreen = false;
+    }
+  }
 }
 
 /**
  * @ngInject
  */
-function factory() {
+const factory = () => {
   return new HyMediaService();
-}
+};
 
 servicesModule.factory('$hyMedia', factory);

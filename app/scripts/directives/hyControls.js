@@ -28,7 +28,7 @@ class HyControlsDirective {
   }
 
   compile() {
-    return this::this.link;
+    return this.link.bind(this);
   }
 
   link($scope) {
@@ -46,20 +46,26 @@ class HyControlsDirective {
     const $scope = _scope.get(this);
     const $hyMedia = _hyMedia.get(this);
 
-    $scope.playControl = this::this.playControl;
-    $scope.seek = this::this.seek;
+    $scope.playControl = this.playControl.bind(this);
+    $scope.seek = this.seek.bind(this);
+    $scope.toggleFullScreen = this.toggleFullScreen.bind(this);
 
     angular.forEach(events, (eventType) => {
       const event = $hyMedia[eventType];
       const handler = this[eventType];
       if (angular.isFunction(event) && angular.isFunction(handler)) {
-        $hyMedia::event(this::handler);
+        event.call($hyMedia, handler.bind(this));
       }
     });
   }
 
+  toggleFullScreen() {
+    const $hyMedia = _hyMedia.get(this);
+    $hyMedia.toggleFullScreen();
+  }
+
   /**
-   * Seek a time point when click the progress bar.
+   * Seek a time point when click on progress bar.
    */
   seek(event) {
     const time = event.offsetX;
@@ -105,8 +111,8 @@ class HyControlsDirective {
 
     $timeout(() => {
       $scope.playProgress.width = `${percentTime}%`;
-      $scope.currentTime = this.formatTime(currentTime);
-      $scope.totalTime = this.formatTime(totalTime);
+      $scope.currentTime = currentTime;
+      $scope.totalTime = totalTime;
     });
   }
 
@@ -126,10 +132,10 @@ class HyControlsDirective {
     const secondString = second < 10 ? `0${second}` : second;
 
     if (hour) {
-      return `${hour}:${minuteString}:${secondString}`;
+      return [hour, minuteString, secondString].join(':');
     }
 
-    return `${minuteString}:${secondString}`;
+    return [minuteString, secondString].join(':');
   }
 
   /**

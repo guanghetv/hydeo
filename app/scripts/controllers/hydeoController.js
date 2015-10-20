@@ -31,7 +31,7 @@ class HydeoController {
    */
   bindingEvents() {
     const $hyMedia = _hyMedia.get(this);
-    $hyMedia.onTimeUpdate(this::this.onTimeUpdate);
+    $hyMedia.onTimeUpdate(this.onTimeUpdate.bind(this));
   }
 
   /**
