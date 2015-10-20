@@ -9,6 +9,7 @@ import AppSettings from './AppSettings';
 import controllersModule from './controllers/_index';
 import servicesModule from './services/_index';
 import directivesModule from './directives/_index';
+import './';
 
 const modules = [
   controllersModule.name,
