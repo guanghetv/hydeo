@@ -52,10 +52,61 @@ video::-webkit-media-controls {
   background: red;
   opacity: .9;
   cursor: pointer;
-
+  background-color: rgba(51,51,51,0.9);
   .play-progress {
-    background: #ccc;
+    background-color: rgba(255,255,255,.8);
     height: 100%;
     width: 0;
   }
+  .load-progress {
+    background-color: rgba(255,255,255,.6);
+  }
 }
+
+.hy-volume {
+  float: right;
+  padding-right: 10px;
+  i{
+   float: left;
+   margin-top: 10px;
+   margin-right: 10px;
+   display: block;
+   font-style: normal;
+   font-size: 20px;
+   font-family: "hydeo";
+   &::before {
+     content: "\e806";
+     color: white;
+   }
+ }
+}
+
+.hy-volume-box {
+  position: relative;
+  float: left;
+  width: 60px;
+  height: 8px;
+  cursor: pointer;
+  background-color: rgba(51,51,51,0.9);
+  span{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    height: 8px;
+    background-color: #fff;
+  }
+  .hy-volume-1 {
+    background-color: white;
+  }
+  .hy-volume-2 {
+    width: 8px;
+    height: 8px;
+  }
+}
+.hy-time-box {
+  float: left;
+  line-height: 48px;
+}
+
+

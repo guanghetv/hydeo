@@ -1,8 +1,22 @@
 <div class="hy-controls-play-control" ng-click="playControl()" ng-class="playControlClass"></div>
-<div>{{(currentTime | date:'mm:ss') || '00:00'}}</div>
-<div>{{(totalTime | date:'mm:ss') || '00:00'}}</div>
+
+<div class='hy-time-box'>
+  <span>{{(currentTime | date:'mm:ss') || '00:00'}}</span> /
+  <span>{{(totalTime | date:'mm:ss') || '00:00'}}</span>
+</div>
+
+<div class='hy-volume'>
+	<i></i>
+	<p class='hy-volume-box'>
+		<span class='hy-volume-1' style='width:50%;'></span>
+		<span class='hy-volume-2' style='left:50%;'></span>
+	</p>
+</div>
+
 <div ng-click="toggleFullScreen()">Fullscreen</div>
+
 <div class="hy-controls-progress" role="slider" ng-click="seek($event)">
   <div class="load-progress" ng-style="loadProgress"></div>
   <div class="play-progress" ng-style="playProgress"></div>
 </div>
+
