@@ -9,8 +9,10 @@ import AppSettings from './AppSettings';
 import controllersModule from './controllers/_index';
 import servicesModule from './services/_index';
 import directivesModule from './directives/_index';
+import './templates';
 
 const modules = [
+  'templates',
   controllersModule.name,
   servicesModule.name,
   directivesModule.name
