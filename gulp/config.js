@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 
   'browserPort': 3000,
   'UIPort': 3001,
@@ -47,7 +47,7 @@ module.exports = {
 
   'browserify': {
     'entries': ['./app/scripts/main.js'],
-    'bundleName': 'main.js',
+    'bundleName': 'hydeo.js',
     'prodSourcemap': false
   },
 

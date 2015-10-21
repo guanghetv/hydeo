@@ -1,4 +1,4 @@
-import gulp        from 'gulp';
+import gulp from 'gulp';
 import runSequence from 'run-sequence';
 
 gulp.task('prod', ['clean'], (cb) => {
