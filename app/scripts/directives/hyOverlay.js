@@ -2,44 +2,19 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import template from '../../views/directives/hyOverlay.html';
-
-const _scope = new WeakMap();
 
 /**
- *
+ * TODO
  */
-class HyOverlayDirective {
-
-  constructor() {
-    this.restrict = 'E';
-    this.template = template;
-    this.require = '^hyHydeo';
-    this.scope = {
+function hyOverlayDirective() {
+  return {
+    restrict: 'E',
+    templateUrl: 'directives/hyOverlay.html',
+    require: '^hyHydeo',
+    scope: {
       templateUrl: '='
-    };
-  }
-
-  /**
-   *
-   */
-  compile() {
-    return this::this.link;
-  }
-
-  /**
-   *
-   */
-  link($scope) {
-    _scope.set(this, $scope);
-  }
+    }
+  };
 }
 
-/**
- * @ngInject
- */
-function factory() {
-  return new HyOverlayDirective();
-}
-
-directivesModule.directive('hyOverlay', factory);
+directivesModule.directive('hyOverlay', hyOverlayDirective);

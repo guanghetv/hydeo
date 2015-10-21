@@ -2,7 +2,6 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import template from './../../views/directives/hyHydeo.html';
 
 /**
  * Default options.
@@ -15,22 +14,21 @@ const options = {
 
 /**
  * TODO
+ * @ngInject
  */
-class HyHydeoDirective {
-
-  constructor() {
-    this.restrict = 'E';
-    this.template = template;
+function hyHydeoDirective($hyMedia) {
+  return {
+    restrict: 'E',
+    templateUrl: 'directives/hyHydeo.html',
     // Use controller to expose an API to other directives.
-    this.controller = 'hydeoController';
-    this.scope = {
+    controller: 'hydeoController',
+    scope: {
       cuepoints: '=',
       src: '=',
       options: '='
-    };
-
-    this.link = {
-      pre: ($scope, elem, atrr, controller) => {
+    },
+    link: {
+      pre: ($scope, elem, attrs, controller) => {
         $scope.options = Object.assign(options, $scope.options);
 
         for (const prop in $scope.options) {
@@ -40,13 +38,10 @@ class HyHydeoDirective {
         }
 
         controller.hydeoElement = elem;
+        $hyMedia.setHydeoElement(elem);
       }
-    };
-  }
+    }
+  };
 }
 
-const factory = () => {
-  return new HyHydeoDirective();
-};
-
-directivesModule.directive('hyHydeo', factory);
+directivesModule.directive('hyHydeo', hyHydeoDirective);

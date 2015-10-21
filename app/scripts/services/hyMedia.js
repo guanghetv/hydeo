@@ -14,16 +14,17 @@ const _hydeoElement = new WeakMap();
 class HyMediaService {
 
   /**
+   * Store the hydeo element.
+   */
+  setHydeoElement(element) {
+    _hydeoElement.set(this, element);
+  }
+
+  /**
    * Store the audio/video element.
    */
-  setElement(element) {
-    // TODO detecting media type.
-    // TODO video should be configurable by an options param.
-    // only support video for now.
-    const mediaElement = element.find('video');
-
-    _hydeoElement.set(this, element);
-    _mediaElement.set(this, mediaElement);
+  setMediaElement(element) {
+    _mediaElement.set(this, element);
   }
 
   /**

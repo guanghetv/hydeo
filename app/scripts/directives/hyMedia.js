@@ -2,12 +2,8 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import template from './../../views/directives/hyMedia.html';
 import AppSettings from './../AppSettings';
 
-const _sce = new WeakMap();
-const _scope = new WeakMap();
-const _hyMedia = new WeakMap();
 // Mapping media event to function of HyMediaDirective class.
 const eventMap = {
   // Fires when the browser can start playing the audio/video.
@@ -48,51 +44,27 @@ const eventMap = {
 /**
  * TODO
  */
-class HyMediaDirective {
+class HyMediaDirectiveHelper {
 
-  constructor($sce, $hyMedia) {
-    this.restrict = 'E';
-    this.template = template;
-    this.require = '^hyHydeo';
-    this.scope = {
-      src: '=',
-      autoplay: '='
-    };
-
-    _sce.set(this, $sce);
-    _hyMedia.set(this, $hyMedia);
-  }
-
-  /**
-   * TODO
-   */
-  compile() {
-    return this.link.bind(this);
-  }
-
-  /**
-   * TODO
-   */
-  link($scope, elem, attrs, hydeoController) {
-    const $hyMedia = _hyMedia.get(this);
-    _scope.set(this, $scope);
-
+  constructor($sce, $hyMedia, $scope, elem) {
+    this.$sce = $sce;
+    this.$hyMedia = $hyMedia;
+    this.$scope = $scope;
+    // TODO detecting media type.
+    // TODO video should be configurable by an options param.
+    // only support video for now.
     this.mediaElement = elem.find('video');
-    $hyMedia.setElement(elem);
-    this.settings();
-    hydeoController.ready();
+    $hyMedia.setMediaElement(this.mediaElement);
   }
 
   /**
    * TODO
    */
-  settings() {
-    const $sce = _sce.get(this);
-    const $scope = _scope.get(this);
+  setup() {
     const elem = this.mediaElement;
 
-    elem.prop('src', $sce.trustAsResourceUrl($scope.src));
-    elem.prop('autoplay', $scope.autoplay);
+    elem.prop('src', this.$sce.trustAsResourceUrl(this.$scope.src));
+    elem.prop('autoplay', this.$scope.autoplay);
 
     this.addListeners();
   }
@@ -111,27 +83,21 @@ class HyMediaDirective {
    * Set audio/video's current state to `play`.
    */
   onPlay() {
-    const $hyMedia = _hyMedia.get(this);
-
-    $hyMedia.currentState = AppSettings.mediaState.PLAY;
+    this.$hyMedia.currentState = AppSettings.mediaState.PLAY;
   }
 
   /**
    * Start buffering.
    */
   onWaiting() {
-    const $hyMedia = _hyMedia.get(this);
-
-    $hyMedia.isBuffering = true;
+    this.$hyMedia.isBuffering = true;
   }
 
   /**
    * Fires when the audio/video was paused.
    */
   onPause() {
-    const $hyMedia = _hyMedia.get(this);
-
-    $hyMedia.currentState = AppSettings.mediaState.PAUSE;
+    this.$hyMedia.currentState = AppSettings.mediaState.PAUSE;
   }
 
   /**
@@ -139,16 +105,14 @@ class HyMediaDirective {
    * for buffering.
    */
   onPlaying() {
-    const $hyMedia = _hyMedia.get(this);
-    $hyMedia.isBuffering = false;
+    this.$hyMedia.isBuffering = false;
   }
 
   /**
    * TODO
    */
   onCanPlay() {
-    const $hyMedia = _hyMedia.get(this);
-    $hyMedia.isBuffering = false;
+    this.$hyMedia.isBuffering = false;
   }
 
   /**
@@ -156,7 +120,7 @@ class HyMediaDirective {
    * position has changed.
    */
   onTimeUpdate(event) {
-    const $hyMedia = _hyMedia.get(this);
+    const $hyMedia = this.$hyMedia;
     const target = event.target;
     $hyMedia.currentTime = target.currentTime * 1000;
 
@@ -173,8 +137,22 @@ class HyMediaDirective {
 /**
  * @ngInject
  */
-const factory = ($sce, $hyMedia) => {
-  return new HyMediaDirective($sce, $hyMedia);
-};
+function hyMediaDirective($sce, $hyMedia) {
+  return {
+    restrict: 'E',
+    templateUrl: 'directives/hyMedia.html',
+    require: '^hyHydeo',
+    scope: {
+      src: '=',
+      autoplay: '='
+    },
 
-directivesModule.directive('hyMedia', factory);
+    link: ($scope, elem, attrs, hydeoController) => {
+      const helper = new HyMediaDirectiveHelper($sce, $hyMedia, $scope, elem);
+      helper.setup();
+      hydeoController.ready();
+    }
+  };
+}
+
+directivesModule.directive('hyMedia', hyMediaDirective);
