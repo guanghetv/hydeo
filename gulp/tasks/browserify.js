@@ -12,7 +12,6 @@ import babelify from 'babelify';
 import uglify from 'gulp-uglify';
 import handleErrors from '../util/handleErrors';
 import browserSync from 'browser-sync';
-import debowerify from 'debowerify';
 import ngAnnotate from 'browserify-ngannotate';
 import stringify from 'stringify';
 
@@ -31,7 +30,6 @@ function buildScript(file) {
     babelify.configure({
       stage: 0
     }),
-    debowerify,
     ngAnnotate,
     'brfs',
     'bulkify'

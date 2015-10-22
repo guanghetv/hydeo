@@ -5,34 +5,34 @@ export default {
   'serverPort': 3002,
 
   'styles': {
-    'src': 'app/styles/**/*.scss',
+    'src': 'src/styles/**/*.scss',
     'dest': 'build/styles',
     'prodSourcemap': false,
     'sassIncludePaths': []
   },
 
   'scripts': {
-    'src': 'app/scripts/**/*.js',
+    'src': 'src/scripts/**/*.js',
     'dest': 'build/scripts'
   },
 
   'images': {
-    'src': 'app/images/**/*',
+    'src': 'src/images/**/*',
     'dest': 'build/images'
   },
 
   'fonts': {
-    'src': ['app/fonts/**/*'],
+    'src': ['src/fonts/**/*'],
     'dest': 'build/fonts'
   },
 
   'views': {
     'watch': [
-      'app/index.html',
-      'app/views/**/*.html'
+      'src/index.html',
+      'src/views/**/*.html'
     ],
-    'src': 'app/views/**/*.html',
-    'dest': 'app/scripts'
+    'src': 'src/views/**/*.html',
+    'dest': 'src/scripts'
   },
 
   'gzip': {
@@ -46,7 +46,7 @@ export default {
   },
 
   'browserify': {
-    'entries': ['./app/scripts/main.js'],
+    'entries': ['./src/scripts/main.js'],
     'bundleName': 'hydeo.js',
     'prodSourcemap': false
   },
