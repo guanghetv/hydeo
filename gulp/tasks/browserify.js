@@ -1,3 +1,6 @@
+/**
+ * @author centsent
+ */
 import config from '../config';
 import gulp from 'gulp';
 import gulpif from 'gulp-if';
@@ -16,7 +19,7 @@ import ngAnnotate from 'browserify-ngannotate';
 import stringify from 'stringify';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-function buildScript(file) {
+function buildScript() {
   let bundler = browserify({
     entries: config.browserify.entries,
     debug: true,
@@ -46,7 +49,7 @@ function buildScript(file) {
     gutil.log('Rebundle...');
 
     return stream.on('error', handleErrors)
-      .pipe(source(file))
+      .pipe(source(config.browserify.bundleName))
       .pipe(gulpif(createSourcemap, buffer()))
       .pipe(gulpif(createSourcemap, sourcemaps.init()))
       .pipe(gulpif(global.isProd, streamify(uglify({
@@ -55,7 +58,7 @@ function buildScript(file) {
         }
       }))))
       .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
-      .pipe(gulp.dest(config.scripts.dest))
+      .pipe(gulp.dest(config.dist.root))
       .pipe(browserSync.stream({
         once: true
       }));
@@ -72,5 +75,5 @@ function buildScript(file) {
 }
 
 gulp.task('browserify', () => {
-  return buildScript('main.js');
+  return buildScript();
 });
