@@ -1,8 +1,8 @@
 {
   "name": "hydeo",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Hydeo is an html5 video player based on angular and inspired by Videogular.",
-  "main": "build/hydeo.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/centsent/hydeo.git"
@@ -14,7 +14,9 @@
   },
   "homepage": "https://github.com/centsent/hydeo#readme",
   "devDependencies": {
+    "angular": "^1.4.7",
     "angular-mocks": "^1.4.7",
+    "angular-sanitize": "^1.4.7",
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
     "babelify": "^6.4.0",
@@ -66,7 +68,9 @@
     "uglifyify": "^3.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.4.0"
+    "watchify": "^3.4.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
   },
   "scripts": {
     "pretest": "npm install",
@@ -74,8 +78,5 @@
     "preprotractor": "npm run update-webdriver",
     "protractor": "npm run protractor test/protractor.conf.js"
   },
-  "dependencies": {
-    "angular": "^1.4.7",
-    "angular-sanitize": "^1.4.7"
-  }
+  "dependencies": {}
 }
