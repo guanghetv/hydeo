@@ -17,11 +17,12 @@ import handleErrors from '../util/handleErrors';
 import browserSync from 'browser-sync';
 import ngAnnotate from 'browserify-ngannotate';
 import stringify from 'stringify';
+import eventStream from 'event-stream';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
-function buildScript() {
+function buildScript(entries, file) {
   let bundler = browserify({
-    entries: config.browserify.entries,
+    entries: entries,
     debug: true,
     cache: {},
     packageCache: {},
@@ -46,10 +47,10 @@ function buildScript() {
     const stream = bundler.bundle();
     const createSourcemap = global.isProd && config.browserify.prodSourcemap;
 
-    gutil.log('Rebundle...');
+    gutil.log(`Rebundle...${file}`);
 
     return stream.on('error', handleErrors)
-      .pipe(source(config.browserify.bundleName))
+      .pipe(source(file))
       .pipe(gulpif(createSourcemap, buffer()))
       .pipe(gulpif(createSourcemap, sourcemaps.init()))
       .pipe(gulpif(global.isProd, streamify(uglify({
@@ -75,5 +76,13 @@ function buildScript() {
 }
 
 gulp.task('browserify', () => {
-  return buildScript();
+  if (global.isProd) {
+    return buildScript([config.browserify.entry], config.browserify.bundleName);
+  }
+
+  const tasks = config.browserify.entries.map(entry => {
+    return buildScript([entry.src], entry.bundleName);
+  });
+
+  return eventStream.merge.apply(null, tasks);
 });

@@ -1,6 +1,6 @@
 import notify from 'gulp-notify';
 
-module.exports = (error) => {
+module.exports = function onError(error) {
   if (!global.isProd) {
     const args = Array.prototype.slice.call(arguments);
 

@@ -5,9 +5,6 @@ import templateCache from 'gulp-angular-templatecache';
 
 // Views task
 gulp.task('views', () => {
-  gulp.src('src/index.html')
-    .pipe(gulp.dest(config.dist.root));
-
   return gulp.src(config.views.src)
     .pipe(templateCache({
       standalone: true

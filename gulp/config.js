@@ -46,9 +46,15 @@ export default {
   },
 
   'browserify': {
-    'entries': ['./src/scripts/main.js'],
-    'bundleName': 'hydeo.js',
-    'minBundleName': 'hydeo.min.js',
+    'entries': [{
+      src: './src/scripts/main.js',
+      bundleName: 'hydeo.js'
+    }, {
+      src: './examples/index.js',
+      bundleName: 'index.js'
+    }],
+    entry: './src/scripts/main.js',
+    bundleName: 'hydeo.js',
     'prodSourcemap': false
   },
 
