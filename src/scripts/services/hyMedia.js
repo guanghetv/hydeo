@@ -191,9 +191,6 @@ class HyMediaService {
   }
 }
 
-/**
- * @ngInject
- */
 const factory = () => {
   return new HyMediaService();
 };
