@@ -18,6 +18,7 @@ import browserSync from 'browser-sync';
 import ngAnnotate from 'browserify-ngannotate';
 import stringify from 'stringify';
 import eventStream from 'event-stream';
+import fs from 'fs';
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 function buildScript(entries, file) {
@@ -80,7 +81,11 @@ gulp.task('browserify', () => {
     return buildScript([config.browserify.entry], config.browserify.bundleName);
   }
 
-  const tasks = config.browserify.entries.map(entry => {
+  const entries = config.browserify.entries.filter(item => {
+    return fs.existsSync(item.src);
+  });
+  console.log(entries);
+  const tasks = entries.map(entry => {
     return buildScript([entry.src], entry.bundleName);
   });
 
