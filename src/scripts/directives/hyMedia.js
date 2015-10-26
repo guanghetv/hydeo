@@ -42,85 +42,77 @@ const eventMap = {
 };
 
 /**
- * TODO
+ * @ngInject
  */
-class HyMediaDirectiveHelper {
-
-  constructor($sce, $hyMedia, $scope, elem) {
-    this.$sce = $sce;
-    this.$hyMedia = $hyMedia;
-    this.$scope = $scope;
-    // TODO detecting media type.
-    // TODO video should be configurable by an options param.
-    // only support video for now.
-    this.mediaElement = elem.find('video');
-    $hyMedia.setMediaElement(this.mediaElement);
-  }
+function hyMediaDirective($sce, $hyMedia) {
+  // mock `this` object because it is undefined in current context.
+  const _this = {};
 
   /**
    * TODO
    */
-  setup() {
-    const elem = this.mediaElement;
+  _this.setup = () => {
+    const elem = _this.mediaElement;
 
-    elem.prop('src', this.$sce.trustAsResourceUrl(this.$scope.src));
-    elem.prop('autoplay', this.$scope.autoplay);
+    elem.prop('src', $sce.trustAsResourceUrl(_this.$scope.src));
+    elem.prop('autoplay', _this.$scope.autoplay);
 
-    this.addListeners();
-  }
+    _this.addListeners();
+  };
 
   /**
    * Binding default events that has been defined in eventMap to the audio/video element.
    */
-  addListeners() {
-    const elem = this.mediaElement;
+  _this.addListeners = () => {
+    const elem = _this.mediaElement;
     angular.forEach(eventMap, (handler, eventType) => {
-      if (handler && this[handler]) elem.bind(eventType, this[handler].bind(this));
+      if (handler && _this[handler]) {
+        elem.bind(eventType, _this[handler].bind(_this));
+      }
     });
-  }
+  };
 
   /**
    * Set audio/video's current state to `play`.
    */
-  onPlay() {
-    this.$hyMedia.currentState = AppSettings.mediaState.PLAY;
-  }
+  _this.onPlay = () => {
+    $hyMedia.currentState = AppSettings.mediaState.PLAY;
+  };
 
   /**
    * Start buffering.
    */
-  onWaiting() {
-    this.$hyMedia.isBuffering = true;
-  }
+  _this.onWaiting = () => {
+    $hyMedia.isBuffering = true;
+  };
 
   /**
    * Fires when the audio/video was paused.
    */
-  onPause() {
-    this.$hyMedia.currentState = AppSettings.mediaState.PAUSE;
-  }
+  _this.onPause = () => {
+    $hyMedia.currentState = AppSettings.mediaState.PAUSE;
+  };
 
   /**
    * Fires when the audio/video resumed playing after been paused or stopped
    * for buffering.
    */
-  onPlaying() {
-    this.$hyMedia.isBuffering = false;
-  }
+  _this.onPlaying = () => {
+    $hyMedia.isBuffering = false;
+  };
 
   /**
-   * TODO
+   * Buffered.
    */
-  onCanPlay() {
-    this.$hyMedia.isBuffering = false;
-  }
+  _this.onCanPlay = () => {
+    $hyMedia.isBuffering = false;
+  };
 
   /**
    * Update `currentTime`, `totalTime`, `timeLeft` when the current playback
    * position has changed.
    */
-  onTimeUpdate(event) {
-    const $hyMedia = this.$hyMedia;
+  _this.onTimeUpdate = event => {
     const target = event.target;
     $hyMedia.currentTime = target.currentTime * 1000;
 
@@ -131,13 +123,8 @@ class HyMediaDirectiveHelper {
     } else {
       $hyMedia.isLive = true;
     }
-  }
-}
+  };
 
-/**
- * @ngInject
- */
-function hyMediaDirective($sce, $hyMedia) {
   return {
     restrict: 'E',
     templateUrl: 'directives/hyMedia.html',
@@ -148,8 +135,13 @@ function hyMediaDirective($sce, $hyMedia) {
     },
 
     link: ($scope, elem, attrs, hydeoController) => {
-      const helper = new HyMediaDirectiveHelper($sce, $hyMedia, $scope, elem);
-      helper.setup();
+      _this.$scope = $scope;
+      // TODO detecting media type.
+      // TODO video should be configurable by an options param.
+      // only support video for now.
+      _this.mediaElement = elem.find('video');
+      $hyMedia.setMediaElement(_this.mediaElement);
+      _this.setup();
       hydeoController.ready();
     }
   };
