@@ -84,7 +84,6 @@ gulp.task('browserify', () => {
   const entries = config.browserify.entries.filter(item => {
     return fs.existsSync(item.src);
   });
-  console.log(entries);
   const tasks = entries.map(entry => {
     return buildScript([entry.src], entry.bundleName);
   });
