@@ -4,42 +4,42 @@
 import directivesModule from './_index';
 import AppSettings from './../AppSettings';
 
-// Mapping media event to function of HyMediaDirective class.
-const eventMap = {
+// Bind media events.
+const events = [
   // Fires when the browser can start playing the audio/video.
-  canplay: 'onCanPlay',
+  'onCanPlay',
   // Fires when the loading of an audio/video is aborted.
-  abort: 'onAbort',
+  'onAbort',
   // Fires when the current playlist is ended.
-  ended: 'onEnded',
+  'onEnded',
   // Fires when an error occurred during the loading of an audio/video.
-  error: 'onErroe',
+  'onErroe',
   // Fires when the browser has loaded meta data for the audio/video.
-  loadedmetadata: 'onLoadedMetaData',
+  'onLoadedMetaData',
   // Fires when the audio/video has been paused.
-  pause: 'onPause',
+  'onPause',
   // Fires when the audio/video has been started or is no longer paused.
-  play: 'onPlay',
+  'onPlay',
   // Fires when the audio/video is playing after having been paused or stopped
   // for buffering.
-  playing: 'onPlaying',
+  'onPlaying',
   // Fires when the user is finished moving/skipping to a new position in the
   // audio/video.
-  seeked: 'onSeeked',
+  'onSeeked',
   // Fires when the user starts moving/skipping to a new position in the
   // audio/video.
-  seeking: 'onSeeking',
+  'onSeeking',
   // Fires when the volume has been changed.
-  onvolumechange: 'onVolumeChange',
+  'onVolumeChange',
   // Fires when the video stops because it needs to buffer the next frame.
-  waiting: 'onWaiting',
+  'onWaiting',
   // Fires when the current playback position has changed.
-  timeupdate: 'onTimeUpdate',
+  'onTimeUpdate',
   // Fires when the browser is downloading the audio/video.
-  progress: 'onProgress',
+  'onProgress',
   // Fires when the playing speed of the audio/video is changed.
-  ratechange: 'onRateChange'
-};
+  'onRateChange'
+];
 
 /**
  * @ngInject
@@ -57,17 +57,18 @@ function hyMediaDirective($sce, $hyMedia) {
     elem.prop('src', $sce.trustAsResourceUrl(_this.$scope.src));
     elem.prop('autoplay', _this.$scope.autoplay);
 
-    _this.addListeners();
+    _this.bindEvents();
   };
 
   /**
    * Binding default events that has been defined in eventMap to the audio/video element.
    */
-  _this.addListeners = () => {
-    const elem = _this.mediaElement;
-    angular.forEach(eventMap, (handler, eventType) => {
-      if (handler && _this[handler]) {
-        elem.bind(eventType, _this[handler].bind(_this));
+  _this.bindEvents = () => {
+    angular.forEach(events, (eventType) => {
+      const mediaEvent = $hyMedia[eventType];
+      const currentHandler = _this[eventType];
+      if (angular.isFunction(mediaEvent)) {
+        mediaEvent.call($hyMedia, currentHandler);
       }
     });
   };
@@ -140,8 +141,12 @@ function hyMediaDirective($sce, $hyMedia) {
       // TODO video should be configurable by an options param.
       // only support video for now.
       _this.mediaElement = elem.find('video');
+
+      // setup $hyMedia service
       $hyMedia.setMediaElement(_this.mediaElement);
+      // setup hy-media directive
       _this.setup();
+      // setup hydeoController
       hydeoController.ready();
     }
   };
