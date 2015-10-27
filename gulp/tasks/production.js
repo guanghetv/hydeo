@@ -10,5 +10,5 @@ gulp.task('prod', ['clean'], (cb) => {
   gulp.src(['package.json', 'README.md', 'index.js'])
     .pipe(gulp.dest(config.dist.root));
 
-  runSequence(tasks, 'gzip', b);
+  runSequence(tasks, b);
 });
