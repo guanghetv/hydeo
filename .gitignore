@@ -29,4 +29,4 @@ chrome-user-data
 .tmp
 .sass-cach
 dist
-app/scripts/templates.js
+src/scripts/templates.js
