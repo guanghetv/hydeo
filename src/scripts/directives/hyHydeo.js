@@ -27,6 +27,7 @@ function hyHydeoDirective($hyMedia) {
       src: '=',
       options: '='
     },
+    transclude: true,
     link: {
       pre: ($scope, elem, attrs, controller) => {
         $scope.options = Object.assign(options, $scope.options);
