@@ -1,9 +1,14 @@
 import gulp from 'gulp';
 import runSequence from 'run-sequence';
+import config from '../config';
 
 gulp.task('prod', ['clean'], (cb) => {
   const b = cb || () => {};
+  const tasks = ['styles', 'images', 'fonts', 'views', 'browserify'];
   global.isProd = true;
 
-  runSequence(['styles', 'images', 'fonts', 'views', 'browserify'], 'gzip', b);
+  gulp.src(['package.json', 'README.md', 'index.js'])
+    .pipe(gulp.dest(config.dist.root));
+
+  runSequence(tasks, 'gzip', b);
 });
