@@ -2,7 +2,6 @@
  * @author centsent
  */
 import directivesModule from './_index';
-import AppSettings from './../AppSettings';
 
 // Bind media events.
 const events = [
@@ -33,8 +32,6 @@ const events = [
   'onVolumeChange',
   // Fires when the video stops because it needs to buffer the next frame.
   'onWaiting',
-  // Fires when the current playback position has changed.
-  'onTimeUpdate',
   // Fires when the browser is downloading the audio/video.
   'onProgress',
   // Fires when the playing speed of the audio/video is changed.
@@ -56,8 +53,6 @@ function hyMediaDirective($sce, $hyMedia) {
 
     elem.prop('src', $sce.trustAsResourceUrl(_this.$scope.src));
     elem.prop('autoplay', _this.$scope.autoplay);
-
-    _this.bindEvents();
   };
 
   /**
@@ -74,24 +69,10 @@ function hyMediaDirective($sce, $hyMedia) {
   };
 
   /**
-   * Set audio/video's current state to `play`.
-   */
-  _this.onPlay = () => {
-    $hyMedia.currentState = AppSettings.mediaState.PLAY;
-  };
-
-  /**
    * Start buffering.
    */
   _this.onWaiting = () => {
     $hyMedia.isBuffering = true;
-  };
-
-  /**
-   * Fires when the audio/video was paused.
-   */
-  _this.onPause = () => {
-    $hyMedia.currentState = AppSettings.mediaState.PAUSE;
   };
 
   /**
@@ -107,23 +88,6 @@ function hyMediaDirective($sce, $hyMedia) {
    */
   _this.onCanPlay = () => {
     $hyMedia.isBuffering = false;
-  };
-
-  /**
-   * Update `currentTime`, `totalTime`, `timeLeft` when the current playback
-   * position has changed.
-   */
-  _this.onTimeUpdate = event => {
-    const target = event.target;
-    $hyMedia.currentTime = target.currentTime * 1000;
-
-    if (target.duration !== Infinity) {
-      $hyMedia.totalTime = target.duration * 1000;
-      $hyMedia.timeLeft = $hyMedia.totalTime - $hyMedia.currentTime;
-      $hyMedia.isLive = false;
-    } else {
-      $hyMedia.isLive = true;
-    }
   };
 
   return {

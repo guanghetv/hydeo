@@ -3,7 +3,10 @@
  */
 import angular from 'angular';
 import servicesModule from './_index';
-import AppSettings from './../AppSettings';
+import {
+  mediaState
+}
+from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
@@ -60,9 +63,9 @@ class HyMediaService {
   pause() {
     const mediaElement = _mediaElement.get(this);
 
-    if (!this.isPause() && mediaElement) {
+    if (!this.isPause && mediaElement) {
       mediaElement[0].pause();
-      this.currentState = AppSettings.mediaState.PAUSE;
+      this.currentState = mediaState.PAUSE;
     }
   }
 
@@ -72,9 +75,9 @@ class HyMediaService {
   play() {
     const mediaElement = _mediaElement.get(this);
 
-    if (!this.isPlay() && mediaElement) {
+    if (!this.isPlay && mediaElement) {
       mediaElement[0].play();
-      this.currentState = AppSettings.mediaState.PLAY;
+      this.currentState = mediaState.PLAY;
     }
   }
 
@@ -84,11 +87,11 @@ class HyMediaService {
   stop() {
     const mediaElement = _mediaElement.get(this);
 
-    if (!this.isStop() && mediaElement) {
+    if (!this.isStop && mediaElement) {
       const elem = mediaElement[0];
       elem.pause();
       elem.currentTime = 0;
-      this.currentState = AppSettings.mediaState.STOP;
+      this.currentState = mediaState.STOP;
     }
   }
 
@@ -100,9 +103,13 @@ class HyMediaService {
    *
    */
   onPlay(handler) {
-    if (angular.isFunction(handler)) {
-      this.bindEvent('play', handler);
-    }
+    this.bindEvent('play', event => {
+      this.currentState = mediaState.PLAY;
+
+      if (angular.isFunction(handler)) {
+        handler(this.currentState, event);
+      }
+    });
   }
 
   /**
@@ -113,9 +120,13 @@ class HyMediaService {
    *
    */
   onPause(handler) {
-    if (angular.isFunction(handler)) {
-      this.bindEvent('pause', handler);
-    }
+    this.bindEvent('pause', event => {
+      this.currentState = mediaState.PAUSE;
+
+      if (angular.isFunction(handler)) {
+        handler(this.currentState, event);
+      }
+    });
   }
 
   /**
@@ -126,9 +137,22 @@ class HyMediaService {
    *
    */
   onTimeUpdate(handler) {
-    if (angular.isFunction(handler)) {
-      this.bindEvent('timeupdate', handler);
-    }
+    this.bindEvent('timeupdate', event => {
+      const target = event.target;
+      this.currentTime = target.currentTime * 1000;
+
+      if (target.duration !== Infinity) {
+        this.totalTime = target.duration * 1000;
+        this.timeLeft = this.totalTime - this.currentTime;
+        this.isLive = false;
+      } else {
+        this.isLive = true;
+      }
+
+      if (angular.isFunction(handler)) {
+        handler(this.currentTime, this.timeLeft, event);
+      }
+    });
   }
 
   /**
@@ -172,7 +196,7 @@ class HyMediaService {
    * Play the audio/video if it's paused, else pause it.
    */
   togglePlay() {
-    if (this.isPlay()) {
+    if (this.isPlay) {
       this.pause();
     } else {
       this.play();
@@ -184,8 +208,8 @@ class HyMediaService {
    *
    * @returns {boolean} Returns `true` for the audio/video is paused, else `false`.
    */
-  isPause() {
-    return this.currentState === AppSettings.mediaState.PAUSE;
+  get isPause() {
+    return this.currentState === mediaState.PAUSE;
   }
 
   /**
@@ -193,8 +217,8 @@ class HyMediaService {
    *
    * @returns {boolean} Returns `true` in case the audio/video is playing, else `false`.
    */
-  isPlay() {
-    return this.currentState === AppSettings.mediaState.PLAY;
+  get isPlay() {
+    return this.currentState === mediaState.PLAY;
   }
 
   /**
@@ -202,8 +226,8 @@ class HyMediaService {
    *
    * @return {boolean} Returns `true` in case the audio/video is stopped, else `false`.
    */
-  isStop() {
-    return this.currentState === AppSettings.mediaState.STOP;
+  get isStop() {
+    return this.currentState === mediaState.STOP;
   }
 
   /**
