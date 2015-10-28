@@ -2,6 +2,7 @@
  * @author centsent
  */
 import directivesModule from './_index';
+import template from '../../views/directives/hyControls.html';
 
 /**
  * The audio/video controls bar, for more media control we do not need the native controls bar.
@@ -11,7 +12,7 @@ import directivesModule from './_index';
 function hyControlsDirective($hyMedia, $timeout) {
   return {
     restrict: 'E',
-    templateUrl: 'directives/hyControls.html',
+    template: template,
     require: '^hyHydeo',
     scope: {
       autohide: '='

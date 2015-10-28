@@ -2,6 +2,7 @@
  * @author centsent
  */
 import directivesModule from './_index';
+import template from '../../views/directives/hyHydeo.html';
 
 /**
  * Default options.
@@ -19,7 +20,7 @@ const options = {
 function hyHydeoDirective($hyMedia) {
   return {
     restrict: 'E',
-    templateUrl: 'directives/hyHydeo.html',
+    template: template,
     // Use controller to expose an API to other directives.
     controller: 'hydeoController',
     scope: {

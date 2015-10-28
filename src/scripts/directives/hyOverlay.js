@@ -2,6 +2,7 @@
  * @author centsent
  */
 import directivesModule from './_index';
+import template from '../../views/directives/hyOverlay.html';
 
 /**
  * TODO
@@ -9,7 +10,7 @@ import directivesModule from './_index';
 function hyOverlayDirective() {
   return {
     restrict: 'E',
-    templateUrl: 'directives/hyOverlay.html',
+    template: template,
     require: '^hyHydeo',
     scope: {
       templateUrl: '='

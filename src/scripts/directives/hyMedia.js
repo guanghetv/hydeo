@@ -2,6 +2,7 @@
  * @author centsent
  */
 import directivesModule from './_index';
+import template from '../../views/directives/hyMedia.html';
 
 // Bind media events.
 const events = [
@@ -92,7 +93,7 @@ function hyMediaDirective($sce, $hyMedia) {
 
   return {
     restrict: 'E',
-    templateUrl: 'directives/hyMedia.html',
+    template: template,
     require: '^hyHydeo',
     scope: {
       src: '=',
