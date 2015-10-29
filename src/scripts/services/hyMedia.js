@@ -294,12 +294,18 @@ class HyMediaService {
 
   /**
    * Play the audio/video if it's paused, else pause it.
+   *
+   * @param onPlay {Function} A function to execute when the audio/video is starting to play.
+   * @param onPause {Function} A function to execute when the audio/video is starting to pause.
+   *
    */
-  togglePlay() {
+  togglePlay(onPlay, onPause) {
     if (this.isPlay) {
       this.pause();
+      this.onPause(onPause);
     } else {
       this.play();
+      this.onPlay(onPlay);
     }
   }
 
