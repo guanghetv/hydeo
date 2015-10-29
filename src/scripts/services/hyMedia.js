@@ -96,6 +96,43 @@ class HyMediaService {
   }
 
   /**
+   * Sets the audio/video is muted.
+   */
+  mute() {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('muted', true);
+  }
+
+  /**
+   * Sets the audio/video is not muted.
+   */
+  unmute() {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('muted', false);
+  }
+
+  /**
+   * Switch the audio/video to muted whether is not muted or vice versa.
+   */
+  toggleMuted() {
+    if (this.isMuted) {
+      this.unmute();
+    } else {
+      this.mute();
+    }
+  }
+
+  /**
+   * Return `true` if the audio/video is muted, else `false`.
+   *
+   * @returns {boolean} Returns whether the audio/video is muted or not.
+   */
+  get isMuted() {
+    const mediaElement = _mediaElement.get(this);
+    return mediaElement.prop('muted');
+  }
+
+  /**
    * Fires when the audio/video was started or no longer paused.
    *
    * @param handler {Function} A function to execute each time the `play` event

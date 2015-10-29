@@ -28,6 +28,10 @@ function hyControlsDirective($hyMedia, $timeout) {
         $hyMedia.togglePlay();
       };
 
+      $scope.toggleMuted = () => {
+        $hyMedia.toggleMuted();
+      };
+
       /**
        * Seek a time point when click on progress bar.
        */
