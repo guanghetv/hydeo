@@ -231,6 +231,25 @@ class HyMediaService {
   }
 
   /**
+   * Determine a user enter/exit the full screen mode.
+   */
+  get isFullScreen() {
+    let fullScreenElement;
+    fullScreenElements.forEach(item => {
+      if (document[item]) {
+        fullScreenElement = document[item];
+        return;
+      }
+    });
+
+    if (fullScreenElement) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Fires when a user enter/exit fullscreen mode.
    *
    * @param handler {Function} A function to execute each time enter/exit full screen
@@ -240,20 +259,6 @@ class HyMediaService {
     const hydeoElement = _hydeoElement.get(this);
 
     hydeoElement.bind(fullScreenEvents.join(' '), event => {
-      let fullScreenElement;
-      fullScreenElements.forEach(item => {
-        if (document[item]) {
-          fullScreenElement = document[item];
-          return;
-        }
-      });
-
-      if (fullScreenElement) {
-        this.isFullScreen = true;
-      } else {
-        this.isFullScreen = false;
-      }
-
       if (angular.isFunction(handler)) {
         handler(this.isFullScreen, event);
       }
