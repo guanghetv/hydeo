@@ -130,6 +130,56 @@ class HyMediaService {
   }
 
   /**
+   * Start buffering.
+   *
+   * @param handler {Function} A function to execute when audio/video starting buffering.
+   *
+   */
+  onWaiting(handler) {
+    this.bindEvent('waiting', event => {
+      this.isBuffering = true;
+
+      if (angular.isFunction(handler)) {
+        handler(this.isBuffering, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when the audio/video resumed playing after been paused or stopped
+   * for buffering.
+   *
+   * @param handler {Function} A function to execute when the audio/video is resumed playing.
+   *
+   */
+  onPlaying(handler) {
+    this.bindEvent('playing', event => {
+      this.isBuffering = false;
+
+      if (angular.isFunction(handler)) {
+        handler(this.isBuffering, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when the audio/video is ready to play.
+   *
+   * @param handler {Function} A function to execute once the audio/video is ready to play.
+   *
+   */
+  onCanPlay(handler) {
+    this.bindEvent('canplay', event => {
+      this.isBuffering = false;
+      this.totaltime = event.target.duration * 1000;
+
+      if (angular.isFunction(handler)) {
+        handler(this.totalTime, this.isBuffering, event);
+      }
+    });
+  }
+
+  /**
    * Fires when the current playback position was changed.
    *
    * @param handler {Function} A function to execute each time the `timeupdate`
@@ -169,38 +219,19 @@ class HyMediaService {
   }
 
   /**
-   * Attach a handler to an event for the video/audio elements.
+   * Fires when a user enter/exit fullscreen mode.
    *
-   * @param eventType {String} A string containing a DOM event types.
-   * @param handler {Function} A function to execute each time the event is triggered.
+   * @param handler {Function} A function to execute each time enter/exit full screen
+   * mode.
    */
-  bindEvent(eventType, handler) {
-    const mediaElement = _mediaElement.get(this);
-    if (eventType && angular.isFunction(handler)) {
-      mediaElement.bind(eventType, handler);
-    }
-  }
+  onFullScreenChange(handler) {
+    const hydeoElement = _hydeoElement.get(this);
 
-  /**
-   * Moving/skipping to a new position in the audio/video.
-   *
-   * @param time {number} A time point in second.
-   */
-  seek(time) {
-    const mediaElement = _mediaElement.get(this);
-    mediaElement[0].currentTime = time;
-    this.currentTime = time * 1000;
-  }
-
-  /**
-   * Play the audio/video if it's paused, else pause it.
-   */
-  togglePlay() {
-    if (this.isPlay) {
-      this.pause();
-    } else {
-      this.play();
-    }
+    hydeoElement.bind(fullScreenEvents.join(' '), event => {
+      if (angular.isFunction(handler)) {
+        handler(this.isFullScreen, event);
+      }
+    });
   }
 
   /**
@@ -234,35 +265,42 @@ class HyMediaService {
    * Determine a user enter/exit the full screen mode.
    */
   get isFullScreen() {
-    let fullScreenElement;
-    fullScreenElements.forEach(item => {
-      if (document[item]) {
-        fullScreenElement = document[item];
-        return;
-      }
-    });
-
-    if (fullScreenElement) {
-      return true;
-    }
-
-    return false;
+    return fullScreenElements.find(item => document[item]) !== undefined;
   }
 
   /**
-   * Fires when a user enter/exit fullscreen mode.
+   * Attach a handler to an event for the video/audio elements.
    *
-   * @param handler {Function} A function to execute each time enter/exit full screen
-   * mode.
+   * @param eventType {String} A string containing a DOM event types.
+   * @param handler {Function} A function to execute each time the event is triggered.
    */
-  onFullScreenChange(handler) {
-    const hydeoElement = _hydeoElement.get(this);
+  bindEvent(eventType, handler) {
+    const mediaElement = _mediaElement.get(this);
+    if (eventType && angular.isFunction(handler)) {
+      mediaElement.bind(eventType, handler);
+    }
+  }
 
-    hydeoElement.bind(fullScreenEvents.join(' '), event => {
-      if (angular.isFunction(handler)) {
-        handler(this.isFullScreen, event);
-      }
-    });
+  /**
+   * Moving/skipping to a new position in the audio/video.
+   *
+   * @param time {number} A time point in second.
+   */
+  seek(time) {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement[0].currentTime = time;
+    this.currentTime = time * 1000;
+  }
+
+  /**
+   * Play the audio/video if it's paused, else pause it.
+   */
+  togglePlay() {
+    if (this.isPlay) {
+      this.pause();
+    } else {
+      this.play();
+    }
   }
 
   /**
