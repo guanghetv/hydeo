@@ -37,15 +37,14 @@ class HydeoController {
   /**
    * TODO
    */
-  onTimeUpdate() {
+  onTimeUpdate(currentTime) {
     const $scope = _scope.get(this);
-    const $hyMedia = _hyMedia.get(this);
 
     if (!$scope.options.cuepoints) {
       return;
     }
 
-    const currentSecond = parseInt($hyMedia.currentTime / 1000, 10);
+    const currentSecond = parseInt(currentTime / 1000, 10);
     $scope.options.cuepoints.forEach((cuepoint) => {
       const start = parseInt(cuepoint.time, 10);
 

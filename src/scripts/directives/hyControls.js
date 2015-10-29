@@ -61,9 +61,8 @@ function hyControlsDirective($hyMedia, $timeout) {
       /**
        * Update the audio/video play progress bar when playing.
        */
-      $hyMedia.onTimeUpdate(() => {
+      $hyMedia.onTimeUpdate((currentTime) => {
         const totalTime = $hyMedia.totalTime;
-        const currentTime = $hyMedia.currentTime;
         const percentTime = currentTime / totalTime * 100;
 
         $timeout(() => {
