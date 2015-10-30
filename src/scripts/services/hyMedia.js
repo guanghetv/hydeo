@@ -58,81 +58,6 @@ class HyMediaService {
   }
 
   /**
-   * Pauses the currently playing audio/video.
-   */
-  pause() {
-    const mediaElement = _mediaElement.get(this);
-
-    if (!this.isPause && mediaElement) {
-      mediaElement[0].pause();
-      this.currentState = mediaState.PAUSE;
-    }
-  }
-
-  /**
-   * Starts playing the audio/video.
-   */
-  play() {
-    const mediaElement = _mediaElement.get(this);
-
-    if (!this.isPlay && mediaElement) {
-      mediaElement[0].play();
-      this.currentState = mediaState.PLAY;
-    }
-  }
-
-  /**
-   * Pauses the currently playing audio/video and reset current time to 0.
-   */
-  stop() {
-    const mediaElement = _mediaElement.get(this);
-
-    if (!this.isStop && mediaElement) {
-      const elem = mediaElement[0];
-      elem.pause();
-      elem.currentTime = 0;
-      this.currentState = mediaState.STOP;
-    }
-  }
-
-  /**
-   * Sets the audio/video is muted.
-   */
-  mute() {
-    const mediaElement = _mediaElement.get(this);
-    mediaElement.prop('muted', true);
-  }
-
-  /**
-   * Sets the audio/video is not muted.
-   */
-  unmute() {
-    const mediaElement = _mediaElement.get(this);
-    mediaElement.prop('muted', false);
-  }
-
-  /**
-   * Switch the audio/video to muted whether is not muted or vice versa.
-   */
-  toggleMuted() {
-    if (this.isMuted) {
-      this.unmute();
-    } else {
-      this.mute();
-    }
-  }
-
-  /**
-   * Return `true` if the audio/video is muted, else `false`.
-   *
-   * @returns {boolean} Returns whether the audio/video is muted or not.
-   */
-  get isMuted() {
-    const mediaElement = _mediaElement.get(this);
-    return mediaElement.prop('muted');
-  }
-
-  /**
    * Fires when the audio/video was started or no longer paused.
    *
    * @param handler {Function} A function to execute each time the `play` event
@@ -272,6 +197,23 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the volume has been changed.
+   *
+   * @param handler {Function} A function to execute each time change the audio/video volume.
+   *
+   */
+  onVolumeChange(handler) {
+    const mediaElement = _mediaElement.get(this);
+    this.bindEvent('volumechange', event => {
+      this.currentVolume = mediaElement.prop('volume');
+
+      if (angular.isFunction(handler)) {
+        handler(this.currentVolume, this.isMuted, event);
+      }
+    });
+  }
+
+  /**
    * Check whether the audio/video is paused or not.
    *
    * @returns {boolean} Returns `true` for the audio/video is paused, else `false`.
@@ -304,6 +246,17 @@ class HyMediaService {
   get isFullScreen() {
     return fullScreenElements.find(item => document[item]) !== undefined;
   }
+
+  /**
+   * Return `true` if the audio/video is muted, else `false`.
+   *
+   * @returns {boolean} Returns whether the audio/video is muted or not.
+   */
+  get isMuted() {
+    const mediaElement = _mediaElement.get(this);
+    return mediaElement.prop('muted');
+  }
+
 
   /**
    * Attach a handler to an event for the video/audio elements.
@@ -401,6 +354,72 @@ class HyMediaService {
       this.requestFullScreen();
     }
   }
+
+  /**
+   * Pauses the currently playing audio/video.
+   */
+  pause() {
+    const mediaElement = _mediaElement.get(this);
+
+    if (!this.isPause && mediaElement) {
+      mediaElement[0].pause();
+      this.currentState = mediaState.PAUSE;
+    }
+  }
+
+  /**
+   * Starts playing the audio/video.
+   */
+  play() {
+    const mediaElement = _mediaElement.get(this);
+
+    if (!this.isPlay && mediaElement) {
+      mediaElement[0].play();
+      this.currentState = mediaState.PLAY;
+    }
+  }
+
+  /**
+   * Pauses the currently playing audio/video and reset current time to 0.
+   */
+  stop() {
+    const mediaElement = _mediaElement.get(this);
+
+    if (!this.isStop && mediaElement) {
+      const elem = mediaElement[0];
+      elem.pause();
+      elem.currentTime = 0;
+      this.currentState = mediaState.STOP;
+    }
+  }
+
+  /**
+   * Sets the audio/video is muted.
+   */
+  mute() {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('muted', true);
+  }
+
+  /**
+   * Sets the audio/video is not muted.
+   */
+  unmute() {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('muted', false);
+  }
+
+  /**
+   * Switch the audio/video to muted whether is not muted or vice verse.
+   */
+  toggleMuted() {
+    if (this.isMuted) {
+      this.unmute();
+    } else {
+      this.mute();
+    }
+  }
+
 }
 
 servicesModule.factory('$hyMedia', () => new HyMediaService());
