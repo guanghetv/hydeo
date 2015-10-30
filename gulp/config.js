@@ -1,3 +1,7 @@
+/**
+ * @author centsent
+ */
+
 export default {
 
   'browserPort': 3000,
@@ -13,7 +17,12 @@ export default {
 
   'scripts': {
     'src': 'src/scripts/**/*.js',
-    'dest': 'build/scripts'
+    'dest': 'build/scripts',
+    'eslint': {
+      'globals': {
+        'angular': true
+      }
+    }
   },
 
   'images': {
