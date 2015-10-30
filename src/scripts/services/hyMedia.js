@@ -205,7 +205,9 @@ class HyMediaService {
   onVolumeChange(handler) {
     const mediaElement = _mediaElement.get(this);
     this.bindEvent('volumechange', event => {
-      this.currentVolume = mediaElement.prop('volume');
+      const volume = mediaElement.prop('volume');
+      // TODO extract 100 to a configurable constant
+      this.currentVolume = volume * 100;
 
       if (angular.isFunction(handler)) {
         handler(this.currentVolume, this.isMuted, event);
@@ -342,6 +344,23 @@ class HyMediaService {
       // Old WebKit (Safari 5.1)
       document.webkitCancelFullScree();
     }
+  }
+
+  /**
+   * Change the audio/video volume level.
+   *
+   * @param level {number} A number range from 0 to 100.
+   *
+   */
+  volume(level) {
+    if (!level || level < 0 || level > 100) {
+      return;
+    }
+
+    const mediaElement = _mediaElement.get(this);
+    // TODO extract 100 to a configurable constant.
+    const volume = level / 100;
+    mediaElement.prop('volume', volume);
   }
 
   /**
