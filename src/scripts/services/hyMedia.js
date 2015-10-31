@@ -3,38 +3,11 @@
  */
 import angular from 'angular';
 import servicesModule from './_index';
-import {
-  mediaState
-}
-from './../AppSettings';
+import FullscreenApi from '../utils/FullscreenApi';
+import {mediaState} from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
-
-const fullScreenEvents = [
-  // Spec: https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
-  'fullscreenchange',
-  // WebKit
-  'webkitfullscreenchange',
-  // Mozilla
-  'mozfullscreenchange',
-  // Microsoft
-  'MSFullscreenChange',
-  // Old Webkit
-  'webkitfullscreenchange'
-];
-const fullScreenElements = [
-  // Spec: https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
-  'fullscreenElement',
-  // Webkit
-  'webkitFullscreenElement',
-  // Old Webkit
-  'webkitCurrentFullScreenElement',
-  // Mozilla
-  'mozFullScreenElement',
-  // Microsoft
-  'msFullscreenElement'
-];
 
 /**
  * Provide APIs and event bindings for audio/video.
@@ -187,9 +160,9 @@ class HyMediaService {
    * mode.
    */
   onFullScreenChange(handler) {
-    const hydeoElement = _hydeoElement.get(this);
+    const hydeoElement = _hydeoElement.get(this)[0];
 
-    hydeoElement.bind(fullScreenEvents.join(' '), event => {
+    FullscreenApi.onChange(hydeoElement, event => {
       if (angular.isFunction(handler)) {
         handler(this.isFullScreen, event);
       }
@@ -246,7 +219,7 @@ class HyMediaService {
    * Determine a user enter/exit the full screen mode.
    */
   get isFullScreen() {
-    return fullScreenElements.find(item => document[item]) !== undefined;
+    return FullscreenApi.isFullscreen();
   }
 
   /**
@@ -306,44 +279,14 @@ class HyMediaService {
    */
   requestFullScreen() {
     const element = _hydeoElement.get(this)[0];
-    if (element.webkitRequestFullscreen) {
-      // Spec: https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
-      element.webkitRequestFullscreen();
-    } else if (element.requestFullscreen) {
-      // Webkit
-      element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      // Mozilla
-      element.mozRequestFullScreen();
-    } else if (element.msRequestFullscreen) {
-      // Microsoft
-      element.msRequestFullscreen();
-    } else if (element.webkitRequestFullScreen) {
-      // Old WebKit (Safari 5.1)
-      element.webkitRequestFullScreen();
-    }
+    FullscreenApi.request(element);
   }
 
   /**
    * Exit full screen mode.
    */
   exitFullScreen() {
-    if (document.exitFullscreen) {
-      // Spec: https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      // Webkit
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      // Mozilla
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      // Microsoft
-      document.msExitFullscreen();
-    } else if (document.webkitCancelFullScreen) {
-      // Old WebKit (Safari 5.1)
-      document.webkitCancelFullScree();
-    }
+    FullscreenApi.exit();
   }
 
   /**
