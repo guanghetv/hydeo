@@ -28,7 +28,7 @@ class HyCuepointDirective {
    *
    */
   compile() {
-    return this::this.link;
+    return this.link.bind(this);
   }
 
   /**
@@ -46,7 +46,7 @@ class HyCuepointDirective {
    */
   binding() {
     const $scope = _scope.get(this);
-    $scope.styling = this::this.styling;
+    $scope.styling = this.styling.bind(this);
   }
 
   /**
@@ -150,7 +150,7 @@ class HyCuepointDirective {
 /**
  * @ngInject
  */
-function factory() {
+function factory($hyMedia) {
   return new HyCuepointDirective($hyMedia);
 }
 
