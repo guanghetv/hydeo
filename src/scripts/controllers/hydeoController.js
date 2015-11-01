@@ -48,8 +48,9 @@ class HydeoController {
     $scope.options.cuepoints.forEach((cuepoint) => {
       const start = parseInt(cuepoint.time, 10);
 
-      if (currentSecond === start && angular.isFunction(cuepoint.onEnter)) {
+      if (currentSecond === start && angular.isFunction(cuepoint.onEnter) && !cuepoint.$$isOnEnter) {
         cuepoint.onEnter(currentTime, cuepoint.params);
+        cuepoint.$$isOnEnter = true;
       }
 
       if (currentSecond > start && angular.isFunction(cuepoint.onComplete)) {
