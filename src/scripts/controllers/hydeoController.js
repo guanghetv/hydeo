@@ -44,7 +44,7 @@ class HydeoController {
       return;
     }
 
-    const currentSecond = parseInt(currentTime / 1000, 10);
+    const currentSecond = parseInt(currentTime, 10);
     $scope.options.cuepoints.forEach((cuepoint) => {
       const start = parseInt(cuepoint.time, 10);
 

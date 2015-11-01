@@ -71,8 +71,8 @@ function hyControlsDirective($hyMedia, $timeout) {
 
         $timeout(() => {
           $scope.playProgress.width = `${percentTime}%`;
-          $scope.currentTime = currentTime;
-          $scope.totalTime = totalTime;
+          $scope.currentTime = currentTime * 1000;
+          $scope.totalTime = totalTime * 1000;
         });
       });
 

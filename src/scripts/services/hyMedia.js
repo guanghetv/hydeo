@@ -106,7 +106,7 @@ class HyMediaService {
   onCanPlay(handler) {
     this.bindEvent('canplay', event => {
       this.isBuffering = false;
-      this.totaltime = event.target.duration * 1000;
+      this.totaltime = event.target.duration;
 
       if (angular.isFunction(handler)) {
         handler(this.totalTime, this.isBuffering, event);
@@ -124,10 +124,10 @@ class HyMediaService {
   onTimeUpdate(handler) {
     this.bindEvent('timeupdate', event => {
       const target = event.target;
-      this.currentTime = target.currentTime * 1000;
+      this.currentTime = target.currentTime;
 
       if (target.duration !== Infinity) {
-        this.totalTime = target.duration * 1000;
+        this.totalTime = target.duration;
         this.timeLeft = this.totalTime - this.currentTime;
         this.isLive = false;
       } else {
@@ -254,7 +254,7 @@ class HyMediaService {
   seek(time) {
     const mediaElement = _mediaElement.get(this);
     mediaElement[0].currentTime = time;
-    this.currentTime = time * 1000;
+    this.currentTime = time;
   }
 
   /**
