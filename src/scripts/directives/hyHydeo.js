@@ -32,9 +32,6 @@ function hyHydeoDirective($hyMedia) {
     link: {
       pre: ($scope, elem, attrs, controller) => {
         $scope.options = Object.assign(options, $scope.options);
-        $scope.$watch('src', (newValue) => {
-          console.log('new value:', newValue);
-        });
 
         for (const prop in $scope.options) {
           if ($scope[prop]) {

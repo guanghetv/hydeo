@@ -80,16 +80,16 @@ function hyControlsDirective($hyMedia, $timeout) {
        * Update load progress bar when the browser is downloading the audio/video.
        *
        */
-      $hyMedia.onProgress(event => {
-        const target = event.target;
-        const buffered = target.buffered;
-        // const duration = target.duration;
+      /* $hyMedia.onProgress(event => { */
+        // const target = event.target;
+        // const buffered = target.buffered;
+        // // const duration = target.duration;
 
-        for (let i = 0; i < buffered.length; i++) {
-          const start = buffered.start(i);
-          const end = buffered.end(i);
-        }
-      });
+        // for (let i = 0; i < buffered.length; i++) {
+          // const start = buffered.start(i);
+          // const end = buffered.end(i);
+        // }
+      /* }); */
     }
   };
 }

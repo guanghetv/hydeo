@@ -253,7 +253,7 @@ class HyMediaService {
    */
   seek(time) {
     const mediaElement = _mediaElement.get(this);
-    mediaElement[0].currentTime = time;
+    mediaElement.prop('currentTime', time);
     this.currentTime = time;
   }
 

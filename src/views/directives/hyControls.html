@@ -14,10 +14,8 @@
 	<p ng-click="toggleFullScreen()" class='hy-pullscreen'></p>
 </div>
 
-
-
 <div class="hy-controls-progress" role="slider" ng-click="seek($event)">
   <div class="load-progress" ng-style="loadProgress"></div>
-  <div class="play-progress" ng-style="playProgress"></div>
+  <hy-play-progress></hy-play-progress>
 </div>
 
