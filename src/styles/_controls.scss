@@ -52,34 +52,38 @@ video::-webkit-media-controls {
   background: red;
   opacity: .9;
   cursor: pointer;
-  background-color: rgba(51,51,51,0.9);
-  .play-progress {
-    background-color: rgba(255,255,255,.8);
-    height: 100%;
-    width: 0;
-  }
+  background-color: rgba(51, 51, 51, 0.9);
+
   .load-progress {
-    background-color: rgba(255,255,255,.6);
+    background-color: rgba(255, 255, 255, 0.6);
   }
+}
+
+[hy-play-progress] {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  width: 0;
 }
 
 .hy-volume {
   float: right;
   padding-right: 10px;
-  i{
-   float: left;
-   margin-top: 14px;
-   margin-right: 10px;
-   display: block;
-   cursor: pointer;
-   font-style: normal;
-   font-size: 20px;
-   font-family: "hydeo";
-   &::before {
-     content: "\e806";
-     color: white;
-   }
- }
+
+  i {
+    float: left;
+    margin-top: 14px;
+    margin-right: 10px;
+    display: block;
+    cursor: pointer;
+    font-style: normal;
+    font-size: 20px;
+    font-family: "hydeo";
+
+    &::before {
+      content: "\e806";
+      color: white;
+    }
+  }
 }
 
 .hy-volume-box {
@@ -89,8 +93,9 @@ video::-webkit-media-controls {
   width: 60px;
   height: 8px;
   cursor: pointer;
-  background-color: rgba(51,51,51,0.9);
-  span{
+  background-color: rgba(51, 51, 51, 0.9);
+
+  span {
     position: absolute;
     left: 0;
     top: 0;
@@ -98,29 +103,33 @@ video::-webkit-media-controls {
     height: 8px;
     background-color: #fff;
   }
+
   .hy-volume-1 {
     background-color: white;
   }
+
   .hy-volume-2 {
     width: 8px;
     height: 8px;
   }
 }
+
 .hy-time-box {
   float: left;
   line-height: 48px;
 }
-.hy-pullscreen{
+
+.hy-pullscreen {
   float: left;
   margin-top: 11px;
   margin-right: 2px;
   margin-left: 10px;
   cursor: pointer;
   font-size: 26px;
-   font-family: "hydeo";
-   &::before {
-     content: "\e800";
-     color: white;
-   }
-}
+  font-family: "hydeo";
 
+  &::before {
+    content: "\e800";
+    color: white;
+  }
+}

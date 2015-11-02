@@ -2,38 +2,23 @@
  * @author centsent
  */
 import directivesModule from '../../_index';
-import template from '../../../../views/directives/controls/slider/hyPlayProgress.html';
 
-class HyPlayProgress {
-  constructor($hyMedia) {
-    this.restrict = 'E';
-    this.template = template;
+/**
+ * @ngInject
+ */
+function hyPlayProgress($hyMedia) {
+  return {
+    restrict: 'A',
+    link($scope, elem) {
+      $hyMedia.onTimeUpdate(currentTime => {
+        const totalTime = $hyMedia.totalTime;
+        const percentTime = currentTime / totalTime * 100;
 
-    this.$hyMedia = $hyMedia;
-  }
-
-  compile() {
-    return this.link.bind(this);
-  }
-
-  link($scope, elem) {
-    this.element = elem;
-
-    this.$hyMedia.onTimeUpdate(currentTime => {
-      const totalTime = this.$hyMedia.totalTime;
-      const percentTime = currentTime / totalTime * 100;
-
-      $scope.progress = {
-        width: `${percentTime}%`
-      };
-    });
-  }
-
-  static factory($hyMedia) {
-    return new HyPlayProgress($hyMedia);
-  }
+        elem.css('width', `${percentTime}%`);
+      });
+    }
+  };
 }
 
-HyPlayProgress.factory.$inject = ['$hyMedia'];
 
-directivesModule.directive('hyPlayProgress', HyPlayProgress.factory);
+directivesModule.directive('hyPlayProgress', hyPlayProgress);
