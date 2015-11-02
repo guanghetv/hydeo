@@ -382,6 +382,24 @@ class HyMediaService {
     }
   }
 
+  /**
+   * Replay the audio/video file currently loaded.
+   */
+  replay() {
+    const elem = _mediaElement.get(this)[0];
+    this.reset();
+    elem.play();
+  }
+
+  /**
+   * Resets the audio/video's play position to beginning and current state to nothing.
+   */
+  reset() {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('currentTime', 0);
+    this.currentState = null;
+  }
+
 }
 
 servicesModule.factory('$hyMedia', () => new HyMediaService());
