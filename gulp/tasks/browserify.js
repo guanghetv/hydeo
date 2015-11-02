@@ -50,11 +50,11 @@ function buildScript(entries, file) {
       .pipe(source(file))
       .pipe(gulpif(createSourcemap, buffer()))
       .pipe(gulpif(createSourcemap, sourcemaps.init()))
-      .pipe(streamify(uglify({
+      .pipe(gulpif(global.isProd, streamify(uglify({
         compress: {
           drop_console: true
         }
-      })))
+      }))))
       .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
       .pipe(gulp.dest(config.dist.root))
       .pipe(browserSync.stream({
