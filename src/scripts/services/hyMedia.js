@@ -4,7 +4,10 @@
 import angular from 'angular';
 import servicesModule from './_index';
 import FullscreenApi from '../utils/FullscreenApi';
-import {mediaState} from './../AppSettings';
+import {
+  mediaState
+}
+from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
@@ -148,9 +151,15 @@ class HyMediaService {
    *
    */
   onProgress(handler) {
-    if (angular.isFunction(handler)) {
-      this.bindEvent('progress', handler);
-    }
+    this.bindEvent('progress', event => {
+      this.buffered = event.target.buffered;
+      if (this.buffered.length && this.totalTime) {
+        this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
+        if (angular.isFunction(handler)) {
+          handler(this.buffered, this.bufferedEnd, this.totalTime);
+        }
+      }
+    });
   }
 
   /**
