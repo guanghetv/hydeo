@@ -148,7 +148,6 @@ class HyMediaService {
   onProgress(handler) {
     this.bindEvent('progress', event => {
       this.buffered = event.target.buffered;
-      this.totalTime = event.target.duration;
 
       if (this.buffered.length && this.totalTime) {
         this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
@@ -191,6 +190,22 @@ class HyMediaService {
 
       if (angular.isFunction(handler)) {
         handler(this.currentVolume, this.isMuted, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when the browser has loaded the current frame of the audio/video.
+   *
+   * @param handler {Function} A function to execute when loaded the audio/video.
+   *
+   */
+  onLoaded(handler) {
+    this.bindEvent('loadeddata', event => {
+      this.totalTime = event.target.duration;
+
+      if (angular.isFunction(handler)) {
+        handler(this.totalTime);
       }
     });
   }

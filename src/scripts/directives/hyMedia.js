@@ -39,6 +39,7 @@ function hyMediaDirective($sce, $hyMedia) {
 
       // setup $hyMedia service
       $hyMedia.setMediaElement(_this.mediaElement);
+      $hyMedia.onLoaded();
       // setup hy-media directive
       _this.setup();
       // setup hydeoController
