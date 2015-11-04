@@ -4,10 +4,7 @@
 import angular from 'angular';
 import servicesModule from './_index';
 import FullscreenApi from '../utils/FullscreenApi';
-import {
-  mediaState
-}
-from './../AppSettings';
+import {mediaState} from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
@@ -29,8 +26,6 @@ class HyMediaService {
    */
   setMediaElement(element) {
     _mediaElement.set(this, element);
-    // Fires when a user enter/exit fullscreen mode.
-    this.onFullScreenChange();
   }
 
   /**
@@ -153,10 +148,13 @@ class HyMediaService {
   onProgress(handler) {
     this.bindEvent('progress', event => {
       this.buffered = event.target.buffered;
+      this.totalTime = event.target.duration;
+
       if (this.buffered.length && this.totalTime) {
         this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
+
         if (angular.isFunction(handler)) {
-          handler(this.buffered, this.bufferedEnd, this.totalTime);
+          handler(this.buffered, this.bufferedEnd, this.totalTime, event);
         }
       }
     });
@@ -274,12 +272,13 @@ class HyMediaService {
    *
    */
   togglePlay(onPlay, onPause) {
+    this.onPause(onPause);
+    this.onPlay(onPlay);
+
     if (this.isPlay) {
       this.pause();
-      this.onPause(onPause);
     } else {
       this.play();
-      this.onPlay(onPlay);
     }
   }
 
@@ -373,7 +372,7 @@ class HyMediaService {
   }
 
   /**
-   * Sets the audio/video is not muted.
+   * Sets the audio/video to unmute.
    */
   unmute() {
     const mediaElement = _mediaElement.get(this);
