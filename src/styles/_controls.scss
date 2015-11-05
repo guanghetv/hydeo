@@ -70,6 +70,14 @@ video::-webkit-media-controls {
   top: 0;
 }
 
+.hy-current-time {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: .5em;
+  background-color: #000;
+}
+
 .hy-volume {
   float: right;
   padding-right: 10px;
