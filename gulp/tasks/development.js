@@ -9,5 +9,5 @@ gulp.task('dev', ['clean'], (cb) => {
   gulp.src('./examples/*')
     .pipe(gulp.dest(config.dist.root));
 
-  runSequence(['styles', 'images', 'fonts', 'views', 'browserify'], 'watch', b);
+  runSequence(['styles', 'fonts', 'views', 'browserify'], 'watch', b);
 });

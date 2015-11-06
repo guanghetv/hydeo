@@ -4,7 +4,7 @@ import config from '../config';
 
 gulp.task('prod', ['clean'], (cb) => {
   const b = cb || () => {};
-  const tasks = ['styles', 'images', 'fonts', 'views', 'browserify'];
+  const tasks = ['styles', 'fonts', 'views', 'browserify'];
   global.isProd = true;
 
   gulp.src(['package.json', 'README.md', 'index.js'])

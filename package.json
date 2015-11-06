@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Hydeo is an html5 video player based on angular and inspired by Videogular.",
   "main": "index.js",
   "repository": {
@@ -39,7 +39,6 @@
     "gulp-changed": "^1.0.0",
     "gulp-eslint": "^1.0.0",
     "gulp-if": "^1.2.5",
-    "gulp-imagemin": "^1.1.0",
     "gulp-notify": "^2.0.0",
     "gulp-protractor": "^1.0.0",
     "gulp-rename": "^1.2.0",
@@ -48,7 +47,6 @@
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.0.1",
     "gulp-util": "^3.0.1",
-    "imagemin-pngcrush": "^0.1.0",
     "isparta": "^3.5.0",
     "jasmine-core": "^2.3.4",
     "jshint-stylish": "^1.0.0",
@@ -65,7 +63,6 @@
     "run-sequence": "^1.1.4",
     "stringify": "^3.1.0",
     "tiny-lr": "^0.2.1",
-    "uglifyify": "^3.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
