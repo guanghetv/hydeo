@@ -10,7 +10,7 @@ function hySlider($hyMedia) {
   return {
     restrict: 'A',
     link($scope, elem) {
-      elem.bind('mousedown', (event) => {
+      elem.bind('click', (event) => {
         const width = elem[0].offsetWidth;
         const time = event.offsetX / width * $hyMedia.totalTime;
 
