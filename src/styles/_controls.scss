@@ -41,7 +41,7 @@ video::-webkit-media-controls {
   }
 }
 
-.hy-controls-progress {
+.hy-slider {
   position: absolute;
   left: 0;
   right: 0;
@@ -70,7 +70,7 @@ video::-webkit-media-controls {
   top: 0;
 }
 
-.hy-current-time {
+.hy-time-point {
   position: absolute;
   top: 0;
   height: 100%;
@@ -132,7 +132,7 @@ video::-webkit-media-controls {
   line-height: 48px;
 }
 
-.hy-pullscreen {
+.hy-fullscreen {
   float: left;
   margin-top: 11px;
   margin-right: 2px;

@@ -1,12 +1,12 @@
 /**
  * @author centsent
  */
-import directivesModule from '../_index';
+import directivesModule from '../../_index';
 
 /**
  * @ngInject
  */
-function hyCurrentTime($hyMedia) {
+function hyTimePoint($hyMedia) {
   return {
     restrict: 'A',
     link($scope, elem) {
@@ -18,4 +18,4 @@ function hyCurrentTime($hyMedia) {
   };
 }
 
-directivesModule.directive('hyCurrentTime', hyCurrentTime);
+directivesModule.directive('hyTimePoint', hyTimePoint);
