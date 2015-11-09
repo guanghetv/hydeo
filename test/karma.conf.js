@@ -10,7 +10,7 @@ module.exports = (config) => {
       'src/scripts/**/*.js': ['browserify', 'babel', 'coverage'],
       'test/**/*.js': ['browserify', 'babel', 'coverage']
     },
-    browsers: ['Chrome'],
+    browsers: ['Firefox'],
     reporters: ['progress', 'coverage'],
 
     autoWatch: true,
