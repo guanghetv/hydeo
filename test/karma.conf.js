@@ -1,12 +1,13 @@
-var istanbul = require('browserify-istanbul');
-var isparta = require('isparta');
+const istanbul = require('browserify-istanbul');
+const isparta = require('isparta');
+const stringify = require('stringify');
 
 module.exports = (config) => {
   config.set({
     basePath: '../',
     frameworks: ['jasmine', 'browserify'],
     preprocessors: {
-      'app/scripts/**/*.js': ['browserify', 'babel', 'coverage'],
+      'src/scripts/**/*.js': ['browserify', 'babel', 'coverage'],
       'test/**/*.js': ['browserify', 'babel', 'coverage']
     },
     browsers: ['Chrome'],
@@ -17,8 +18,10 @@ module.exports = (config) => {
     browserify: {
       debug: true,
       transform: [
-        'bulkify',
+        stringify(['.html']),
         'babelify',
+        'bulkify',
+        'stringify',
         istanbul({
           instrumenter: isparta,
           ignore: ['**/node_modules/**', '**/test/**']
@@ -34,12 +37,12 @@ module.exports = (config) => {
 
     files: [
       // app-specific code
-      'app/scripts/main.js',
+      // 'src/scripts/main.js',
       // 3rd-party resources
-      'node_modules/angular/angular.js',
-      'node_modules/angular-mocks/angular-mocks.js',
+      // 'node_modules/angular/angular.js',
+      // 'node_modules/angular-mocks/angular-mocks.js',
       // test files
-      'test/unit/**/*.js'
+      'test/**/*.js'
     ]
 
   });
