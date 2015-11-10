@@ -113,6 +113,19 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the current playlist is ended.
+   *
+   * @param handler {Function} A function to execute when the audio/video is ended.
+   */
+  onEnded(handler) {
+    this.bindEvent('ended', event => {
+      if (angular.isFunction(handler)) {
+        handler(event);
+      }
+    });
+  }
+
+  /**
    * Fires when the current playback position was changed.
    *
    * @param handler {Function} A function to execute each time the `timeupdate`
