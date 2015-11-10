@@ -3,14 +3,22 @@ const isparta = require('isparta');
 const stringify = require('stringify');
 
 module.exports = (config) => {
-  config.set({
+  const configuration = {
     basePath: '../',
     frameworks: ['jasmine', 'browserify'],
     preprocessors: {
       'src/scripts/**/*.js': ['browserify', 'babel', 'coverage'],
       'test/**/*.js': ['browserify', 'babel', 'coverage']
     },
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
+
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
+
     reporters: ['progress', 'coverage'],
 
     autoWatch: true,
@@ -45,5 +53,11 @@ module.exports = (config) => {
       'test/**/*.js'
     ]
 
-  });
+  };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };
