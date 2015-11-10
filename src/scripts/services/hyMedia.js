@@ -33,14 +33,15 @@ class HyMediaService {
    *
    * @param handler {Function} A function to execute each time the `play` event
    * is triggered.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onPlay(handler) {
+  onPlay(handler, thisArg) {
     this.bindEvent('play', event => {
       this.currentState = mediaState.PLAY;
 
       if (angular.isFunction(handler)) {
-        handler(this.currentState, event);
+        handler.call(thisArg, this.currentState, event);
       }
     });
   }
@@ -50,14 +51,15 @@ class HyMediaService {
    *
    * @param handler {Function} A function to execute each time the `pause` event
    * is triggered.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onPause(handler) {
+  onPause(handler, thisArg) {
     this.bindEvent('pause', event => {
       this.currentState = mediaState.PAUSE;
 
       if (angular.isFunction(handler)) {
-        handler(this.currentState, event);
+        handler.call(thisArg, this.currentState, event);
       }
     });
   }
@@ -66,14 +68,15 @@ class HyMediaService {
    * Start buffering.
    *
    * @param handler {Function} A function to execute when audio/video starting buffering.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onWaiting(handler) {
+  onWaiting(handler, thisArg) {
     this.bindEvent('waiting', event => {
       this.isBuffering = true;
 
       if (angular.isFunction(handler)) {
-        handler(this.isBuffering, event);
+        handler.call(thisArg, this.isBuffering, event);
       }
     });
   }
@@ -83,14 +86,14 @@ class HyMediaService {
    * for buffering.
    *
    * @param handler {Function} A function to execute when the audio/video is resumed playing.
-   *
+   * @param thisArg {Object} The this binding of handler.
    */
-  onPlaying(handler) {
+  onPlaying(handler, thisArg) {
     this.bindEvent('playing', event => {
       this.isBuffering = false;
 
       if (angular.isFunction(handler)) {
-        handler(this.isBuffering, event);
+        handler.call(thisArg, this.isBuffering, event);
       }
     });
   }
@@ -99,15 +102,16 @@ class HyMediaService {
    * Fires when the audio/video is ready to play.
    *
    * @param handler {Function} A function to execute once the audio/video is ready to play.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onCanPlay(handler) {
+  onCanPlay(handler, thisArg) {
     this.bindEvent('canplay', event => {
       this.isBuffering = false;
       this.totaltime = event.target.duration;
 
       if (angular.isFunction(handler)) {
-        handler(this.totalTime, this.isBuffering, event);
+        handler.call(thisArg, this.totalTime, this.isBuffering, event);
       }
     });
   }
@@ -116,11 +120,13 @@ class HyMediaService {
    * Fires when the current playlist is ended.
    *
    * @param handler {Function} A function to execute when the audio/video is ended.
+   * @param thisArg {Object} The this binding of handler.
+   *
    */
-  onEnded(handler) {
+  onEnded(handler, thisArg) {
     this.bindEvent('ended', event => {
       if (angular.isFunction(handler)) {
-        handler(event);
+        handler.call(thisArg, event);
       }
     });
   }
@@ -130,9 +136,10 @@ class HyMediaService {
    *
    * @param handler {Function} A function to execute each time the `timeupdate`
    * event is triggered.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onTimeUpdate(handler) {
+  onTimeUpdate(handler, thisArg) {
     this.bindEvent('timeupdate', event => {
       const target = event.target;
       this.currentTime = target.currentTime;
@@ -146,7 +153,7 @@ class HyMediaService {
       }
 
       if (angular.isFunction(handler)) {
-        handler(this.currentTime, this.timeLeft, event);
+        handler.call(thisArg, this.currentTime, this.timeLeft, event);
       }
     });
   }
@@ -156,9 +163,10 @@ class HyMediaService {
    *
    * @param handler {Function} A function to execute each time the `progress`
    * event is triggered.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onProgress(handler) {
+  onProgress(handler, thisArg) {
     this.bindEvent('progress', event => {
       this.buffered = event.target.buffered;
 
@@ -166,7 +174,7 @@ class HyMediaService {
         this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
 
         if (angular.isFunction(handler)) {
-          handler(this.buffered, this.bufferedEnd, this.totalTime, event);
+          handler.call(thisArg, this.buffered, this.bufferedEnd, this.totalTime, event);
         }
       }
     });
@@ -177,13 +185,15 @@ class HyMediaService {
    *
    * @param handler {Function} A function to execute each time enter/exit full screen
    * mode.
+   * @param thisArg {Object} The this binding of handler.
+   *
    */
-  onFullScreenChange(handler) {
+  onFullScreenChange(handler, thisArg) {
     const hydeoElement = _hydeoElement.get(this)[0];
 
     FullscreenApi.onChange(hydeoElement, event => {
       if (angular.isFunction(handler)) {
-        handler(this.isFullScreen, event);
+        handler.call(thisArg, this.isFullScreen, event);
       }
     });
   }
@@ -192,9 +202,10 @@ class HyMediaService {
    * Fires when the volume has been changed.
    *
    * @param handler {Function} A function to execute each time change the audio/video volume.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onVolumeChange(handler) {
+  onVolumeChange(handler, thisArg) {
     const mediaElement = _mediaElement.get(this);
     this.bindEvent('volumechange', event => {
       const volume = mediaElement.prop('volume');
@@ -202,7 +213,7 @@ class HyMediaService {
       this.currentVolume = volume * 100;
 
       if (angular.isFunction(handler)) {
-        handler(this.currentVolume, this.isMuted, event);
+        handler.call(thisArg, this.currentVolume, this.isMuted, event);
       }
     });
   }
@@ -211,14 +222,15 @@ class HyMediaService {
    * Fires when the browser has loaded the current frame of the audio/video.
    *
    * @param handler {Function} A function to execute when loaded the audio/video.
+   * @param thisArg {Object} The this binding of handler.
    *
    */
-  onLoaded(handler) {
+  onLoaded(handler, thisArg) {
     this.bindEvent('loadeddata', event => {
       this.totalTime = event.target.duration;
 
       if (angular.isFunction(handler)) {
-        handler(this.totalTime);
+        handler.call(thisArg, this.totalTime);
       }
     });
   }
