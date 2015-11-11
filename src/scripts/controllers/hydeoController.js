@@ -31,7 +31,7 @@ class HydeoController {
    */
   bindingEvents() {
     const $hyMedia = _hyMedia.get(this);
-    $hyMedia.onTimeUpdate(this.onTimeUpdate.bind(this));
+    $hyMedia.onTimeUpdate(this.onTimeUpdate, this);
   }
 
   /**
@@ -48,13 +48,19 @@ class HydeoController {
     $scope.options.cuepoints.forEach((cuepoint) => {
       const start = parseInt(cuepoint.time, 10);
 
-      if (currentSecond === start && angular.isFunction(cuepoint.onEnter) && !cuepoint.$$isOnEnter) {
-        cuepoint.onEnter(currentTime, cuepoint.params);
-        cuepoint.$$isOnEnter = true;
+      if (currentSecond === start) {
+        if (angular.isFunction(cuepoint.onEnter) && !cuepoint.$$isDirty) {
+          cuepoint.onEnter(currentTime, cuepoint.params);
+        }
+        cuepoint.$$isDirty = true;
       }
 
-      if (currentSecond > start && angular.isFunction(cuepoint.onComplete)) {
-        cuepoint.onComplete(currentTime, cuepoint.params);
+      if (currentSecond > start) {
+        if (angular.isFunction(cuepoint.onComplete)) {
+          cuepoint.onComplete(currentTime, cuepoint.params);
+        }
+      } else {
+        cuepoint.$$isDirty = false;
       }
     });
   }
