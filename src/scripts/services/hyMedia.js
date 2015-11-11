@@ -199,6 +199,49 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the user starts moving/skipping to a new position in the audio/video.
+   * @param handler {Function} A function to execute each time the user moving/skiping to a new position.
+   * @param thisArg {Object} The this binding of handler.
+   *
+   */
+  onSeeking(handler, thisArg) {
+    this.bindEvent('seeking', event => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when the user is finished moving/skipping to a new position in the audio/video.
+   *
+   * @param handler {Function} A function to execute when the user is finished moving/skiping
+   * to a new position in the audio/video.
+   * @param thisArg {Object} The this binding of handler.
+   */
+  onSeeked(handler, thisArg) {
+    this.bindEvent('seeked', event =>  {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when an error occurred during the loading of an audio/video.
+   *
+   * @param handler {Function} A function to execute when an error occurred.
+   * @param thisArg {Object} The this binding of handler.
+   */
+  onError(handler, thisArg) {
+    this.bindEvent('error', event => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
    * Fires when the volume has been changed.
    *
    * @param handler {Function} A function to execute each time change the audio/video volume.
