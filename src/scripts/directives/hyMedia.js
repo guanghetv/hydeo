@@ -17,21 +17,23 @@ function hyMediaDirective($sce, $hyMedia) {
   _this.setup = () => {
     const elem = _this.mediaElement;
 
-    elem.prop('src', $sce.trustAsResourceUrl(_this.$scope.src));
+    // elem.prop('src', $sce.trustAsResourceUrl(_this.$scope.src));
     elem.prop('autoplay', _this.$scope.autoplay);
   };
 
   return {
     restrict: 'E',
     template: template,
-    require: '^hyHydeo',
     scope: {
       src: '=',
       autoplay: '='
     },
 
-    link: ($scope, elem, attrs, hydeoController) => {
+    link: ($scope, elem) => {
       _this.$scope = $scope;
+
+      $scope.$watch('src', (source) => $hyMedia.changeSource(source));
+
       // TODO detecting media type.
       // TODO video should be configurable by an options param.
       // only support video for now.
@@ -39,11 +41,8 @@ function hyMediaDirective($sce, $hyMedia) {
 
       // setup $hyMedia service
       $hyMedia.setMediaElement(_this.mediaElement);
-      $hyMedia.onLoaded();
       // setup hy-media directive
       _this.setup();
-      // setup hydeoController
-      hydeoController.ready();
     }
   };
 }

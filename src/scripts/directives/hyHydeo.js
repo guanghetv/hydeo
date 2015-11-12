@@ -5,41 +5,21 @@ import directivesModule from './_index';
 import template from '../../views/directives/hyHydeo.html';
 
 /**
- * Default options.
- */
-const options = {
-  src: '',
-  autoplay: false,
-  cuepoints: []
-};
-
-/**
- * TODO
  * @ngInject
  */
 function hyHydeoDirective($hyMedia) {
   return {
     restrict: 'E',
     template: template,
-    // Use controller to expose an API to other directives.
-    controller: 'hydeoController',
     scope: {
       cuepoints: '=',
       src: '=',
-      options: '='
+      onReady: '&'
     },
     transclude: true,
     link: {
-      pre: ($scope, elem, attrs, controller) => {
-        $scope.options = Object.assign(options, $scope.options);
-
-        for (const prop in $scope.options) {
-          if ($scope[prop]) {
-            $scope.options[prop] = $scope[prop];
-          }
-        }
-
-        controller.hydeoElement = elem;
+      pre($scope, elem) {
+        $scope.$watch('cuepoints', newValue => $hyMedia.cuepoints = newValue);
         $hyMedia.setHydeoElement(elem);
       }
     }

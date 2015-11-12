@@ -13,7 +13,6 @@ function hyControlsDirective($hyMedia) {
   return {
     restrict: 'E',
     template: template,
-    require: '^hyHydeo',
     scope: {
       autohide: '='
     },

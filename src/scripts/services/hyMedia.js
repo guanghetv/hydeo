@@ -4,7 +4,10 @@
 import angular from 'angular';
 import servicesModule from './_index';
 import FullscreenApi from '../utils/FullscreenApi';
-import {mediaState} from './../AppSettings';
+import {
+  mediaState
+}
+from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
@@ -152,8 +155,42 @@ class HyMediaService {
         this.isLive = true;
       }
 
+      this.checkCuepoints();
+
       if (angular.isFunction(handler)) {
         handler.call(thisArg, this.currentTime, this.timeLeft, event);
+      }
+    });
+  }
+
+  /**
+   * Check if reached the cuepoint.
+   */
+  checkCuepoints() {
+    if (!this.cuepoints) {
+      return;
+    }
+
+    const currentSecond = parseInt(this.currentTime, 10);
+    this.cuepoints.forEach(cuepoint => {
+      const start = parseInt(cuepoint.time, 10);
+
+      if (currentSecond === start) {
+        if (angular.isFunction(cuepoint.onEnter) && !cuepoint.$$isDirty) {
+          cuepoint.onEnter(this.currentTime, cuepoint.params);
+        }
+        cuepoint.$$isDirty = true;
+      }
+
+      if (currentSecond > start) {
+        if (angular.isFunction(cuepoint.onComplete)) {
+          cuepoint.onComplete(this.currentTime, cuepoint.params);
+        }
+        cuepoint.$$isDirty = false;
+      }
+
+      if (currentSecond < start) {
+        cuepoint.$$isDirty = false;
       }
     });
   }
@@ -220,7 +257,7 @@ class HyMediaService {
    * @param thisArg {Object} The this binding of handler.
    */
   onSeeked(handler, thisArg) {
-    this.bindEvent('seeked', event =>  {
+    this.bindEvent('seeked', event => {
       if (angular.isFunction(handler)) {
         handler.call(thisArg, event);
       }
@@ -270,6 +307,7 @@ class HyMediaService {
    */
   onLoaded(handler, thisArg) {
     this.bindEvent('loadeddata', event => {
+      this.reset();
       this.totalTime = event.target.duration;
 
       if (angular.isFunction(handler)) {
@@ -483,12 +521,23 @@ class HyMediaService {
   }
 
   /**
-   * Resets the audio/video's play position to beginning and current state to nothing.
+   * Resets the audio/video's play position to beginning.
    */
   reset() {
     const mediaElement = _mediaElement.get(this);
-    mediaElement.prop('currentTime', 0);
+    this.currentTime = 0;
+    this.timeLeft = 0;
+    this.totalTime = 0;
     this.currentState = null;
+    mediaElement.prop('currentTime', 0);
+  }
+
+  /**
+   * Change the current source of the audio/video element.
+   */
+  changeSource(source) {
+    const mediaElement = _mediaElement.get(this);
+    mediaElement.prop('src', source);
   }
 
 }

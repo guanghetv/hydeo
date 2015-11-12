@@ -40,12 +40,12 @@ class HydeoController {
   onTimeUpdate(currentTime) {
     const $scope = _scope.get(this);
 
-    if (!$scope.options.cuepoints) {
+    if (!$scope.cuepoints) {
       return;
     }
 
     const currentSecond = parseInt(currentTime, 10);
-    $scope.options.cuepoints.forEach((cuepoint) => {
+    $scope.cuepoints.forEach((cuepoint) => {
       const start = parseInt(cuepoint.time, 10);
 
       if (currentSecond === start) {
