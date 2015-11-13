@@ -360,6 +360,14 @@ class HyMediaService {
     return mediaElement.prop('muted');
   }
 
+  /**
+   * Returns whether the playback of the audio/video has ended or not.
+   */
+  get isEnded() {
+    const mediaElement = _mediaElement.get(this);
+    return mediaElement.prop('ended');
+  }
+
 
   /**
    * Attach a handler to an event for the video/audio elements.
@@ -515,8 +523,8 @@ class HyMediaService {
    * Returns a TimeRanges object representing the seekable parts of the audio/video.
    */
   seekable() {
-    const elem = _mediaElement.get(this)[0];
-    return elem.seekable;
+    const mediaElement = _mediaElement.get(this);
+    return mediaElement.prop('seekable');
   }
 
   /**
