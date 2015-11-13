@@ -512,6 +512,14 @@ class HyMediaService {
   }
 
   /**
+   * Returns a TimeRanges object representing the seekable parts of the audio/video.
+   */
+  seekable() {
+    const elem = _mediaElement.get(this)[0];
+    return elem.seekable;
+  }
+
+  /**
    * Replay the audio/video file currently loaded.
    */
   replay() {
