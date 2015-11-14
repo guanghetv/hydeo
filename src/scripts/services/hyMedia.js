@@ -236,6 +236,17 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the browser starts looking for the audio/video.
+   */
+  onLoad(handler, thisArg) {
+    this.bindEvent('loadstart', event => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
    * Fires when the user starts moving/skipping to a new position in the audio/video.
    * @param handler {Function} A function to execute each time the user moving/skiping to a new position.
    * @param thisArg {Object} The this binding of handler.
