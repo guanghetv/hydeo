@@ -252,7 +252,7 @@ class HyMediaService {
   onAbort(handler, thisArg) {
     this.bindEvent('abort', event => {
       if (angular.isFunction(handler)) {
-        handler.call(thisArg, handler);
+        handler.call(thisArg, event);
       }
     });
   }
