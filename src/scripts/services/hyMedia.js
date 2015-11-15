@@ -247,6 +247,17 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the loading of an audio/video is aborted.
+   */
+  onAbort(handler, thisArg) {
+    this.bindEvent('abort', event => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, handler);
+      }
+    });
+  }
+
+  /**
    * Fires when the user starts moving/skipping to a new position in the audio/video.
    * @param handler {Function} A function to execute each time the user moving/skiping to a new position.
    * @param thisArg {Object} The this binding of handler.
