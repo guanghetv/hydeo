@@ -14,12 +14,14 @@ function hyHydeoDirective($hyMedia) {
     scope: {
       cuepoints: '=',
       src: '=',
-      onReady: '&'
+      onReady: '&',
+      controls: '='
     },
     transclude: true,
     link: {
       pre($scope, elem) {
         $scope.$watch('cuepoints', newValue => $hyMedia.cuepoints = newValue);
+        $scope.controls = true;
         $hyMedia.setHydeoElement(elem);
       }
     }
