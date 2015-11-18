@@ -15,7 +15,8 @@ function hyHydeoDirective($hyMedia) {
       cuepoints: '=',
       src: '=',
       onReady: '&',
-      controls: '='
+      controls: '=',
+      autoplay: '='
     },
     transclude: true,
     link: {
