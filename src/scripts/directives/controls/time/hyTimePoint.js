@@ -17,7 +17,8 @@ function hyTimePoint($hyMedia) {
 
       $hyMedia.onTimeUpdate(currentTime => {
         const totalTime = $hyMedia.totalTime;
-        const percentLeft = currentTime / (totalTime + totalTime / parentWidth * width) * 100;
+        const extraTotal = totalTime + totalTime / parentWidth * width;
+        const percentLeft = currentTime / extraTotal * 100;
         elem.css('left', `${percentLeft}%`);
       });
     }
