@@ -1,3 +1,28 @@
 <hy-media src="src" autoplay="autoplay"></hy-media>
-<hy-controls ng-if="controls"></hy-controls>
+
+<div ng-if="controls" class="hy-controls">
+  <div class="hy-controls-play-control play" hy-play-pause></div>
+
+  <div class='hy-time-box'>
+    <span hy-time-current></span> /
+    <span hy-time-left></span> /
+    <span hy-time-total></span>
+  </div>
+
+  <div class='hy-volume'>
+    <i hy-volume></i>
+    <p class='hy-volume-box'>
+      <span class='hy-volume-1' style='width:50%;'></span>
+      <span class='hy-volume-2' style='left:50%;'></span>
+    </p>
+    <p hy-fullscreen class='hy-fullscreen'></p>
+  </div>
+
+  <div hy-slider class="hy-slider">
+    <div hy-load-progress class="hy-load-progress"></div>
+    <div hy-play-progress class="hy-play-progress"></div>
+    <div hy-time-point class="hy-time-point"></div>
+  </div>
+</div>
+
 <div ng-transclude></div>
