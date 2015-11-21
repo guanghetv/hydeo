@@ -24,6 +24,7 @@ function hyHydeoDirective($hyMedia) {
         $scope.$watch('cuepoints', newValue => $hyMedia.cuepoints = newValue);
         $scope.controls = true;
         $hyMedia.setHydeoElement(elem);
+        $hyMedia.onReady($scope.onReady);
       }
     }
   };

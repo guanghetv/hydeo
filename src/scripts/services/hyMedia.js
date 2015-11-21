@@ -11,6 +11,7 @@ from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
+const _onReadyQueues = [];
 
 /**
  * Provide APIs and event bindings for audio/video.
@@ -29,6 +30,15 @@ class HyMediaService {
    */
   setMediaElement(element) {
     _mediaElement.set(this, element);
+  }
+
+  /**
+   * Fires when the player is ready.
+   *
+   * @param handler {Function} A function to execute when the player is ready.
+   */
+  onReady(handler) {
+    _onReadyQueues.push(handler);
   }
 
   /**
@@ -576,6 +586,13 @@ class HyMediaService {
   changeSource(source) {
     const mediaElement = _mediaElement.get(this);
     mediaElement.prop('src', source);
+  }
+
+  /**
+   * Everything is ready.
+   */
+  ready() {
+    _onReadyQueues.forEach((handler) => handler());
   }
 
 }
