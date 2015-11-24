@@ -41,9 +41,9 @@ function hyMediaDirective($sce, $hyMedia) {
 
       // setup $hyMedia service
       $hyMedia.setMediaElement(_this.mediaElement);
-      $hyMedia.ready();
       // setup hy-media directive
       _this.setup();
+      $hyMedia.ready();
     }
   };
 }

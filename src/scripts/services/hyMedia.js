@@ -375,6 +375,11 @@ class HyMediaService {
     return this.currentState === mediaState.STOP;
   }
 
+  get isAutoplay() {
+    const element = _mediaElement.get(this);
+    return element.prop('autoplay');
+  }
+
   /**
    * Determine a user enter/exit the full screen mode.
    */
@@ -592,6 +597,10 @@ class HyMediaService {
    * Everything is ready.
    */
   ready() {
+    if (this.isAutoplay) {
+      this.currentState = mediaState.PLAY;
+    }
+
     _onReadyQueues.forEach((handler) => handler());
   }
 

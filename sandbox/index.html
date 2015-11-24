@@ -10,15 +10,15 @@
 <body>
 
   <div style="width: 530px; height:300px" ng-controller="Controller as ctrl">
-    <hy-hydeo src="ctrl.src"></hy-hydeo>
+    <hy-hydeo src="ctrl.src" autoplay="true"></hy-hydeo>
   </div>
 
   <script src="hydeo.js"></script>
   <script>
     angular.element(document).ready(() => {
-      var app = angular.module('hydeoApp', ['hydeo']);
+      const app = angular.module('hydeoApp', ['hydeo']);
 
-      app.controller('Controller', function() {
+      app.controller('Controller', function Controller() {
         this.src = 'http://static.videogular.com/assets/videos/videogular.mp4';
       });
 
