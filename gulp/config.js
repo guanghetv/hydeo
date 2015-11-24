@@ -4,6 +4,7 @@
 export default {
 
   browserPort: 3000,
+  UIPort: 3001,
   serverPort: 3002,
 
   styles: {
@@ -49,12 +50,16 @@ export default {
 
   browserify: {
     entry: './src/scripts/main.js',
-    bundleName: 'hydeo.min.js',
+    bundleName: 'hydeo.js',
     prodSourcemap: false
   },
 
   test: {
     karma: 'test/karma.conf.js',
     protractor: 'test/protractor.conf.js'
+  },
+
+  prerelease: {
+    npmFiles: ['package.json', 'README.md', 'index.js']
   }
 };

@@ -1,3 +1,6 @@
+/**
+ * @author centsent
+ */
 import gulp from 'gulp';
 import runSequence from 'run-sequence';
 

@@ -1,3 +1,6 @@
+/**
+ * @author centsent
+ */
 import config from '../config';
 import gulp from 'gulp';
 import browserSync from 'browser-sync';

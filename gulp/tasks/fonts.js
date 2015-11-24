@@ -1,3 +1,6 @@
+/**
+ * @author centsent
+ */
 import config from '../config';
 import changed from 'gulp-changed';
 import gulp from 'gulp';

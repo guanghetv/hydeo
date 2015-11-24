@@ -1,3 +1,6 @@
+/**
+ * @author centsent
+ */
 import config from '../config';
 import gulp from 'gulp';
 import {protractor, webdriver, webdriverUpdate} from 'gulp-protractor';
