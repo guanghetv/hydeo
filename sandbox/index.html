@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hydeo Demo</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+
+  <div style="width: 530px; height:300px" ng-controller="Controller as ctrl">
+    <hy-hydeo src="ctrl.src"></hy-hydeo>
+  </div>
+
+  <script src="hydeo.js"></script>
+  <script>
+    angular.element(document).ready(() => {
+      var app = angular.module('hydeoApp', ['hydeo']);
+
+      app.controller('Controller', function() {
+        this.src = 'http://static.videogular.com/assets/videos/videogular.mp4';
+      });
+
+      angular.bootstrap(document, [app.name]);
+    });
+  </script>
+</body>
+
+</html>

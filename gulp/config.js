@@ -35,7 +35,8 @@ export default {
       'src/views/**/*.html'
     ],
     src: 'src/views/**/*.html',
-    dest: 'src/scripts'
+    dest: 'src/scripts',
+    bundleName: 'hydeo.css'
   },
 
   gzip: {
@@ -61,5 +62,10 @@ export default {
 
   prerelease: {
     npmFiles: ['package.json', 'README.md', 'index.js']
+  },
+
+  sandbox: {
+    src: 'sandbox/**/*',
+    dest: 'build/'
   }
 };
