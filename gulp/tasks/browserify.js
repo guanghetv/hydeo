@@ -16,8 +16,6 @@ import handleErrors from '../util/handleErrors';
 import browserSync from 'browser-sync';
 import ngAnnotate from 'browserify-ngannotate';
 import stringify from 'stringify';
-import eventStream from 'event-stream';
-import fs from 'fs';
 
 function buildScript(entries, file) {
   let bundler = browserify({
@@ -73,16 +71,5 @@ function buildScript(entries, file) {
 }
 
 gulp.task('browserify', ['lint'], () => {
-  if (global.isProd) {
-    return buildScript([config.browserify.entry], config.browserify.bundleName);
-  }
-
-  const entries = config.browserify.entries.filter(item => {
-    return fs.existsSync(item.src);
-  });
-  const tasks = entries.map(entry => {
-    return buildScript([entry.src], entry.bundleName);
-  });
-
-  return eventStream.merge.apply(null, tasks);
+  return buildScript([config.browserify.entry], config.browserify.bundleName);
 });

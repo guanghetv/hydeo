@@ -5,7 +5,7 @@
 import gutil from 'gulp-util';
 import prettyHrtime from 'pretty-hrtime';
 
-const startTime = 0;
+let startTime = 0;
 
 module.exports = {
 

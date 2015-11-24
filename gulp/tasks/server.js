@@ -1,9 +1,9 @@
-import config  from '../config';
-import http    from 'http';
+import config from '../config';
+import http from 'http';
 import express from 'express';
-import gulp    from 'gulp';
-import gutil   from 'gulp-util';
-import morgan  from 'morgan';
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import morgan from 'morgan';
 
 gulp.task('server', () => {
   const server = express();
@@ -14,7 +14,9 @@ gulp.task('server', () => {
 
   // Serve index.html for all routes to leave routing up to Angular
   server.all('/*', (req, res) => {
-    res.sendFile('index.html', { root: 'build' });
+    res.sendFile('index.html', {
+      root: 'build'
+    });
   });
 
   // Start webserver if not already running
@@ -29,4 +31,3 @@ gulp.task('server', () => {
 
   s.listen(config.serverPort);
 });
-
