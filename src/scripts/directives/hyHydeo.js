@@ -4,10 +4,15 @@
 import directivesModule from './_index';
 import template from '../../views/directives/hyHydeo.html';
 
+const defaultOptions = {
+  autoplay: true,
+  controls: true
+};
+
 /**
  * @ngInject
  */
-function hyHydeoDirective($hyMedia) {
+function hyHydeoDirective($hyMedia, $hyOptions) {
   return {
     restrict: 'E',
     template: template,
@@ -21,10 +26,12 @@ function hyHydeoDirective($hyMedia) {
     transclude: true,
     link: {
       pre($scope, elem) {
-        $scope.$watch('cuepoints', newValue => $hyMedia.cuepoints = newValue);
-        $scope.controls = true;
+        $hyOptions.keys().map((key) => {
+          $hyOptions.set(key, $scope[key] || defaultOptions[key]);
+          $scope.$watch(key, (newValue) => $hyOptions.set(key, newValue));
+        });
+        $scope.controls = $hyOptions.get('controls');
         $hyMedia.setHydeoElement(elem);
-        $hyMedia.onReady($scope.onReady);
       }
     }
   };

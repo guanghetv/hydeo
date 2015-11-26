@@ -11,12 +11,17 @@ from './../AppSettings';
 
 const _mediaElement = new WeakMap();
 const _hydeoElement = new WeakMap();
+const _hyOptions = new WeakMap();
 const _onReadyQueues = [];
 
 /**
  * Provide APIs and event bindings for audio/video.
  */
 class HyMediaService {
+
+  constructor($hyOptions) {
+    _hyOptions.set(this, $hyOptions);
+  }
 
   /**
    * Store the hydeo element.
@@ -177,12 +182,15 @@ class HyMediaService {
    * Check if reached the cuepoint.
    */
   checkCuepoints() {
-    if (!this.cuepoints) {
+    const $hyOptions = _hyOptions.get(this);
+    const cuepoints = $hyOptions.get('cuepoints');
+
+    if (!cuepoints) {
       return;
     }
 
     const currentSecond = parseInt(this.currentTime, 10);
-    this.cuepoints.forEach(cuepoint => {
+    cuepoints.forEach(cuepoint => {
       const start = parseInt(cuepoint.time, 10);
 
       if (currentSecond === start) {
@@ -596,14 +604,19 @@ class HyMediaService {
   /**
    * Everything is ready.
    */
-  ready() {
-    if (this.isAutoplay) {
-      this.currentState = mediaState.PLAY;
-    }
+  ready(mediaElement) {
+    const $hyOptions = _hyOptions.get(this);
+    const autoplay = $hyOptions.get('autoplay');
+    const onReady = $hyOptions.get('onReady');
 
-    _onReadyQueues.forEach((handler) => handler());
+    _mediaElement.set(this, mediaElement);
+    mediaElement.prop('autoplay', autoplay);
+
+    if (autoplay) this.currentState = mediaState.PLAY;
+    if (angular.isFunction(onReady)) onReady();
   }
 
 }
 
-servicesModule.factory('$hyMedia', () => new HyMediaService());
+// @ngInject
+servicesModule.factory('$hyMedia', ($hyOptions) => new HyMediaService($hyOptions));
