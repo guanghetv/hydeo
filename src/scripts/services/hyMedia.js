@@ -480,10 +480,10 @@ class HyMediaService {
    * Pauses the currently playing audio/video.
    */
   pause() {
-    const mediaElement = _mediaElement.get(this);
+    const mediaElement = _mediaElement.get(this)[0];
 
-    if (!this.isPause && mediaElement) {
-      mediaElement[0].pause();
+    if (!this.isPause) {
+      mediaElement.pause();
       this.currentState = mediaState.PAUSE;
     }
   }
@@ -492,10 +492,10 @@ class HyMediaService {
    * Starts playing the audio/video.
    */
   play() {
-    const mediaElement = _mediaElement.get(this);
+    const mediaElement = _mediaElement.get(this)[0];
 
-    if (!this.isPlay && mediaElement) {
-      mediaElement[0].play();
+    if (!this.isPlay) {
+      mediaElement.play();
       this.currentState = mediaState.PLAY;
     }
   }
@@ -504,12 +504,11 @@ class HyMediaService {
    * Pauses the currently playing audio/video and reset current time to 0.
    */
   stop() {
-    const mediaElement = _mediaElement.get(this);
+    const mediaElement = _mediaElement.get(this)[0];
 
-    if (!this.isStop && mediaElement) {
-      const elem = mediaElement[0];
-      elem.pause();
-      elem.currentTime = 0;
+    if (!this.isStop) {
+      mediaElement.pause();
+      mediaElement.currentTime = 0;
       this.currentState = mediaState.STOP;
     }
   }
@@ -566,7 +565,7 @@ class HyMediaService {
     this.currentTime = 0;
     this.timeLeft = 0;
     this.totalTime = 0;
-    this.currentState = null;
+    this.currentState = undefined;
     mediaElement.prop('currentTime', 0);
   }
 

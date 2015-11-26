@@ -3,6 +3,7 @@
  */
 import directivesModule from './_index';
 import template from '../../views/directives/hyHydeo.html';
+import KeyEventHandler from '../utils/KeyEventHandler';
 
 const defaultOptions = {
   autoplay: true,
@@ -36,6 +37,9 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
           $hyOptions.set(key, value);
           $scope.$watch(key, (newValue) => $hyOptions.set(key, newValue));
         });
+        // make the element focusable to catch the keydown event
+        elem.attr('tabindex', -1);
+        KeyEventHandler.bind(elem, $hyOptions, $hyMedia);
       }
     }
   };
