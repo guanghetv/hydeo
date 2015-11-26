@@ -3,8 +3,8 @@
  */
 import servicesModule from './_index';
 
-const map = new Map();
-const listeners = new Map();
+const attribute = new Map();
+const listener = new Map();
 
 class HyOptionsService {
 
@@ -12,8 +12,24 @@ class HyOptionsService {
    * Returns which keys permited to access.
    */
   keys() {
+    return this.directiveKeys().concat(this.otherKeys());
+  }
+
+  /**
+   * Keys to the hyHydeoDirective attrs.
+   */
+  directiveKeys() {
     return [
       'src', 'cuepoints', 'controls', 'autoplay', 'onReady'
+    ];
+  }
+
+  /**
+   * Store something others.
+   */
+  otherKeys() {
+    return [
+      'hydeoElement'
     ];
   }
 
@@ -22,13 +38,13 @@ class HyOptionsService {
       return;
     }
 
-    const validKey = this.keys().find((item) => item === key);
-    if (!validKey) {
+    const isValidKey = this.keys().find((item) => item === key);
+    if (!isValidKey) {
       return;
     }
 
-    map.set(key, value);
-    const handler = listeners.get(key);
+    attribute.set(key, value);
+    const handler = listener.get(key);
 
     if (handler && (typeof handler === 'function')) {
       handler(value);
@@ -36,11 +52,11 @@ class HyOptionsService {
   }
 
   get(key) {
-    return map.get(key);
+    return attribute.get(key);
   }
 
   observe(key, handler) {
-    listeners.set(key, handler);
+    listener.set(key, handler);
   }
 
 }

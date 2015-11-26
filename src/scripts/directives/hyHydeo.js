@@ -26,12 +26,16 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
     transclude: true,
     link: {
       pre($scope, elem) {
-        $hyOptions.keys().map((key) => {
-          $hyOptions.set(key, $scope[key] || defaultOptions[key]);
+        $hyOptions.set('hydeoElement', elem);
+        $hyOptions.directiveKeys().map((key) => {
+          let value = $scope[key];
+          if (!value) {
+            value = defaultOptions[key];
+            $scope[key] = value;
+          }
+          $hyOptions.set(key, value);
           $scope.$watch(key, (newValue) => $hyOptions.set(key, newValue));
         });
-        $scope.controls = $hyOptions.get('controls');
-        $hyMedia.setHydeoElement(elem);
       }
     }
   };

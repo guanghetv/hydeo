@@ -10,9 +10,7 @@ import {
 from './../AppSettings';
 
 const _mediaElement = new WeakMap();
-const _hydeoElement = new WeakMap();
 const _hyOptions = new WeakMap();
-const _onReadyQueues = [];
 
 /**
  * Provide APIs and event bindings for audio/video.
@@ -21,29 +19,6 @@ class HyMediaService {
 
   constructor($hyOptions) {
     _hyOptions.set(this, $hyOptions);
-  }
-
-  /**
-   * Store the hydeo element.
-   */
-  setHydeoElement(element) {
-    _hydeoElement.set(this, element);
-  }
-
-  /**
-   * Store the audio/video element.
-   */
-  setMediaElement(element) {
-    _mediaElement.set(this, element);
-  }
-
-  /**
-   * Fires when the player is ready.
-   *
-   * @param handler {Function} A function to execute when the player is ready.
-   */
-  onReady(handler) {
-    _onReadyQueues.push(handler);
   }
 
   /**
@@ -244,7 +219,8 @@ class HyMediaService {
    *
    */
   onFullScreenChange(handler, thisArg) {
-    const hydeoElement = _hydeoElement.get(this)[0];
+    const $hyOptions = _hyOptions.get(this);
+    const hydeoElement = $hyOptions.get('hydeoElement')[0];
 
     FullscreenApi.onChange(hydeoElement, event => {
       if (angular.isFunction(handler)) {
@@ -460,7 +436,8 @@ class HyMediaService {
    * Enter full screen mode.
    */
   requestFullScreen() {
-    const element = _hydeoElement.get(this)[0];
+    const $hyOptions = _hyOptions.get(this);
+    const element = $hyOptions.get('hydeoElement')[0];
     FullscreenApi.request(element);
   }
 
