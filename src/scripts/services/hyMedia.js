@@ -584,12 +584,17 @@ class HyMediaService {
     const $hyOptions = _hyOptions.get(this);
     const autoplay = $hyOptions.get('autoplay');
     const onReady = $hyOptions.get('onReady');
+    const propertyNames = Object.getOwnPropertyNames(HyMediaService.prototype);
+    const events = propertyNames.filter((name) => name.match('^on[A-Z]'));
 
     _mediaElement.set(this, mediaElement);
     mediaElement.prop('autoplay', autoplay);
 
     if (autoplay) this.currentState = mediaState.PLAY;
     if (angular.isFunction(onReady)) onReady();
+
+    // binding default player events.
+    events.map((event) => this[event]());
   }
 
 }

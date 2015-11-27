@@ -2,6 +2,8 @@
  * @author centsent
  */
 const KEY_MAP = {
+  13: 'enter',
+  32: 'space',
   37: 'left',
   39: 'right'
 };
@@ -37,6 +39,14 @@ class KeyEventHandler {
 
     // TODO 10 should be a configurable constant.
     $hyMedia.seek(currentTime + 10);
+  }
+
+  static space() {
+    this.$hyMedia.togglePlay();
+  }
+
+  static enter() {
+    this.$hyMedia.togglePlay();
   }
 
 }
