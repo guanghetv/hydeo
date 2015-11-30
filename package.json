@@ -59,6 +59,7 @@
     "morgan": "^1.6.1",
     "pretty-hrtime": "^1.0.1",
     "protractor": "^2.5.1",
+    "require-dir": "^0.3.0",
     "run-sequence": "^1.1.5",
     "stringify": "^3.1.0",
     "tiny-lr": "^0.2.1",

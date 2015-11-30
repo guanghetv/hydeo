@@ -1,9 +1,7 @@
-import fs from 'fs';
-import onlyScripts from './util/scriptFilter.js';
+/**
+ * @author centsent
+ */
+import requireDir from 'require-dir';
 
-const tasks = fs.readdirSync('./gulp/tasks/').filter(onlyScripts);
-
-tasks.forEach((task) => {
-  require('./tasks/' + task);
-});
-
+// Require all tasks in gulpfile.js/tasks, including subfolders
+requireDir('./tasks', {recurse: true});
