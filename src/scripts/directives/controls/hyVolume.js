@@ -25,13 +25,19 @@ function hyVolume($hyMedia) {
 
       const levels = bar.children();
 
+      function setCurrentClass(volume) {
+        const index = 10 - volume / 10;
+        levels.removeClass('current');
+
+        if (volume) {
+          levels[index].classList.add('current');
+        }
+      }
+
       levels.addClass('level')
         .bind('click', (event) => {
-          const target = event.target;
-          const level = target.dataset.level;
-          levels.removeClass('current');
-          target.classList.add('current');
-
+          const level = event.target.dataset.level;
+          setCurrentClass(level);
           $hyMedia.volume(level);
         });
 
@@ -68,11 +74,10 @@ function hyVolume($hyMedia) {
           elem.addClass('muted').removeClass('unmuted');
         }
 
-        const index = 10 - currentVolume / 10;
-        levels.removeClass('current');
-
-        if (currentVolume) levels[index].classList.add('current');
+        setCurrentClass(currentVolume);
       });
+
+      setCurrentClass($hyMedia.currentVolume);
     }
   };
 }

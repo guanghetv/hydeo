@@ -608,5 +608,7 @@ function factory($hyOptions) {
   return new HyMediaService($hyOptions);
 }
 
+factory.$inject = ['$hyOptions'];
+
 // @ngInject
-servicesModule.factory('$hyMedia', ['$hyOptions', factory]);
+servicesModule.factory('$hyMedia', factory);
