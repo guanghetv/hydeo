@@ -82,7 +82,7 @@ video::-webkit-media-controls {
   float: right;
   padding-right: 10px;
 
-  i {
+  .muted {
     float: left;
     margin-top: 14px;
     margin-right: 10px;
@@ -96,6 +96,10 @@ video::-webkit-media-controls {
       content: "\e806";
       color: white;
     }
+  }
+
+  .unmuted {
+    @extend .muted;
   }
 }
 
@@ -116,15 +120,6 @@ video::-webkit-media-controls {
     height: 8px;
     background-color: #fff;
   }
-
-  .hy-volume-1 {
-    background-color: white;
-  }
-
-  .hy-volume-2 {
-    width: 8px;
-    height: 8px;
-  }
 }
 
 .hy-time-box {
@@ -144,5 +139,30 @@ video::-webkit-media-controls {
   &::before {
     content: "\e800";
     color: white;
+  }
+}
+
+.hy-volume-bar {
+  position: absolute;
+
+  display: none;
+  z-index: 4;
+
+  width: 20px;
+
+  .level {
+    width: 100%;
+    height: 10px;
+    background-color: #ccc;
+    display: block;
+    cursor: pointer;
+
+    &:hover {
+      background-color: blue;
+    }
+
+    &.current {
+      background-color: yellow;
+    }
   }
 }

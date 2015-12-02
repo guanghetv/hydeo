@@ -302,12 +302,7 @@ class HyMediaService {
    *
    */
   onVolumeChange(handler, thisArg) {
-    const mediaElement = _mediaElement.get(this);
     this.bindEvent('volumechange', event => {
-      const volume = mediaElement.prop('volume');
-      // TODO extract 100 to a configurable constant
-      this.currentVolume = volume * 100;
-
       if (angular.isFunction(handler)) {
         handler.call(thisArg, this.currentVolume, this.isMuted, event);
       }
@@ -330,6 +325,16 @@ class HyMediaService {
         handler.call(thisArg, this.totalTime);
       }
     });
+  }
+
+  /**
+   * Returns the volume of the audio/video.
+   */
+  get currentVolume() {
+    const mediaElement = _mediaElement.get(this);
+    const volume = mediaElement.prop('volume');
+    // TODO extract 100 to a configurable constant
+    return this.isMuted ? 0 : volume * 100;
   }
 
   /**
