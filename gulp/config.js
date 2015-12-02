@@ -50,7 +50,8 @@ export default {
   },
 
   browserify: {
-    entry: './src/scripts/main.js',
+    entry: ['./src/scripts/main.js'],
+    external: ['angular'],
     bundleName: 'hydeo.js',
     prodSourcemap: false
   },

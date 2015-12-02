@@ -20,7 +20,7 @@ import stringify from 'stringify';
 function buildScript(entries, file) {
   let bundler = browserify({
     entries: entries,
-    debug: true,
+    debug: !global.isProd,
     cache: {},
     packageCache: {},
     fullPaths: !global.isProd
@@ -37,6 +37,8 @@ function buildScript(entries, file) {
   transforms.forEach((transform) => {
     bundler.transform(transform);
   });
+
+  if (global.isProd) bundler.external(config.browserify.external);
 
   function rebundle() {
     const stream = bundler.bundle();
@@ -71,5 +73,5 @@ function buildScript(entries, file) {
 }
 
 gulp.task('browserify', ['lint'], () => {
-  return buildScript([config.browserify.entry], config.browserify.bundleName);
+  return buildScript(config.browserify.entry, config.browserify.bundleName);
 });
