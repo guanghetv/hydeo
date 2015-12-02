@@ -35,13 +35,12 @@ function hyVolume($hyMedia) {
           $hyMedia.volume(level);
         });
 
-      function showBar(event) {
-        const target = event.target;
+      function showBar(event, isBar) {
         clearTimeout(barTimeout);
         bar.css('display', 'block');
 
-        if (target === elem[0]) {
-          const top = -(bar[0].offsetHeight - target.offsetHeight);
+        if (isBar) {
+          const top = -(bar[0].offsetHeight - event.target.offsetHeight);
           const margin = 10;
           bar.css('top', `${top - margin}px`);
         }
@@ -56,7 +55,7 @@ function hyVolume($hyMedia) {
 
       elem.addClass($hyMedia.isMuted ? 'unmuted' : 'muted')
         .bind('click', () => $hyMedia.toggleMuted())
-        .bind('mouseover', showBar)
+        .bind('mouseover', (event) => showBar(event, true))
         .bind('mouseout', hideBar);
 
       bar.bind('mouseover', showBar)
