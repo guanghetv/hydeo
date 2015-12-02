@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.0.21",
+  "version": "0.0.23",
   "description": "Hydeo is an html5 video player based on angular and inspired by Videogular.",
   "main": "index.js",
   "repository": {
@@ -25,7 +25,7 @@
     "browser-sync": "^2.10.0",
     "browserify": "^11.2.0",
     "browserify-istanbul": "^0.2.0",
-    "browserify-ngannotate": "^0.6.0",
+    "browserify-ngannotate": "^2.0.0",
     "bulk-require": "^0.2.1",
     "bulkify": "^1.1.1",
     "del": "^0.1.3",

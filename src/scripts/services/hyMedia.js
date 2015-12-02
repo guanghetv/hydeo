@@ -604,5 +604,9 @@ class HyMediaService {
 
 }
 
+function factory($hyOptions) {
+  return new HyMediaService($hyOptions);
+}
+
 // @ngInject
-servicesModule.factory('$hyMedia', ($hyOptions) => new HyMediaService($hyOptions));
+servicesModule.factory('$hyMedia', ['$hyOptions', factory]);
