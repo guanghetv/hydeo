@@ -35,25 +35,20 @@ class HyControlsDirective {
       }
     });
 
-    let autohideTimeout;
-
-    function setAutohide() {
-      autohideTimeout = setTimeout(() => {
-        elem.css('display', 'none');
-      }, $scope.autohideTime);
-    }
-
-    function clearAutohide() {
-      clearTimeout(autohideTimeout);
-      elem.css('display', 'block');
-    }
 
     if ($scope.autohide) {
       const $hyOptions = _hyOptions.get(this);
       const hydeoElement = $hyOptions.get('hydeoElement');
+      let autohideTimeout;
 
-      hydeoElement.bind('mousemove', clearAutohide)
-        .bind('mouseout', setAutohide);
+      hydeoElement.bind('mousemove', () => {
+        clearTimeout(autohideTimeout);
+        elem.css('display', 'block');
+      }).bind('mouseout', () => {
+        autohideTimeout = setTimeout(() => {
+          elem.css('display', 'none');
+        }, $scope.autohideTime);
+      });
     }
   }
 }
