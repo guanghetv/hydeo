@@ -10,6 +10,7 @@ const defaultOptions = {
   controls: true
 };
 
+// @ngInject
 function hyHydeoDirective($hyMedia, $hyOptions) {
   return {
     restrict: 'E',
