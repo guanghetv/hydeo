@@ -38,7 +38,7 @@ function buildScript(entries, file) {
     bundler.transform(transform);
   });
 
-  if (global.isProd) bundler.external(config.browserify.external);
+  // bundler.external(config.browserify.external);
 
   function rebundle() {
     const stream = bundler.bundle();
@@ -64,9 +64,7 @@ function buildScript(entries, file) {
 
   if (!global.isProd) {
     bundler = watchify(bundler);
-    bundler.on('update', () => {
-      rebundle();
-    });
+    bundler.on('update', () => rebundle());
   }
 
   return rebundle();

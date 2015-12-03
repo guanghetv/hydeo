@@ -10,13 +10,10 @@ const defaultOptions = {
   controls: true
 };
 
-/**
- * @ngInject
- */
 function hyHydeoDirective($hyMedia, $hyOptions) {
   return {
     restrict: 'E',
-    template: template,
+    template,
     scope: {
       cuepoints: '=',
       src: '=',
@@ -30,7 +27,7 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
         $hyOptions.set('hydeoElement', elem);
         $hyOptions.directiveKeys().map((key) => {
           let value = $scope[key];
-          if (!value) {
+          if (value === undefined) {
             value = defaultOptions[key];
             $scope[key] = value;
           }
