@@ -602,6 +602,10 @@ class HyMediaService {
     events.map((event) => this[event]());
   }
 
+  destroy() {
+    _mediaElement.delete(this);
+  }
+
 }
 
 function factory($hyOptions) {

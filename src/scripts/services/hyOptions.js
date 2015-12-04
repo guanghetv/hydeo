@@ -59,6 +59,11 @@ class HyOptionsService {
     listener.set(key, handler);
   }
 
+  flush() {
+    attribute.clear();
+    listener.clear();
+  }
+
 }
 
 servicesModule.factory('$hyOptions', () => new HyOptionsService());

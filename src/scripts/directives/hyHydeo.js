@@ -38,6 +38,10 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
         // make the element focusable to catch the keydown event
         elem.attr('tabindex', -1);
         KeyEventHandler.bind(elem, $hyOptions, $hyMedia);
+        elem.bind('$destroy', () => {
+          $hyMedia.destroy();
+          $hyOptions.flush();
+        });
       }
     }
   };
