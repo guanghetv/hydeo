@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "Hydeo is an html5 video player based on angular and inspired by Videogular.",
   "main": "index.js",
   "repository": {
