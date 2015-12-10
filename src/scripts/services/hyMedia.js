@@ -258,7 +258,7 @@ class HyMediaService {
    *
    */
   onSeeking(handler, thisArg) {
-    this.bindEvent('seeking', event => {
+    this.bindEvent('seeking', (event) => {
       if (angular.isFunction(handler)) {
         handler.call(thisArg, event);
       }
@@ -273,10 +273,9 @@ class HyMediaService {
    * @param thisArg {Object} The this binding of handler.
    */
   onSeeked(handler, thisArg) {
-    const beforeSeekTime = this.currentTime;
-    this.bindEvent('seeked', event => {
+    this.bindEvent('seeked', (event) => {
       if (angular.isFunction(handler)) {
-        handler.call(thisArg, beforeSeekTime, this.currentTime, event);
+        handler.call(thisArg, this.beforeSeekTime, this.currentTime, event);
       }
     });
   }
@@ -388,6 +387,16 @@ class HyMediaService {
   }
 
   /**
+   * Return `true` if the user is seeking in the audio/video, else `false`.
+   *
+   * @returns {boolean} Returns whether the user is currently seeking in the audio/video.
+   */
+  get isSeeking() {
+    const mediaElement = _mediaElement.get(this);
+    return mediaElement.prop('seeking');
+  }
+
+  /**
    * Returns whether the playback of the audio/video has ended or not.
    */
   get isEnded() {
@@ -417,6 +426,7 @@ class HyMediaService {
   seek(time) {
     const mediaElement = _mediaElement.get(this);
     mediaElement.prop('currentTime', time);
+    this.beforeSeekTime = this.currentTime;
     this.currentTime = time;
   }
 
