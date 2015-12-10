@@ -273,9 +273,10 @@ class HyMediaService {
    * @param thisArg {Object} The this binding of handler.
    */
   onSeeked(handler, thisArg) {
+    const beforeSeekTime = this.currentTime;
     this.bindEvent('seeked', event => {
       if (angular.isFunction(handler)) {
-        handler.call(thisArg, event);
+        handler.call(thisArg, beforeSeekTime, this.currentTime, event);
       }
     });
   }
