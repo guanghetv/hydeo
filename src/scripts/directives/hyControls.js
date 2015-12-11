@@ -44,11 +44,13 @@ class HyControlsDirective {
       hydeoElement.bind('mousemove', () => {
         clearTimeout(autohideTimeout);
         elem.css('display', 'block');
-      }).bind('mouseout', () => {
+      });
+
+      setInterval(() => {
         autohideTimeout = setTimeout(() => {
           elem.css('display', 'none');
         }, $scope.autohideTime);
-      });
+      }, $scope.autohideTime);
     }
   }
 }
