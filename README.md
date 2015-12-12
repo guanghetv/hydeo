@@ -4,12 +4,9 @@ Hydeo is an html5 video player based on angular and inspired by [Videogular](htt
 
 Hydeo offers you an ability of video interactions. eg customizable questions in video playing, and seeking to a time point according to user response.
 
-# Installation
+# Quick Start
 
-npm
-
-` $ npm install --save-dev hydeo`
-
-# How to use
-
-TODO
+```html
+<link href="/path/to/hydeo.css" rel="stylesheet">
+<script src="/path/to/hydeo.js"></script>
+```
