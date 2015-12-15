@@ -37,21 +37,25 @@ class HyControlsDirective {
 
 
     if ($scope.autohide) {
-      const $hyOptions = _hyOptions.get(this);
-      const hydeoElement = $hyOptions.get('hydeoElement');
-      let autohideTimeout;
-
-      hydeoElement.bind('mousemove', () => {
-        clearTimeout(autohideTimeout);
-        elem.css('display', 'block');
-      });
-
-      setInterval(() => {
-        autohideTimeout = setTimeout(() => {
-          elem.css('display', 'none');
-        }, $scope.autohideTime);
-      }, $scope.autohideTime);
+      this.setAutohide(elem, $scope.autohideTime);
     }
+  }
+
+  setAutohide(elem, autohideTime) {
+    const $hyOptions = _hyOptions.get(this);
+    const hydeoElement = $hyOptions.get('hydeoElement');
+    let autohideTimeout;
+
+    hydeoElement.bind('mousemove', () => {
+      clearTimeout(autohideTimeout);
+      elem.css('display', 'block');
+    }).bind('mouseout', () => elem.css('display', 'none'));
+
+    setInterval(() => {
+      autohideTimeout = setTimeout(() => {
+        elem.css('display', 'none');
+      }, autohideTime);
+    }, autohideTime);
   }
 }
 
