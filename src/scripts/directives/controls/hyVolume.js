@@ -3,83 +3,97 @@
  */
 import directivesModule from '../_index';
 
-/**
- * @ngInject
- */
-function hyVolume($hyMedia) {
-  return {
-    restrict: 'A',
-    link($scope, elem) {
-      const bar = angular.element(document.createElement('div'));
-      let barTimeout;
-      bar.addClass('hy-volume-bar');
-      elem.after(bar);
 
-      // TODO 10 should be a configurable constant.
-      for (let i = 10; i > 0; i--) {
-        // TODO i should be a configurable params.
-        const iElement = document.createElement('i');
-        iElement.dataset.level = i * 10;
-        bar.append(iElement);
+const _hyMedia = new WeakMap();
+
+class HyVolume {
+
+  constructor($hyMedia) {
+    this.restrict = 'A';
+    _hyMedia.set(this, $hyMedia);
+  }
+
+  compile() {
+    return this.link.bind(this);
+  }
+
+  link($scope, elem) {
+    const $hyMedia = _hyMedia.get(this);
+    const volumeBar = this.addVolumeBar(elem);
+    const volumeValue = this.addVolumeValue(volumeBar);
+    let barTimeout;
+
+    function showVolumeBar(event, isTarget) {
+      clearTimeout(barTimeout);
+      volumeBar.style.display = 'block';
+
+      if (isTarget) {
+        const top = -(volumeBar.offsetHeight - event.target.offsetHeight);
+        // TODO  10 should be a configurable constant.
+        const margin = 10;
+        volumeBar.style.top = `${top - margin}px`;
       }
-
-      const levels = bar.children();
-
-      function setCurrentClass(volume) {
-        const index = 10 - volume / 10;
-        levels.removeClass('current');
-
-        if (volume) {
-          levels[index].classList.add('current');
-        }
-      }
-
-      levels.addClass('level')
-        .bind('click', (event) => {
-          const level = event.target.dataset.level;
-          setCurrentClass(level);
-          $hyMedia.volume(level);
-        });
-
-      function showBar(event, isBar) {
-        clearTimeout(barTimeout);
-        bar.css('display', 'block');
-
-        if (isBar) {
-          const top = -(bar[0].offsetHeight - event.target.offsetHeight);
-          const margin = 10;
-          bar.css('top', `${top - margin}px`);
-        }
-      }
-
-      function hideBar() {
-        barTimeout = setTimeout(() => {
-          bar.css('display', 'none');
-          // TODO 500 should be a configurable params.
-        }, 500);
-      }
-
-      elem.addClass($hyMedia.isMuted ? 'unmuted' : 'muted')
-        .bind('click', () => $hyMedia.toggleMuted())
-        .bind('mouseover', (event) => showBar(event, true))
-        .bind('mouseout', hideBar);
-
-      bar.bind('mouseover', showBar)
-        .bind('mouseout', hideBar);
-
-      $hyMedia.onVolumeChange((currentVolume, isMuted) => {
-        if (isMuted) {
-          elem.addClass('unmuted').removeClass('muted');
-        } else {
-          elem.addClass('muted').removeClass('unmuted');
-        }
-
-        setCurrentClass(currentVolume);
-      });
-
-      setCurrentClass($hyMedia.currentVolume);
     }
-  };
+
+    function hideVolumeBar() {
+      barTimeout = setTimeout(() => {
+        volumeBar.style.display = 'none';
+      }, 500);
+    }
+
+    elem.addClass($hyMedia.isMuted ? 'unmuted' : 'muted')
+      .bind('click', () => $hyMedia.toggleMuted())
+      .bind('mouseover', (event) => showVolumeBar(event, true))
+      .bind('mouseout', hideVolumeBar);
+
+    volumeBar.addEventListener('click', (event) => {
+      const volumeHeight = parseInt(volumeBar.offsetHeight, 10);
+      const value = parseInt(100 - event.offsetY / volumeHeight * 100, 10);
+
+      $hyMedia.volume(value);
+    });
+    volumeBar.addEventListener('mousemove', showVolumeBar);
+    volumeBar.addEventListener('mouseout', hideVolumeBar);
+
+    $hyMedia.onVolumeChange((volume, isMuted) => {
+      elem.toggleClass('unmuted', isMuted)
+        .toggleClass('muted', !isMuted);
+      this.setVolumeValue(volume, volumeValue);
+    });
+
+    this.setVolumeValue($hyMedia.currentVolume, volumeValue);
+  }
+
+  setVolumeValue(value, volumeValue) {
+    volumeValue.style.height = `${value}%`;
+    volumeValue.style.top = `${100 - value}%`;
+  }
+
+  addVolumeValue(volumeBar) {
+    const volumeValue = document.createElement('div');
+
+    volumeBar.appendChild(volumeValue);
+    volumeValue.classList.add('hy-volume-value');
+    volumeValue.style['pointer-events'] = 'none';
+
+    return volumeValue;
+  }
+
+  addVolumeBar(elem) {
+    const volumeBar = document.createElement('div');
+
+    elem.after(volumeBar);
+    volumeBar.classList.add('hy-volume-bar');
+
+    return volumeBar;
+  }
+
+  static factory($hyMedia) {
+    return new HyVolume($hyMedia);
+  }
+
 }
 
-directivesModule.directive('hyVolume', hyVolume);
+HyVolume.factory.$inject = ['$hyMedia'];
+
+directivesModule.directive('hyVolume', HyVolume.factory);

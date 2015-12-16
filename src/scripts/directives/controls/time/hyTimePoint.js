@@ -12,7 +12,6 @@ function hyTimePoint($hyMedia) {
     link($scope, elem) {
       const width = elem[0].clientWidth;
       const parentWidth = elem.parent()[0].clientWidth;
-      let drag = false;
 
       $hyMedia.onTimeUpdate((currentTime) => {
         const totalTime = $hyMedia.totalTime;
@@ -21,14 +20,7 @@ function hyTimePoint($hyMedia) {
         elem.css('left', `${percentLeft}%`);
       });
 
-      elem.bind('click', (event) => event.stopPropagation())
-        .bind('mousedown', (event) => drag = true)
-        .bind('mousemove', (event) => {
-          if (drag) {
-            console.log(event);
-          }
-        })
-        .bind('mouseup', (event) => drag = false);
+      elem.bind('click', (event) => event.stopPropagation());
     }
   };
 }

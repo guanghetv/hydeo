@@ -7,7 +7,8 @@ import KeyEventHandler from '../utils/KeyEventHandler';
 
 const defaultOptions = {
   autoplay: true,
-  controls: true
+  controls: true,
+  autohide: true
 };
 
 // @ngInject
@@ -20,7 +21,8 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
       src: '=',
       onReady: '&',
       controls: '=',
-      autoplay: '='
+      autoplay: '=',
+      autohide: '='
     },
     transclude: true,
     link: {

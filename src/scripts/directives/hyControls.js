@@ -35,7 +35,6 @@ class HyControlsDirective {
       }
     });
 
-
     if ($scope.autohide) {
       this.setAutohide(elem, $scope.autohideTime);
     }
@@ -57,12 +56,12 @@ class HyControlsDirective {
       }, autohideTime);
     }, autohideTime);
   }
+
+  static factory($hyOptions, $hyMedia) {
+    return new HyControlsDirective($hyOptions, $hyMedia);
+  }
 }
 
-function factory($hyOptions, $hyMedia) {
-  return new HyControlsDirective($hyOptions, $hyMedia);
-}
+HyControlsDirective.factory.$inject = ['$hyOptions', '$hyMedia'];
 
-factory.$inject = ['$hyOptions', '$hyMedia'];
-
-directivesModule.directive('hyControls', factory);
+directivesModule.directive('hyControls', HyControlsDirective.factory);

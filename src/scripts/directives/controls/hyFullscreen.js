@@ -22,11 +22,8 @@ class HyFullscreenDirective {
       });
 
     $hyMedia.onFullScreenChange((isFullscreen) => {
-      if (isFullscreen) {
-        elem.addClass('exit').removeClass('enter');
-      } else {
-        elem.addClass('enter').removeClass('exit');
-      }
+      elem.toggleClass('exit', isFullscreen)
+        .toggleClass('enter', !isFullscreen);
     });
   }
 

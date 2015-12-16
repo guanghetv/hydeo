@@ -145,24 +145,17 @@ video::-webkit-media-controls {
 .hy-volume-bar {
   position: absolute;
 
+  background-color: #ccc;
   display: none;
+
   z-index: 4;
 
   width: 20px;
+  height: 100px;
 
-  .level {
+  .hy-volume-value {
+    background-color: blue;
+    position: absolute;
     width: 100%;
-    height: 10px;
-    background-color: #ccc;
-    display: block;
-    cursor: pointer;
-
-    &:hover {
-      background-color: blue;
-    }
-
-    &.current {
-      background-color: yellow;
-    }
   }
 }
