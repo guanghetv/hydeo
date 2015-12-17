@@ -295,6 +295,28 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the browser is trying to get media data, but data is not available.
+   */
+  onStalled(handler, thisArg) {
+    this.bindEvent('stalled', (event) => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
+   * Fires when the browser can play through the audio/video without stopping for buffering.
+   */
+  onCanPlayThrough(handler, thisArg) {
+    this.bindEvent('canplaythrough', (event) => {
+      if (angular.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
    * Fires when the volume has been changed.
    *
    * @param handler {Function} A function to execute each time change the audio/video volume.
