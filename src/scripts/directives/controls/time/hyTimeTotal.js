@@ -18,14 +18,14 @@ function hyTimeTotal($hyMedia, $filter) {
     },
     link($scope, elem) {
       const format = $scope.format || 'mm:ss';
-      const defaultTime = formatTime(0, format);
+      // const defaultTime = formatTime(0, format);
 
       $hyMedia.onLoaded(totalTime => {
         const time = formatTime(totalTime * 1000, format);
         elem.html(time);
       });
 
-      elem.html(defaultTime);
+      // elem.html(defaultTime);
     }
   };
 }
