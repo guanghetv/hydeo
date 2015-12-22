@@ -8,6 +8,7 @@ const defaultOptions = {
   autohideTime: 2000
 };
 
+// @ngInject
 function hyAutohide($hyOptions) {
   return {
     restrict: 'A',
