@@ -1,16 +1,16 @@
-{
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
-  "extends": "airbnb/base",
-  "settings": {
-    "ecmascript": 6
-  },
-  "rules": {
-    "strict": 0,
-    "quotes": [2, "single"],
-    "comma-dangle": [2, "never"]
-  }
-}
+---
+root: true
+
+env:
+  browser: true
+  node: true
+  es6: true
+
+extends:
+  "airbnb/base"
+
+rules:
+  strict: 2
+  quotes:
+    - 2
+    - single
