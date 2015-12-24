@@ -2,12 +2,8 @@
  * @author centsent
  */
 import angular from 'angular';
-import servicesModule from './_index';
 import FullscreenApi from '../utils/FullscreenApi';
-import {
-  mediaState
-}
-from './../AppSettings';
+import { mediaState } from './../Constants';
 
 const _mediaElement = new WeakMap();
 const _hyOptions = new WeakMap();
@@ -17,6 +13,7 @@ const _hyOptions = new WeakMap();
  */
 class HyMediaService {
 
+  // @ngInject
   constructor($hyOptions) {
     _hyOptions.set(this, $hyOptions);
   }
@@ -641,11 +638,4 @@ class HyMediaService {
 
 }
 
-function factory($hyOptions) {
-  return new HyMediaService($hyOptions);
-}
-
-factory.$inject = ['$hyOptions'];
-
-// @ngInject
-servicesModule.factory('$hyMedia', factory);
+export default HyMediaService;

@@ -4,19 +4,19 @@
  * @author centsent
  *
  */
-import 'angular';
-import AppSettings from './AppSettings';
-import controllersModule from './controllers/_index';
-import servicesModule from './services/_index';
+import angular from 'angular';
+import Constants from './Constants';
+import controllersModule from './controllers';
+import servicesModule from './services';
 import directivesModule from './directives/_index';
 
 const modules = [
   controllersModule.name,
   servicesModule.name,
-  directivesModule.name
+  directivesModule.name,
 ];
-const app = angular.module(AppSettings.appName, modules);
+const app = angular.module(Constants.appName, modules);
 
-app.constant('AppSettings', AppSettings);
+app.constant('AppSettings', Constants);
 
 export default app;

@@ -1,8 +1,3 @@
-/**
- * @author centsent
- */
-import servicesModule from './_index';
-
 const attribute = new Map();
 const listener = new Map();
 
@@ -19,18 +14,14 @@ class HyOptionsService {
    * Keys to the hyHydeoDirective attrs.
    */
   directiveKeys() {
-    return [
-      'src', 'cuepoints', 'controls', 'autoplay', 'onReady'
-    ];
+    return ['src', 'cuepoints', 'controls', 'autoplay', 'onReady'];
   }
 
   /**
    * Store something others.
    */
   otherKeys() {
-    return [
-      'hydeoElement'
-    ];
+    return ['hydeoElement'];
   }
 
   set(key, value) {
@@ -66,4 +57,4 @@ class HyOptionsService {
 
 }
 
-servicesModule.factory('$hyOptions', () => new HyOptionsService());
+export default HyOptionsService;
