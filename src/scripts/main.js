@@ -8,7 +8,7 @@ import angular from 'angular';
 import Constants from './Constants';
 import controllersModule from './controllers';
 import servicesModule from './services';
-import directivesModule from './directives/_index';
+import directivesModule from './directives';
 
 const modules = [
   controllersModule.name,
@@ -17,6 +17,6 @@ const modules = [
 ];
 const app = angular.module(Constants.appName, modules);
 
-app.constant('AppSettings', Constants);
+app.constant('Constants', Constants);
 
 export default app;

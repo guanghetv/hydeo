@@ -1,11 +1,4 @@
-/**
- * @author centsent
- */
-import directivesModule from '../../_index';
-
-/**
- * @ngInject
- */
+// @ngInject
 function hyTimePoint($hyMedia) {
   return {
     restrict: 'A',
@@ -21,8 +14,8 @@ function hyTimePoint($hyMedia) {
       });
 
       elem.bind('click', (event) => event.stopPropagation());
-    }
+    },
   };
 }
 
-directivesModule.directive('hyTimePoint', hyTimePoint);
+export default hyTimePoint;

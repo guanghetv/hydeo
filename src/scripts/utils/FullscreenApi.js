@@ -13,7 +13,7 @@ const apiMap = {
     request: 'requestFullscreen',
     exit: 'exitFullscreen',
     onChange: 'fullscreenchange',
-    onError: 'fullscreenerror'
+    onError: 'fullscreenerror',
   },
   // Webkit
   newWebkit: {
@@ -22,7 +22,7 @@ const apiMap = {
     request: 'webkitRequestFullscreen',
     exit: 'webkitExitFullscreen',
     onChange: 'webkitfullscreenchange',
-    onError: 'webkitfullscreenerror'
+    onError: 'webkitfullscreenerror',
   },
   // Old Webkit
   oldWebkit: {
@@ -31,7 +31,7 @@ const apiMap = {
     request: 'webkitRequestFullScreen',
     exit: 'webkitCancelFullScreen',
     onChange: 'webkitfullscreenchange',
-    onError: 'webkitfullscreenerror'
+    onError: 'webkitfullscreenerror',
   },
   // Mozilla
   moz: {
@@ -40,7 +40,7 @@ const apiMap = {
     request: 'mozRequestFullScreen',
     exit: 'mozCancelFullScreen',
     onChange: 'mozfullscreenchange',
-    onError: 'mozfullscreenerror'
+    onError: 'mozfullscreenerror',
   },
   // iOS
   ios: {
@@ -49,7 +49,7 @@ const apiMap = {
     request: 'webkitEnterFullscreen',
     exit: 'webkitExitFullscreen',
     onChange: 'webkitfullscreenchange',
-    onError: 'webkitfullscreenerror'
+    onError: 'webkitfullscreenerror',
   },
   // Microsoft
   ms: {
@@ -58,8 +58,8 @@ const apiMap = {
     request: 'msRequestFullscreen',
     exit: 'msExitFullscreen',
     onChange: 'MSFullscreenChange',
-    onError: 'MSFullscreenError'
-  }
+    onError: 'MSFullscreenError',
+  },
 };
 
 for (const browser in apiMap) {
@@ -103,5 +103,5 @@ export default {
    */
   onChange(element, handler) {
     element.addEventListener(FullscreenApi.onChange, handler);
-  }
+  },
 };

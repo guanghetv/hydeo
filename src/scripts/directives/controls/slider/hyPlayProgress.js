@@ -1,12 +1,6 @@
-/**
- * @author centsent
- */
-import directivesModule from '../../_index';
-
-/**
- * @ngInject
- */
 function hyPlayProgress($hyMedia) {
+  'ngInject';
+
   return {
     restrict: 'A',
     link($scope, elem) {
@@ -16,9 +10,8 @@ function hyPlayProgress($hyMedia) {
 
         elem.css('width', `${percentTime}%`);
       });
-    }
+    },
   };
 }
 
-
-directivesModule.directive('hyPlayProgress', hyPlayProgress);
+export default hyPlayProgress;

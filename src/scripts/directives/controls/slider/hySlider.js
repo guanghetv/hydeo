@@ -1,12 +1,6 @@
-/**
- * @author centsent
- */
-import directivesModule from '../../_index';
-
-/**
- * @ngInject
- */
 function hySlider($hyMedia) {
+  'ngInject';
+
   return {
     restrict: 'A',
     link($scope, elem) {
@@ -16,8 +10,8 @@ function hySlider($hyMedia) {
 
         $hyMedia.seek(time);
       });
-    }
+    },
   };
 }
 
-directivesModule.directive('hySlider', hySlider);
+export default hySlider;

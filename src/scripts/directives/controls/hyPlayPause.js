@@ -1,17 +1,11 @@
-/**
- * @author centsent
- */
-import directivesModule from '../_index';
-
-/**
- * @ngInject
- */
 function hyPlayPause($hyMedia) {
+  'ngInject';
+
   return {
     restrict: 'A',
     scope: {
       onPlay: '&',
-      onPause: '&'
+      onPause: '&',
     },
     link($scope, elem) {
       elem.bind('click', () => {
@@ -20,8 +14,8 @@ function hyPlayPause($hyMedia) {
 
       $hyMedia.onPlay(() => elem.addClass('pause').removeClass('play'));
       $hyMedia.onPause(() => elem.addClass('play').removeClass('pause'));
-    }
+    },
   };
 }
 
-directivesModule.directive('hyPlayPause', hyPlayPause);
+export default hyPlayPause;

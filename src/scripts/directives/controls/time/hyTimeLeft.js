@@ -1,12 +1,6 @@
-/**
- * @author centsent
- */
-import directivesModule from '../../_index';
-
-/**
- * @ngInject
- */
 function hyTimeLeft($hyMedia, $filter) {
+  'ngInject';
+
   function formatTime(time, format) {
     return $filter('date')(new Date(time), format);
   }
@@ -14,7 +8,7 @@ function hyTimeLeft($hyMedia, $filter) {
   return {
     restrict: 'A',
     scope: {
-      format: '='
+      format: '=',
     },
     link($scope, elem) {
       const format = $scope.format || 'mm:ss';
@@ -26,8 +20,8 @@ function hyTimeLeft($hyMedia, $filter) {
       });
 
       elem.html(defaultTime);
-    }
+    },
   };
 }
 
-directivesModule.directive('hyTimeLeft', hyTimeLeft);
+export default hyTimeLeft;

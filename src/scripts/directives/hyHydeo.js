@@ -1,18 +1,15 @@
-/**
- * @author centsent
- */
-import directivesModule from './_index';
 import template from '../../views/directives/hyHydeo.html';
 import KeyEventHandler from '../utils/KeyEventHandler';
 
 const defaultOptions = {
   autoplay: true,
   controls: true,
-  autohide: true
+  autohide: true,
 };
 
-// @ngInject
-function hyHydeoDirective($hyMedia, $hyOptions) {
+function hyHydeo($hyMedia, $hyOptions) {
+  'ngInject';
+
   return {
     restrict: 'E',
     template,
@@ -22,7 +19,7 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
       onReady: '&',
       controls: '=',
       autoplay: '=',
-      autohide: '='
+      autohide: '=',
     },
     transclude: true,
     link: {
@@ -44,9 +41,9 @@ function hyHydeoDirective($hyMedia, $hyOptions) {
           $hyMedia.destroy();
           $hyOptions.flush();
         });
-      }
-    }
+      },
+    },
   };
 }
 
-directivesModule.directive('hyHydeo', hyHydeoDirective);
+export default hyHydeo;

@@ -1,23 +1,16 @@
-/**
- * @author centsent
- */
-import directivesModule from '../_index';
-
 const defaultOptions = {
   autohide: true,
-  autohideTime: 2000
+  autohideTime: 2000,
 };
 
-// @ngInject
 function hyAutohide($hyOptions) {
+  'ngInject';
+
   return {
     restrict: 'A',
-    scope: {
-      autohideTime: '='
-    },
     link($scope, elem, attrs) {
       const autohide = attrs.hyAutohide;
-      const autohideTime = $scope.autohideTime || defaultOptions.autohideTime;
+      const autohideTime = parseInt(attrs.autohideTime, 10) || defaultOptions.autohideTime;
       const hydeoElement = $hyOptions.get('hydeoElement');
       let autohideTimeout;
 
@@ -33,8 +26,8 @@ function hyAutohide($hyOptions) {
           }, autohideTime);
         }, autohideTime);
       }
-    }
+    },
   };
 }
 
-directivesModule.directive('hyAutohide', hyAutohide);
+export default hyAutohide;

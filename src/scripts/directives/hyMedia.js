@@ -1,19 +1,14 @@
-/**
- * @author centsent
- */
-import directivesModule from './_index';
 import template from '../../views/directives/hyMedia.html';
 
-/**
- * @ngInject
- */
-function hyMediaDirective($sce, $hyMedia, $hyOptions) {
+function hyMedia($sce, $hyMedia, $hyOptions) {
+  'ngInject';
+
   return {
     restrict: 'E',
-    template: template,
+    template,
     scope: {
       src: '=',
-      autoplay: '='
+      autoplay: '=',
     },
 
     link: ($scope, elem) => {
@@ -24,8 +19,8 @@ function hyMediaDirective($sce, $hyMedia, $hyOptions) {
       const mediaElement = elem.find('video');
       // setup $hyMedia service
       $hyMedia.ready(mediaElement);
-    }
+    },
   };
 }
 
-directivesModule.directive('hyMedia', hyMediaDirective);
+export default hyMedia;

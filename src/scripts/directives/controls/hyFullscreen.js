@@ -1,37 +1,20 @@
-/**
- * @author centsent
- */
-import directivesModule from '../_index';
+function hyFullscreen($hyMedia) {
+  'ngInject';
 
-class HyFullscreenDirective {
-  constructor($hyMedia) {
-    this.restrict = 'A';
-    this.$hyMedia = $hyMedia;
-  }
+  return {
+    restrict: 'A',
+    link($scope, elem) {
+      elem.addClass($hyMedia.isFullscreen ? 'exit' : 'enter')
+        .bind('click', () => {
+          $hyMedia.toggleFullScreen();
+        });
 
-  compile() {
-    return this.link.bind(this);
-  }
-
-  link($scope, elem) {
-    const $hyMedia = this.$hyMedia;
-
-    elem.addClass($hyMedia.isFullscreen ? 'exit' : 'enter')
-      .bind('click', () => {
-        $hyMedia.toggleFullScreen();
+      $hyMedia.onFullScreenChange((isFullscreen) => {
+        elem.toggleClass('exit', isFullscreen)
+          .toggleClass('enter', !isFullscreen);
       });
-
-    $hyMedia.onFullScreenChange((isFullscreen) => {
-      elem.toggleClass('exit', isFullscreen)
-        .toggleClass('enter', !isFullscreen);
-    });
-  }
-
-  static factory($hyMedia) {
-    return new HyFullscreenDirective($hyMedia);
-  }
+    },
+  };
 }
 
-HyFullscreenDirective.factory.$inject = ['$hyMedia'];
-
-directivesModule.directive('hyFullscreen', HyFullscreenDirective.factory);
+export default hyFullscreen;
