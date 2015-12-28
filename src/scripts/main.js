@@ -1,9 +1,3 @@
-/**
- * App main file.
- *
- * @author centsent
- *
- */
 import angular from 'angular';
 import Constants from './Constants';
 import controllersModule from './controllers';
