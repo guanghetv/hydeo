@@ -1,7 +1,7 @@
 /**
  * @author centsent
  */
-import angular from 'angular';
+import Utils from '../utils/Utils';
 import FullscreenApi from '../utils/FullscreenApi';
 import { mediaState } from './../Constants';
 
@@ -30,7 +30,7 @@ class HyMediaService {
     this.bindEvent('play', event => {
       this.currentState = mediaState.PLAY;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.currentState, event);
       }
     });
@@ -48,7 +48,7 @@ class HyMediaService {
     this.bindEvent('pause', event => {
       this.currentState = mediaState.PAUSE;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.currentState, event);
       }
     });
@@ -65,7 +65,7 @@ class HyMediaService {
     this.bindEvent('waiting', event => {
       this.isBuffering = true;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.isBuffering, event);
       }
     });
@@ -82,7 +82,7 @@ class HyMediaService {
     this.bindEvent('playing', event => {
       this.isBuffering = false;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.isBuffering, event);
       }
     });
@@ -100,7 +100,7 @@ class HyMediaService {
       this.isBuffering = false;
       this.totaltime = event.target.duration;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.totalTime, this.isBuffering, event);
       }
     });
@@ -115,7 +115,7 @@ class HyMediaService {
    */
   onEnded(handler, thisArg) {
     this.bindEvent('ended', event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -144,7 +144,7 @@ class HyMediaService {
 
       this.checkCuepoints();
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.currentTime, this.timeLeft, event);
       }
     });
@@ -166,14 +166,14 @@ class HyMediaService {
       const start = parseInt(cuepoint.time, 10);
 
       if (currentSecond === start) {
-        if (angular.isFunction(cuepoint.onEnter) && !cuepoint.$$isDirty) {
+        if (Utils.isFunction(cuepoint.onEnter) && !cuepoint.$$isDirty) {
           cuepoint.onEnter(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = true;
       }
 
       if (currentSecond > start) {
-        if (angular.isFunction(cuepoint.onComplete)) {
+        if (Utils.isFunction(cuepoint.onComplete)) {
           cuepoint.onComplete(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = false;
@@ -200,7 +200,7 @@ class HyMediaService {
       if (this.buffered.length && this.totalTime) {
         this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
 
-        if (angular.isFunction(handler)) {
+        if (Utils.isFunction(handler)) {
           handler.call(thisArg, this.buffered, this.bufferedEnd, this.totalTime, event);
         }
       }
@@ -220,7 +220,7 @@ class HyMediaService {
     const hydeoElement = $hyOptions.get('hydeoElement')[0];
 
     FullscreenApi.onChange(hydeoElement, event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.isFullScreen, event);
       }
     });
@@ -231,7 +231,7 @@ class HyMediaService {
    */
   onLoad(handler, thisArg) {
     this.bindEvent('loadstart', event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -242,7 +242,7 @@ class HyMediaService {
    */
   onAbort(handler, thisArg) {
     this.bindEvent('abort', event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -256,7 +256,7 @@ class HyMediaService {
    */
   onSeeking(handler, thisArg) {
     this.bindEvent('seeking', (event) => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -271,7 +271,7 @@ class HyMediaService {
    */
   onSeeked(handler, thisArg) {
     this.bindEvent('seeked', (event) => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.beforeSeekTime, this.currentTime, event);
       }
     });
@@ -285,7 +285,7 @@ class HyMediaService {
    */
   onError(handler, thisArg) {
     this.bindEvent('error', event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -296,7 +296,7 @@ class HyMediaService {
    */
   onStalled(handler, thisArg) {
     this.bindEvent('stalled', (event) => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -307,7 +307,7 @@ class HyMediaService {
    */
   onCanPlayThrough(handler, thisArg) {
     this.bindEvent('canplaythrough', (event) => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, event);
       }
     });
@@ -322,7 +322,7 @@ class HyMediaService {
    */
   onVolumeChange(handler, thisArg) {
     this.bindEvent('volumechange', event => {
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.currentVolume, this.isMuted, event);
       }
     });
@@ -340,7 +340,7 @@ class HyMediaService {
       this.reset();
       this.totalTime = event.target.duration;
 
-      if (angular.isFunction(handler)) {
+      if (Utils.isFunction(handler)) {
         handler.call(thisArg, this.totalTime);
       }
     });
@@ -432,7 +432,7 @@ class HyMediaService {
    */
   bindEvent(eventType, handler) {
     const mediaElement = _mediaElement.get(this);
-    if (eventType && angular.isFunction(handler)) {
+    if (eventType && Utils.isFunction(handler)) {
       mediaElement.bind(eventType, handler);
     }
   }
@@ -626,7 +626,7 @@ class HyMediaService {
     mediaElement.prop('autoplay', autoplay);
 
     if (autoplay) this.currentState = mediaState.PLAY;
-    if (angular.isFunction(onReady)) onReady();
+    if (Utils.isFunction(onReady)) onReady();
 
     // binding default player events.
     events.map((event) => this[event]());
