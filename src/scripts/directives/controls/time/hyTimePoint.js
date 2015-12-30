@@ -1,5 +1,6 @@
-// @ngInject
 function hyTimePoint($hyMedia) {
+  'ngInject';
+
   return {
     restrict: 'A',
     link($scope, elem) {

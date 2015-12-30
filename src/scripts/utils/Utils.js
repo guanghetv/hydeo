@@ -1,11 +1,11 @@
 
 class Utils {
 
-  isFunction(fn) {
+  static isFunction(fn) {
     return fn && typeof fn === 'function';
   }
 
-  isArray(arr) {
+  static isArray(arr) {
     return Object.prototype.toString.call(arr) === '[object Array]';
   }
 }

@@ -638,4 +638,7 @@ class HyMediaService {
 
 }
 
-export default HyMediaService;
+export default {
+  name: '$hyMedia',
+  fn: HyMediaService,
+};

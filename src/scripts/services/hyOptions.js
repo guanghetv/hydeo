@@ -57,4 +57,7 @@ class HyOptionsService {
 
 }
 
-export default HyOptionsService;
+export default {
+  name: '$hyOptions',
+  fn: HyOptionsService,
+};

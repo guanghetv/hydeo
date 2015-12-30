@@ -1,25 +1,14 @@
 /**
  * @author centsent
  */
+import Constants from '../Constants';
 import angular from 'angular';
+import declare from '../declare';
 
-const servicesModule = angular.module('hydeo.services', []);
+const servicesModule = angular.module(`${Constants.appName}.services`, []);
 const bulk = require('bulk-require');
 const services = bulk(__dirname, ['./**/!(*index|*.spec).js']);
 
-function declare(serviceMap) {
-  Object.keys(serviceMap)
-    .forEach((name) => {
-      const item = serviceMap[name];
-
-      if (typeof item === 'function') {
-        servicesModule.service(`$${name}`, item);
-      } else {
-        declare(item);
-      }
-    });
-}
-
-declare(services);
+declare(services, (name, fn) => servicesModule.service(name, fn));
 
 export default servicesModule;
