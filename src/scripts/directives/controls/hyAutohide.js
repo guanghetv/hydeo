@@ -20,10 +20,13 @@ function hyAutohide($hyOptions) {
           elem.css('display', 'block');
         }).bind('mouseout', () => elem.css('display', 'none'));
 
-        setInterval(() => {
-          autohideTimeout = setTimeout(() => {
-            elem.css('display', 'none');
-          }, autohideTime);
+        elem.bind('mouseenter', () => {
+          clearTimeout(autohideTimeout);
+          elem.css('display', 'block');
+        });
+
+        autohideTimeout = setTimeout(() => {
+          elem.css('display', 'none');
         }, autohideTime);
       }
     },
