@@ -12,20 +12,21 @@ function hyAutohide($hyOptions) {
       const autohide = attrs.hyAutohide;
       const autohideTime = parseInt(attrs.autohideTime, 10) || defaultOptions.autohideTime;
       const hydeoElement = $hyOptions.get('hydeoElement');
-      let autohideTimeout;
 
       if (autohide !== undefined && autohide !== 'false') {
         hydeoElement.bind('mousemove', () => {
-          clearTimeout(autohideTimeout);
           elem.css('display', 'block');
+          setTimeout(() => {
+            elem.css('display', 'none');
+          }, autohideTime);
         }).bind('mouseout', () => elem.css('display', 'none'));
 
-        elem.bind('mouseenter', () => {
-          clearTimeout(autohideTimeout);
-          elem.css('display', 'block');
-        });
+        /* elem.bind('mouseover', () => { */
+          // clearTimeout(timeout);
+          // elem.css('display', 'block');
+        /* }); */
 
-        autohideTimeout = setTimeout(() => {
+        setTimeout(() => {
           elem.css('display', 'none');
         }, autohideTime);
       }
