@@ -12,23 +12,32 @@ function hyAutohide($hyOptions) {
       const autohide = attrs.hyAutohide;
       const autohideTime = parseInt(attrs.autohideTime, 10) || defaultOptions.autohideTime;
       const hydeoElement = $hyOptions.get('hydeoElement');
+      let timeout;
+      let flag = false;
+
+      function show() {
+        elem.css('display', 'block');
+      }
+
+      function hide() {
+        elem.css('display', 'none');
+      }
 
       if (autohide !== undefined && autohide !== 'false') {
         hydeoElement.bind('mousemove', () => {
-          elem.css('display', 'block');
-          setTimeout(() => {
-            elem.css('display', 'none');
-          }, autohideTime);
-        }).bind('mouseout', () => elem.css('display', 'none'));
+          if (!flag) {
+            clearTimeout(timeout);
+            show();
+            timeout = setTimeout(hide, autohideTime);
+          }
+        }).bind('mouseleave', hide);
 
-        /* elem.bind('mouseover', () => { */
-          // clearTimeout(timeout);
-          // elem.css('display', 'block');
-        /* }); */
+        elem.bind('mouseenter', () => {
+          flag = true;
+          clearTimeout(timeout);
+        }).bind('mouseleave', () => flag = false);
 
-        setTimeout(() => {
-          elem.css('display', 'none');
-        }, autohideTime);
+        timeout = setTimeout(hide, autohideTime);
       }
     },
   };
