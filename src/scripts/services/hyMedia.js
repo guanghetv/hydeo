@@ -303,6 +303,17 @@ class HyMediaService {
   }
 
   /**
+   * Fires when the browser is intentionally not getting media data.
+   */
+  onSuspend(handler, thisArg) {
+    this.bindEvent('suspend', (event) => {
+      if (Utils.isFunction(handler)) {
+        handler.call(thisArg, event);
+      }
+    });
+  }
+
+  /**
    * Fires when the browser can play through the audio/video without stopping for buffering.
    */
   onCanPlayThrough(handler, thisArg) {
