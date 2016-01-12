@@ -15,22 +15,21 @@ function hyAutohide($hyOptions) {
       let timeout;
       let flag = false;
 
-      function show() {
-        elem.css('display', 'block');
-      }
-
       function hide() {
         elem.css('display', 'none');
       }
 
+      function show() {
+        if (!flag) {
+          clearTimeout(timeout);
+          elem.css('display', 'block');
+          timeout = setTimeout(hide, autohideTime);
+        }
+      }
+
       if (autohide !== undefined && autohide !== 'false') {
-        hydeoElement.bind('mousemove', () => {
-          if (!flag) {
-            clearTimeout(timeout);
-            show();
-            timeout = setTimeout(hide, autohideTime);
-          }
-        }).bind('mouseleave', hide);
+        hydeoElement.bind('mousemove click', show)
+          .bind('mouseleave', hide);
 
         elem.bind('mouseenter', () => {
           flag = true;
