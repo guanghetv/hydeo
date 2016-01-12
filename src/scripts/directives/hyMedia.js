@@ -19,6 +19,8 @@ function hyMedia($sce, $hyMedia, $hyOptions) {
       const mediaElement = elem.find('video');
       // setup $hyMedia service
       $hyMedia.ready(mediaElement);
+
+      elem.bind('click', () => $hyMedia.togglePlay());
     },
   };
 }
