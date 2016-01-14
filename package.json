@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "Hydeo is an html5 video player based on angular and inspired by Videogular.",
   "main": "index.js",
   "repository": {
@@ -47,7 +47,7 @@
     "isparta": "^3.5.0",
     "jasmine-core": "^2.4.1",
     "jshint-stylish": "^1.0.0",
-    "karma": "^0.13.16",
+    "karma": "^0.13.19",
     "karma-babel-preprocessor": "^4.0.1",
     "karma-browserify": "^4.4.2",
     "karma-chrome-launcher": "^0.2.2",
@@ -63,7 +63,7 @@
     "tiny-lr": "^0.2.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.6.1"
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "dev": "gulp dev",
