@@ -4,12 +4,26 @@ function hySlider($hyMedia) {
   return {
     restrict: 'A',
     link($scope, elem) {
-      elem.bind('click', (event) => {
-        const width = elem[0].offsetWidth;
-        const time = event.offsetX / width * $hyMedia.totalTime;
+      const width = elem[0].offsetWidth;
+      let dragging = false;
 
-        $hyMedia.seek(time);
-      });
+      elem
+        .on('click', (event) => {
+          const time = event.offsetX / width * $hyMedia.totalTime;
+          $hyMedia.seek(time);
+        })
+        .on('mousedown', () => dragging = true)
+        .on('mouseup', () => {
+          dragging = false;
+          $hyMedia.play();
+        })
+        .on('mousemove', (event) => {
+          if (dragging) {
+            const time = event.offsetX / width * $hyMedia.totalTime;
+            $hyMedia.seek(time);
+            $hyMedia.pause();
+          }
+        });
     },
   };
 }

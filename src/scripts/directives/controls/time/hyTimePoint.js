@@ -14,7 +14,7 @@ function hyTimePoint($hyMedia) {
         elem.css('left', `${percentLeft}%`);
       });
 
-      elem.bind('click', (event) => event.stopPropagation());
+      elem.on('click mousemove', (event) => event.stopPropagation());
     },
   };
 }
