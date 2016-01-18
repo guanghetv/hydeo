@@ -1,6 +1,3 @@
-/**
- * @author centsent
- */
 import Utils from '../utils/Utils';
 import FullscreenApi from '../utils/FullscreenApi';
 import { mediaState } from './../Constants';

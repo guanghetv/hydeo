@@ -13,13 +13,14 @@
   color: white;
   display: block;
   opacity: 1;
+  transition: opacity .5s;
 }
 
 video::-webkit-media-controls {
   display: none !important;
 }
 
-.hy-controls-play-control {
+.hy-play-pause {
   font-family: "hydeo";
   cursor: pointer;
   float: left;

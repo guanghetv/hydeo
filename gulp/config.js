@@ -11,7 +11,7 @@ export default {
     src: 'src/styles/**/*.scss',
     dest: 'build/styles',
     prodSourcemap: false,
-    sassIncludePaths: []
+    sassIncludePaths: [],
   },
 
   scripts: {
@@ -19,54 +19,54 @@ export default {
     dest: 'build/scripts',
     eslint: {
       globals: {
-        angular: true
-      }
-    }
+        angular: true,
+      },
+    },
   },
 
   fonts: {
     src: ['src/fonts/**/*'],
-    dest: 'build/fonts'
+    dest: 'build/fonts',
   },
 
   views: {
     watch: [
       'src/index.html',
-      'src/views/**/*.html'
+      'src/views/**/*.html',
     ],
     src: 'src/views/**/*.html',
     dest: 'src/scripts',
-    bundleName: 'hydeo.css'
+    bundleName: 'hydeo.css',
   },
 
   gzip: {
     src: 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
     dest: 'build/',
-    options: {}
+    options: {},
   },
 
   dist: {
-    root: 'build'
+    root: 'build',
   },
 
   browserify: {
     entry: ['./src/scripts/main.js'],
     external: ['angular'],
     bundleName: 'hydeo.js',
-    prodSourcemap: false
+    prodSourcemap: false,
   },
 
   test: {
     karma: 'test/karma.conf.js',
-    protractor: 'test/protractor.conf.js'
+    protractor: 'test/protractor.conf.js',
   },
 
   prerelease: {
-    npmFiles: ['package.json', 'README.md', 'index.js']
+    npmFiles: ['package.json', 'README.md', 'index.js'],
   },
 
   sandbox: {
     src: 'sandbox/**/*',
-    dest: 'build/'
-  }
+    dest: 'build/',
+  },
 };

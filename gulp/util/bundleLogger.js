@@ -9,16 +9,16 @@ let startTime = 0;
 
 module.exports = {
 
-  start: () => {
+  start() {
     startTime = process.hrtime();
     gutil.log('Running', gutil.colors.green('\'bundle\'') + '...');
   },
 
-  end: () => {
+  end() {
     const taskTime = process.hrtime(startTime);
     const prettyTime = prettyHrtime(taskTime);
     gutil.log('Finished', gutil.colors.green('\'bundle\''), 'in', gutil.colors
       .magenta(prettyTime));
-  }
+  },
 
 };

@@ -16,13 +16,13 @@ function hyAutohide($hyOptions) {
       let flag = false;
 
       function hide() {
-        elem.css('display', 'none');
+        elem.css('opacity', '0');
       }
 
       function show() {
         if (!flag) {
           clearTimeout(timeout);
-          elem.css('display', 'block');
+          elem.css('opacity', '1');
           timeout = setTimeout(hide, autohideTime);
         }
       }

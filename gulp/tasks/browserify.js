@@ -1,6 +1,3 @@
-/**
- * @author centsent
- */
 import config from '../config';
 import gulp from 'gulp';
 import gulpif from 'gulp-if';
@@ -19,11 +16,11 @@ import stringify from 'stringify';
 
 function buildScript(entries, file) {
   let bundler = browserify({
-    entries: entries,
+    entries,
     debug: !global.isProd,
     cache: {},
     packageCache: {},
-    fullPaths: !global.isProd
+    fullPaths: !global.isProd,
   });
 
   const transforms = [
@@ -31,12 +28,10 @@ function buildScript(entries, file) {
     'babelify',
     ngAnnotate,
     'brfs',
-    'bulkify'
+    'bulkify',
   ];
 
-  transforms.forEach((transform) => {
-    bundler.transform(transform);
-  });
+  transforms.forEach((transform) => bundler.transform(transform));
 
   // bundler.external(config.browserify.external);
 
@@ -52,13 +47,13 @@ function buildScript(entries, file) {
       .pipe(gulpif(createSourcemap, sourcemaps.init()))
       .pipe(gulpif(global.isProd, streamify(uglify({
         compress: {
-          drop_console: true
-        }
+          drop_console: true,
+        },
       }))))
       .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
       .pipe(gulp.dest(config.dist.root))
       .pipe(browserSync.stream({
-        once: true
+        once: true,
       }));
   }
 

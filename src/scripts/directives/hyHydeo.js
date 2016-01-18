@@ -10,34 +10,38 @@ const defaultOptions = {
 function hyHydeo($hyMedia, $hyOptions) {
   'ngInject';
 
+  const scope = {
+    cuepoints: '=',
+    src: '=',
+    onReady: '&',
+    controls: '=',
+    autoplay: '=',
+    autohide: '=',
+    poster: '=',
+  };
+
   return {
     restrict: 'E',
     template,
-    scope: {
-      cuepoints: '=',
-      src: '=',
-      onReady: '&',
-      controls: '=',
-      autoplay: '=',
-      autohide: '=',
-    },
+    scope,
     transclude: true,
     link: {
       pre($scope, elem) {
         $hyOptions.set('hydeoElement', elem);
-        $hyOptions.directiveKeys().map((key) => {
+
+        Object.keys(scope).forEach((key) => {
           let value = $scope[key];
           if (value === undefined) {
-            value = defaultOptions[key];
-            $scope[key] = value;
+            $scope[key] = value = defaultOptions[key];
           }
           $hyOptions.set(key, value);
           $scope.$watch(key, (newValue) => $hyOptions.set(key, newValue));
         });
+
         // make the element focusable to catch the keydown event
         elem.attr('tabindex', -1);
         KeyEventHandler.bind(elem, $hyOptions, $hyMedia);
-        elem.bind('$destroy', () => {
+        elem.on('$destroy', () => {
           $hyMedia.destroy();
           $hyOptions.flush();
         });

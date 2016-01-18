@@ -1,6 +1,5 @@
-/**
- * @author centsent
- */
+import Utils from './Utils';
+
 const KEY_MAP = {
   13: 'enter',
   32: 'space',
@@ -19,7 +18,7 @@ class KeyEventHandler {
       const code = event.which;
       const handler = this[KEY_MAP[code]];
 
-      if (handler && (typeof handler === 'function')) {
+      if (Utils.isFunction(handler)) {
         handler.call(this);
       }
     });

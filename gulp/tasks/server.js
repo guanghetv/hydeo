@@ -1,6 +1,3 @@
-/**
- * @author centsent
- */
 import config from '../config';
 import http from 'http';
 import express from 'express';
@@ -18,7 +15,7 @@ gulp.task('server', () => {
   // Serve index.html for all routes to leave routing up to Angular
   server.all('/*', (req, res) => {
     res.sendFile('index.html', {
-      root: 'build'
+      root: 'build',
     });
   });
 
