@@ -3,7 +3,7 @@ const defaultOptions = {
   autohideTime: 2000,
 };
 
-function hyAutohide($hyOptions) {
+function hyAutohide($hyOptions, $hyMedia) {
   'ngInject';
 
   return {
@@ -16,28 +16,30 @@ function hyAutohide($hyOptions) {
       let flag = false;
 
       function hide() {
-        elem.css('opacity', '0');
+        elem.css('opacity', 0);
       }
 
       function show() {
         if (!flag) {
           clearTimeout(timeout);
-          elem.css('opacity', '1');
+          elem.css('opacity', 1);
           timeout = setTimeout(hide, autohideTime);
         }
       }
 
       if (autohide !== undefined && autohide !== 'false') {
-        hydeoElement.bind('mousemove click', show)
-          .bind('mouseleave', hide);
+        hydeoElement.on('mousemove click', show)
+          .on('mouseleave', hide);
 
-        elem.bind('mouseenter', () => {
+        elem.on('mouseenter', () => {
           flag = true;
           clearTimeout(timeout);
-        }).bind('mouseleave', () => flag = false);
+        }).on('mouseleave', () => flag = false);
 
         timeout = setTimeout(hide, autohideTime);
       }
+
+      $hyMedia.onPause(show);
     },
   };
 }

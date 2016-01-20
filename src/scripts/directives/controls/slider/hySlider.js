@@ -13,7 +13,7 @@ function hySlider($hyMedia) {
           $hyMedia.seek(time);
         })
         .on('mousedown', () => dragging = true)
-        .on('mouseup', () => {
+        .on('mouseup mouseleave', () => {
           dragging = false;
           $hyMedia.play();
         })

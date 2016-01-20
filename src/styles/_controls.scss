@@ -147,15 +147,21 @@ video::-webkit-media-controls {
 
   background-color: #ccc;
   display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
   z-index: 4;
 
   width: 20px;
   height: 100px;
 
-  .hy-volume-value {
-    background-color: blue;
-    position: absolute;
+  li {
     width: 100%;
+    height: 10%;
+
+    &.current {
+      background-color: blue;
+    }
   }
 }
