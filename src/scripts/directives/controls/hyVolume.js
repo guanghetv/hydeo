@@ -33,9 +33,8 @@ function hyVolume($hyMedia) {
       }
 
       levelList.map((li) => {
-        li.addEventListener('click', (event) => {
-          const target = event.target;
-          const volume = parseInt(target.dataset.level, 10);
+        li.addEventListener('click', () => {
+          const volume = parseInt(li.dataset.level, 10);
 
           $hyMedia.volume(volume);
         });
