@@ -32,6 +32,7 @@ function hyAutohide($hyOptions, $hyMedia) {
           .on('mouseleave', hide);
 
         elem.on('mouseenter', () => {
+          show();
           flag = true;
           clearTimeout(timeout);
         }).on('mouseleave', () => flag = false);
