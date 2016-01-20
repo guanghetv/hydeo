@@ -4,11 +4,11 @@ function hySlider($hyMedia) {
   return {
     restrict: 'A',
     link($scope, elem) {
-      const width = elem[0].offsetWidth;
       let dragging = false;
 
       elem
         .on('click', (event) => {
+          const width = elem[0].offsetWidth;
           const time = event.offsetX / width * $hyMedia.totalTime;
           $hyMedia.seek(time);
         })
@@ -19,6 +19,7 @@ function hySlider($hyMedia) {
         })
         .on('mousemove', (event) => {
           if (dragging) {
+            const width = elem[0].offsetWidth;
             const time = event.offsetX / width * $hyMedia.totalTime;
             $hyMedia.seek(time);
             $hyMedia.pause();

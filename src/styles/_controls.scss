@@ -11,9 +11,8 @@
   /* Visual */
   background: black;
   color: white;
-  display: block;
   opacity: 1;
-  transition: opacity .5s;
+  transition: all .3s ease-in-out;
 }
 
 video::-webkit-media-controls {
