@@ -14,8 +14,10 @@ function hySlider($hyMedia) {
         })
         .on('mousedown', () => dragging = true)
         .on('mouseup mouseleave', () => {
+          if (dragging) {
+            $hyMedia.play();
+          }
           dragging = false;
-          $hyMedia.play();
         })
         .on('mousemove', (event) => {
           if (dragging) {
