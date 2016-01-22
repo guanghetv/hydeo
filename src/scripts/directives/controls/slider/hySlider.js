@@ -4,29 +4,29 @@ function hySlider($hyMedia) {
   return {
     restrict: 'A',
     link($scope, elem) {
-      let dragging = false;
+      // let dragging = false;
 
       elem
         .on('click', (event) => {
           const width = elem[0].offsetWidth;
           const time = event.offsetX / width * $hyMedia.totalTime;
           $hyMedia.seek(time);
-        })
-        .on('mousedown', () => dragging = true)
-        .on('mouseup mouseleave', () => {
-          if (dragging) {
-            $hyMedia.play();
-          }
-          dragging = false;
-        })
-        .on('mousemove', (event) => {
-          if (dragging) {
-            const width = elem[0].offsetWidth;
-            const time = event.offsetX / width * $hyMedia.totalTime;
-            $hyMedia.seek(time);
-            $hyMedia.pause();
-          }
         });
+        // .on('mousedown', () => dragging = true)
+        // .on('mouseup mouseleave', () => {
+          // if (dragging) {
+            // $hyMedia.play();
+          // }
+          // dragging = false;
+        // })
+        // .on('mousemove', (event) => {
+          // if (dragging) {
+            // const width = elem[0].offsetWidth;
+            // const time = event.offsetX / width * $hyMedia.totalTime;
+            // $hyMedia.seek(time);
+            // $hyMedia.pause();
+          // }
+        // });
     },
   };
 }
