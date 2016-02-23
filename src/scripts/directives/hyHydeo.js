@@ -32,7 +32,7 @@ function hyHydeo($hyMedia, $hyOptions) {
         Object.keys(scope).forEach((key) => {
           let value = $scope[key];
           if (value === undefined) {
-            $scope[key] = value = defaultOptions[key];
+            value = defaultOptions[key];
           }
           $hyOptions.set(key, value);
           $scope.$watch(key, (newValue) => $hyOptions.set(key, newValue));
