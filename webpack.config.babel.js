@@ -1,18 +1,18 @@
-var path = require('path');
+import path from 'path';
 
-module.exports = {
+export default {
   entry: './src/main.js',
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
   },
   module: {
     loaders: [{
       test: /\.js|jsx$/,
-      loaders: ['babel']
-    }]
-  }
+      loaders: ['babel'],
+    }],
+  },
 };
