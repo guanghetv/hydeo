@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default function Hydeo() {
-  return (
-    <div></div>
-  );
+export default class Hydeo extends Component {
+
+  constructor(props, ...args) {
+    super(props, args);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <div>Hydeo</div>
+    );
+  }
 }

@@ -1,10 +1,15 @@
 import path from 'path';
+import webpack from 'webpack';
 
 export default {
-  entry: './src/main.js',
+  entry: [
+    'webpack/hot/dev-server',
+    'webpack-dev-server/client?http://localhost:8080',
+    './src/index.js',
+  ],
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
+    filename: 'app.js',
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -15,4 +20,7 @@ export default {
       loaders: ['babel'],
     }],
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 };

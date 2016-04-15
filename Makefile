@@ -1,17 +1,24 @@
+SHELL := /bin/zsh
 PATH := node_modules/.bin:$(PATH)
 
-.PHONY: lint styles
+.PHONY: lint sandbox dev
 
 LINT = eslint
 
-js_files = src/*.js
-sass_files = src/*.scss
+js_files = $(shell find ./src -name "*.js" -o -name "*.jsx")
 
 lint: $(js_files)
 	$(LINT) $?
 
-styles: $(sass_files)
-	sass -t compressed -o $@ $?
+sandbox: sandbox/*.html
+	@[ -d dist ] || mkdir dist
+	cp $< dist
 
 clean:
-	rm -rf build
+	rm -rf dist
+
+dev: clean
+	webpack-dev-server --config webpack.config.babel.js -d --hot --content-base src
+
+webpack:
+	webpack
