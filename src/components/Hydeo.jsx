@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { propTypes, defaultProps } from '../props';
-import MediaPlayer from './MediaPlayer.jsx';
+import Media from './Media.jsx';
 
 export default class Hydeo extends Component {
 
@@ -10,7 +10,7 @@ export default class Hydeo extends Component {
   render() {
     return (
       <div>
-        <MediaPlayer {...this.props} />
+        <Media {...this.props} />
       </div>
     );
   }
