@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { propTypes, defaultProps } from '../props';
-import PlayControl from './PlayControl';
-import FullScreen from './FullScreen';
 
 export default class ControlBar extends Component {
 
@@ -11,8 +9,7 @@ export default class ControlBar extends Component {
   render() {
     return (
       <div>
-        <PlayControl { ...this.props } />
-        <FullScreen { ...this.props } />
+        { this.props.children }
       </div>
     );
   }

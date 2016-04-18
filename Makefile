@@ -1,7 +1,7 @@
 SHELL := /bin/zsh
 PATH := node_modules/.bin:$(PATH)
 
-.PHONY: lint sandbox dev
+.PHONY: lint sandbox dev prod release
 
 LINT = eslint
 
@@ -20,5 +20,10 @@ clean:
 dev: clean
 	webpack-dev-server -d --hot
 
-webpack:
-	webpack
+prod: clean release
+	webpack --config webpack.config.production.babel.js
+
+release:
+	@[ -d dist ] || mkdir dist
+	cp README.md dist
+	cp package.json dist

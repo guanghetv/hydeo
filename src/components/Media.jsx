@@ -26,6 +26,6 @@ export default class Media extends Component {
 
   render() {
     const Player = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
-    return <Player ref="media" {...this.props} />;
+    return <Player ref="media" { ...this.props } />;
   }
 }
