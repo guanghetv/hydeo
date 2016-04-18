@@ -2,9 +2,13 @@ import path from 'path';
 import webpack from 'webpack';
 
 export default {
+  devServer: {
+    port: 4040,
+    contentBase: 'src',
+  },
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
+    // 'webpack-dev-server/client?http://localhost:8080',
     './src/index.js',
   ],
   output: {
@@ -18,6 +22,9 @@ export default {
     loaders: [{
       test: /\.js|jsx$/,
       loaders: ['babel'],
+    }, {
+      test: /\.png$/,
+      loader: 'url-loader?limit=8192',
     }],
   },
   plugins: [

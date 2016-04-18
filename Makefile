@@ -18,7 +18,7 @@ clean:
 	rm -rf dist
 
 dev: clean
-	webpack-dev-server --config webpack.config.babel.js -d --hot --content-base src
+	webpack-dev-server -d --hot
 
 webpack:
 	webpack
