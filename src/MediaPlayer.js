@@ -1,8 +1,11 @@
 import { isFunction } from './utils';
+import { PLAY, PAUSE, STOP } from './utils/State';
+import FullScreenApi from './utils/FullScreenApi';
 
 export default class MediaPlayer {
 
-  constructor(media, options) {
+  constructor(container, media, options) {
+    this.container = container;
     this.media = media;
     this.options = options;
     this.onTimeUpdate();
@@ -29,6 +32,34 @@ export default class MediaPlayer {
 
       if (isFunction(handler)) {
         handler.call(thisArg, this.currentTime, this.timeLeft, event);
+      }
+    });
+  }
+
+  onPlay(handler, thisArg) {
+    this.on('play', (event) => {
+      this.currentState = PLAY;
+
+      if (isFunction(handler)) {
+        handler.call(thisArg, this.currentState, event);
+      }
+    });
+  }
+
+  onPause(handler, thisArg) {
+    this.on('pause', (event) => {
+      this.currentState = PAUSE;
+
+      if (isFunction(handler)) {
+        handler.call(thisArg, this.currentState, event);
+      }
+    });
+  }
+
+  onFullScreenChange(handler, thisArg) {
+    FullScreenApi.onChange(this.container, (event) => {
+      if (isFunction(handler)) {
+        handler.call(thisArg, this.isFullScreen, event);
       }
     });
   }
@@ -65,4 +96,65 @@ export default class MediaPlayer {
     });
   }
 
+  togglePlay() {
+    if (this.isPlay) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
+  play() {
+    if (!this.isPlay) {
+      this.media.play();
+      this.currentState = PLAY;
+    }
+  }
+
+  pause() {
+    if (!this.isPause) {
+      this.media.pause();
+      this.currentState = PAUSE;
+    }
+  }
+
+  stop() {
+    if (!this.isStop) {
+      this.media.pause();
+      this.media.currentTime = 0;
+      this.currentState = STOP;
+    }
+  }
+
+  get isPlay() {
+    return this.currentState === PLAY;
+  }
+
+  get isPause() {
+    return this.currentState === PAUSE;
+  }
+
+  get isStop() {
+    return this.currentState === STOP;
+  }
+
+  get isFullScreen() {
+    return FullScreenApi.isFullscreen();
+  }
+
+  requestFullScreen() {
+    FullScreenApi.request(this.container);
+  }
+
+  exitFullScreen() {
+    FullScreenApi.exit();
+  }
+
+  toggleFullScreen() {
+    if (this.isFullScreen) {
+      this.exitFullScreen();
+    } else {
+      this.requestFullScreen();
+    }
+  }
 }
