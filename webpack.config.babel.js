@@ -4,11 +4,12 @@ import webpack from 'webpack';
 export default {
   devServer: {
     port: 4040,
-    contentBase: 'src',
+    contentBase: path.join(__dirname, '/src'),
+    hot: true,
   },
   entry: [
     'webpack/hot/dev-server',
-    // 'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:4040',
     './src/index.js',
   ],
   output: {
