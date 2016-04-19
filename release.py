@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import subprocess
+from subprocess from call, Popen, PIPE, STDOUT
 import sys
 
 
@@ -9,8 +9,8 @@ GIT_SHOW_REF_TAGS = 'git show-ref --verify --quiet refs/tags/%s'
 
 
 def checkExistingTag(version):
-  if (subprocess.call((GIT_SHOW_REF_HEARD % version).split()) == 0 or
-      subprocess.call((GIT_SHOW_REF_TAGS % version).split()) == 0):
+  if (call((GIT_SHOW_REF_HEARD % version).split()) == 0 or
+      call((GIT_SHOW_REF_TAGS % version).split()) == 0):
     print "Error: The tag '%s' already exists" % version
     raise Exception()
 
@@ -22,14 +22,14 @@ def checkExistingTag(version):
 
 
 def commit(version):
-  untrackedFiles = subprocess.Popen('git ls-files -o --exclude-standard'.split(), stdout=subprocess.PIPE)
-  subprocess.call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())
-  subprocess.call(['git', 'commit', '-am', '"chore release: new release %s"' % version], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-  subprocess.call(('git tag %s' % version).split())
+  untrackedFiles = Popen('git ls-files -o --exclude-standard'.split(), stdout = PIPE)
+  call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())
+  call(['git', 'commit', '-am', '"chore release: new release %s"' % version], stderr = STDOUT, stdout = PIPE)
+  call(('git tag %s' % version).split())
   # print "Publishing new commit to master"
   # subprocess.call('git push origin master'.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
   print "Publishing new tag"
-  subprocess.call(('git push origin %s' % version).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+  call(('git push origin %s' % version).split(), stderr = STDOUT, stdout = PIPE)
   print "Release %s created!" % version
 
 if __name__ == "__main__":

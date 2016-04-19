@@ -20,10 +20,10 @@ clean:
 dev: clean
 	webpack-dev-server -d --hot
 
-prod: clean release
-	webpack --config webpack.config.production.babel.js
-
-release:
+prod: clean
 	@[ -d dist ] || mkdir dist
+	babel ./src --out-dir ./dist
+
+release: prod
 	cp README.md dist
 	cp package.json dist

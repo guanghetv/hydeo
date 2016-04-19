@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hydeo is an html5 video player.",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,9 @@
     "url": "https://github.com/centsent/hydeo/issues"
   },
   "homepage": "https://github.com/centsent/hydeo#readme",
+  "main": "./main.js",
   "devDependencies": {
+    "babel-cli": "^6.7.5",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.3",
