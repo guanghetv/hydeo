@@ -6,10 +6,12 @@ export const propTypes = {
   cuepoints: PropTypes.array,
   onReady: PropTypes.func,
   media: PropTypes.object,
+  autohideTime: PropTypes.number,
 };
 
 export const defaultProps = {
   autoPlay: false,
   cuepoints: [],
   onReady() {},
+  autohideTime: 2000,
 };
