@@ -1,11 +1,4 @@
-import Hydeo from './components/Hydeo';
-import ControlBar from './components/ControlBar';
-import FullScreen from './components/FullScreen';
-import PlayControl from './components/PlayControl';
-
-export default {
-  Hydeo,
-  ControlBar,
-  FullScreen,
-  PlayControl,
-};
+export Hydeo from './components/Hydeo';
+export ControlBar from './components/ControlBar';
+export FullScreen from './components/FullScreen';
+export PlayControl from './components/PlayControl';
