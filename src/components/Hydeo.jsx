@@ -21,7 +21,7 @@ export default class Hydeo extends Component {
 
   render() {
     return (
-      <div ref={ this.ready }>
+      <div ref={ this.ready } className="hydeo">
         <Media ref="media" { ...Object.assign({}, this.props, { children: null }) } />
         { this.props.children }
       </div>

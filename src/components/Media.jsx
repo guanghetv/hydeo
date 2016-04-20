@@ -10,8 +10,9 @@ export default class Media extends Component {
   static propTypes = propTypes;
   static defaultProps = defaultProps;
 
-  static getMediaElement() {
-    return this.refs.media;
+  constructor(props, ...args) {
+    super(props, ...args);
+    this.togglePlay = this.togglePlay.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +25,17 @@ export default class Media extends Component {
     }
   }
 
+  togglePlay() {
+    const media = this.refs.media;
+    if (media.paused) {
+      media.play();
+    } else {
+      media.pause();
+    }
+  }
+
   render() {
     const Player = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
-    return <Player ref="media" { ...this.props } />;
+    return <Player ref="media" { ...this.props } onClick={ this.togglePlay } />;
   }
 }

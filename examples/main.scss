@@ -1,0 +1,45 @@
+.container {
+  width: 450px;
+  height: 300px;
+}
+
+.hydeo {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+}
+
+.btn {
+  background-color: transparent;
+  background-size: 100%;
+  border: none;
+  width: 32px;
+  height: 32px;
+}
+
+.play {
+  @extend .btn;
+  background-image: url("./images/play.png");
+}
+
+.pause {
+  @extend .btn;
+  background-image: url("./images/pause.png");
+}
+
+.enter {
+  @extend .btn;
+  background-image: url("./images/enter.png");
+}
+
+.exit {
+  @extend .btn;
+  background-image: url("./images/exit.png");
+}

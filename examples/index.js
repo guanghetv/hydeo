@@ -1,7 +1,7 @@
 import { Hydeo, PlayControl, FullScreen, ControlBar } from 'hydeo';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import './main.css';
+import './main.scss';
 
 class Demo extends Component {
 
@@ -17,22 +17,21 @@ class Demo extends Component {
 
   render() {
     return (
-      <Hydeo src="http://pchls.media.yangcong345.com/pcL_566989c0c41b293c7f4a04c7.m3u8" onReady={ this.onReady }>
-        {
-          this.state.media ? (
-            <ControlBar media={ this.state.media }>
-              <PlayControl media={ this.state.media } />
-              <FullScreen media= { this.state.media } />
-            </ControlBar>
-          ) : ''
-        }
-      </Hydeo>
+      <div className="container">
+        <Hydeo src="http://pchls.media.yangcong345.com/pcL_566989c0c41b293c7f4a04c7.m3u8" onReady={ this.onReady }>
+          {
+            this.state.media ? (
+              <ControlBar media={ this.state.media }>
+                <PlayControl media={ this.state.media } />
+                <FullScreen media= { this.state.media } />
+              </ControlBar>
+              ) : ''
+          }
+        </Hydeo>
+      </div>
     );
   }
 
 }
 
-render(
-  <Demo />,
-  document.getElementById('hydeo')
-);
+render(<Demo className="container" />, document.getElementById('hydeo'));
