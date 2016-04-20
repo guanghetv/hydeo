@@ -3,27 +3,33 @@ PATH := node_modules/.bin:$(PATH)
 
 .PHONY: lint sandbox dev prod release
 
-LINT = eslint
-
-js_files = $(shell find ./src -name "*.js" -o -name "*.jsx")
-
-lint: $(js_files)
-	$(LINT) $?
+SEMVER = ./node_modules/.bin/semver
+PACKAGE = ./package.json
+VERSION = $(shell node -pe 'require("$(PACKAGE)").version')
+DIST = ./dist
 
 sandbox: sandbox/*.html
-	@[ -d dist ] || mkdir dist
-	cp $< dist
+	@[ -d $(DIST) ] || mkdir $(DIST)
+	cp $< $(DIST)
+
+patch: NEXT_VERSION = $(shell $(SEMVER) -i patch $(VERSION))
+minor: NEXT_VERSION = $(shell $(SEMVER) -i minor $(VERSION))
+major: NEXT_VERSION = $(shell $(SEMVER) -i major $(VERSION))
+
+patch minor major:
+	sed -i "" 's/"version": "$(VERSION)"/"version": "$(NEXT_VERSION)"/g' $(PACKAGE)
 
 clean:
-	rm -rf dist
+	rm -rf $(DIST)
 
 dev: clean
 	webpack-dev-server -d --hot
 
 prod: clean
-	@[ -d dist ] || mkdir dist
-	babel ./src --out-dir ./dist
+	@[ -d $(DIST) ] || mkdir $(DIST)
+	babel ./src --out-dir $(DIST)
 
 release: prod
-	cp README.md dist
-	cp package.json dist
+	cp README.md $(DIST)
+	cp package.json $(DIST)
+	npm publish $(DIST)
