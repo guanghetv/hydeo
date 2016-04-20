@@ -12,27 +12,24 @@ export default class ControlBar extends Component {
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
     this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
-    this.flag = false;
+    this.isInsideBar = false;
   }
 
   componentDidMount() {
-    const container = this.props.media.container;
+    if (this.props.autohide) {
+      const container = this.props.media.container;
 
-    container.addEventListener('mousemove', this.show);
-    container.addEventListener('click', this.show);
-    container.addEventListener('mouseleave', this.hide);
+      container.addEventListener('mousemove', this.show);
+      container.addEventListener('click', this.show);
+      container.addEventListener('mouseleave', this.hide);
 
-    this.timeout = setTimeout(this.hide, this.props.autohideTime);
+      this.timeout = setTimeout(this.hide, this.props.autohideTime);
+    }
   }
 
   onMouseEnter() {
-    this.flag = true;
+    this.isInsideBar = true;
     clearTimeout(this.timeout);
-  }
-
-  onMouseLeave() {
-    this.flag = false;
   }
 
   hide() {
@@ -40,7 +37,7 @@ export default class ControlBar extends Component {
   }
 
   show() {
-    if (!this.flag) {
+    if (!this.isInsideBar) {
       clearTimeout(this.timeout);
       this.setState({ show: true });
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
@@ -56,7 +53,7 @@ export default class ControlBar extends Component {
       <div className="control-bar"
         style={ style }
         onMouseEnter={ this.onMouseEnter }
-        onMouseLeave={ this.onMouseLeave }
+        onMouseLeave={ () => (this.isInsideBar = false) }
       >
         { this.props.children }
       </div>

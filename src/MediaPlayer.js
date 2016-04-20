@@ -9,6 +9,7 @@ export default class MediaPlayer {
     this.media = media;
     this.options = options;
     this.onTimeUpdate();
+    this.onLoadedData();
   }
 
   on(eventType, handler) {
@@ -32,6 +33,16 @@ export default class MediaPlayer {
 
       if (isFunction(handler)) {
         handler.call(thisArg, this.currentTime, this.timeLeft, event);
+      }
+    });
+  }
+
+  onLoadedData(handler, thisArg) {
+    this.on('loadeddata', (event) => {
+      this.totalTime = event.target.duration;
+
+      if (isFunction(handler)) {
+        handler.call(thisArg, this.totalTime);
       }
     });
   }
@@ -124,6 +135,13 @@ export default class MediaPlayer {
       this.media.currentTime = 0;
       this.currentState = STOP;
     }
+  }
+
+  seek(time) {
+    const media = this.media;
+    media.currentTime = time;
+    this.beforeSeekTime = this.currentTime;
+    this.currentTime = time;
   }
 
   get isPlay() {

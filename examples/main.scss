@@ -64,3 +64,19 @@ video {
 
   background-image: url("./images/exit.png");
 }
+
+.progress-bar {
+  height: 10px;
+  width: 100%;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+.time-point {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: .5em;
+  background-color: #000;
+}
