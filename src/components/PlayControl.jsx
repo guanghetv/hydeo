@@ -27,7 +27,7 @@ export default class PlayControl extends Component {
     const className = this.state.isPlaying ? 'pause' : 'play';
 
     return (
-      <button className={ className } onClick={this.togglePlay}>{ className }</button>
+      <button className={ className } onClick={this.togglePlay}></button>
     );
   }
 

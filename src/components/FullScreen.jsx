@@ -24,9 +24,7 @@ export default class FullScreen extends Component {
   render() {
     const className = this.state.isFullScreen ? 'exit' : 'enter';
 
-    return (
-      <button className={ className } onClick={this.toggleFullScreen}>{ className }</button>
-    );
+    return <button className={ className } onClick={this.toggleFullScreen}></button>;
   }
 
 }
