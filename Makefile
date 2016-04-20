@@ -23,7 +23,7 @@ clean:
 	rm -rf $(DIST)
 
 dev: clean
-	webpack-dev-server -d --hot
+	webpack-dev-server --progress --inline --colors
 
 prod: clean
 	@[ -d $(DIST) ] || mkdir $(DIST)
@@ -32,4 +32,3 @@ prod: clean
 release: prod
 	cp README.md $(DIST)
 	cp package.json $(DIST)
-	npm publish $(DIST)
