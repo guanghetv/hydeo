@@ -36,8 +36,8 @@ export default {
       test: /\.png$/,
       loader: 'url-loader?limit=8192',
     }, {
-      test: /\.css$/,
-      loader: 'style-loader!css-loader',
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass'],
     }],
   },
   plugins: [
