@@ -12,7 +12,7 @@ patch: NEXT_VERSION = $(shell $(SEMVER) -i patch $(VERSION))
 minor: NEXT_VERSION = $(shell $(SEMVER) -i minor $(VERSION))
 major: NEXT_VERSION = $(shell $(SEMVER) -i major $(VERSION))
 
-patch minor major:
+patch minor major: build
 	sed -i "" 's/"version": "$(VERSION)"/"version": "$(NEXT_VERSION)"/g' $(PACKAGE)
 	git commit package.json -m 'chore: bump version to $(NEXT_VERSION)'
 	git tag -a "v$(NEXT_VERSION)" -m 'chore: bump version to $(NEXT_VERSION)'
