@@ -1,6 +1,6 @@
 {
   "name": "hydeo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Hydeo is an html5 video player.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
