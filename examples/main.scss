@@ -66,11 +66,17 @@ video {
 }
 
 .progress-bar {
-  height: 10px;
-  width: 100%;
-  background-color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1em;
+  width: auto;
+  height: 1em;
+  transition: all .4s;
+  background: red;
+  opacity: .9;
   cursor: pointer;
-  position: relative;
+  background-color: rgba(51, 51, 51, 0.9);
 }
 
 .time-point {
@@ -79,4 +85,19 @@ video {
   height: 100%;
   width: .5em;
   background-color: #000;
+}
+
+.load-progress {
+  background-color: rgba(255, 255, 255, 0.6);
+  height: 100%;
+  width: 0;
+}
+
+.play-progress {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  width: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

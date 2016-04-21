@@ -37,6 +37,20 @@ export default class MediaPlayer {
     });
   }
 
+  onProgress(handler, thisArg) {
+    this.on('progress', (event) => {
+      this.buffered = event.target.buffered;
+
+      if (this.buffered.length && this.totalTime) {
+        this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
+
+        if (isFunction(handler)) {
+          handler.call(thisArg, this.buffered, this.bufferedEnd, this.totalTime, event);
+        }
+      }
+    });
+  }
+
   onLoadedData(handler, thisArg) {
     this.on('loadeddata', (event) => {
       this.totalTime = event.target.duration;
