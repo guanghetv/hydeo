@@ -1,4 +1,4 @@
-import { Hydeo, PlayControl, FullScreen, ControlBar, ProgressBar } from 'hydeo';
+import { Hydeo, PlayControl, FullScreen, ControlBar, ProgressBar, Volume } from 'hydeo';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './main.scss';
@@ -25,6 +25,7 @@ class Demo extends Component {
                 <PlayControl media={ this.state.media } />
                 <FullScreen media={ this.state.media } />
                 <ProgressBar media={ this.state.media } />
+                <Volume media={ this.state.media } />
               </ControlBar>
               ) : ''
           }

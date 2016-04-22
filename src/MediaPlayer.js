@@ -129,6 +129,31 @@ export default class MediaPlayer {
     }
   }
 
+  toggleFullScreen() {
+    if (this.isFullScreen) {
+      this.exitFullScreen();
+    } else {
+      this.requestFullScreen();
+    }
+  }
+
+  toggleVolume() {
+    if (this.isMuted) {
+      this.unmute();
+    } else {
+      this.mute();
+    }
+  }
+
+
+  mute() {
+    this.media.muted = true;
+  }
+
+  unmute() {
+    this.media.muted = false;
+  }
+
   play() {
     if (!this.isPlay) {
       this.media.play();
@@ -174,6 +199,10 @@ export default class MediaPlayer {
     return FullScreenApi.isFullscreen();
   }
 
+  get isMuted() {
+    return this.media.muted;
+  }
+
   requestFullScreen() {
     FullScreenApi.request(this.container);
   }
@@ -182,11 +211,4 @@ export default class MediaPlayer {
     FullScreenApi.exit();
   }
 
-  toggleFullScreen() {
-    if (this.isFullScreen) {
-      this.exitFullScreen();
-    } else {
-      this.requestFullScreen();
-    }
-  }
 }
