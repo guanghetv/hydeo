@@ -39,30 +39,37 @@ video {
   border: none;
   width: 32px;
   height: 32px;
+  outline: none;
 }
 
 .play {
   @extend .btn;
-
   background-image: url("./images/play.png");
 }
 
 .pause {
   @extend .btn;
-
   background-image: url("./images/pause.png");
 }
 
 .enter {
   @extend .btn;
-
   background-image: url("./images/enter.png");
 }
 
 .exit {
   @extend .btn;
-
   background-image: url("./images/exit.png");
+}
+
+.sound {
+  @extend .btn;
+  background-image: url("./images/sound.png");
+}
+
+.muted {
+  @extend .btn;
+  background-image: url("./images/muted.png");
 }
 
 .progress-bar {

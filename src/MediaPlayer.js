@@ -89,6 +89,14 @@ export default class MediaPlayer {
     });
   }
 
+  onVolumeChange(handler, thisArg) {
+    this.on('volumechange', (event) => {
+      if (isFunction(handler)) {
+        handler.call(thisArg, this.currentVolume, this.isMuted, event);
+      }
+    });
+  }
+
   checkCuepoints() {
     const cuepoints = this.options.cuepoints;
 

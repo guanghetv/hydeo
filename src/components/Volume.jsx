@@ -1,4 +1,4 @@
-import React, { Component, cloneElement, Children } from 'react';
+import React, { Component } from 'react';
 import { propTypes, defaultProps } from '../props';
 
 export default class Volume extends Component {
@@ -11,13 +11,24 @@ export default class Volume extends Component {
     this.toggleVolume = this.toggleVolume.bind(this);
   }
 
+  state = {
+    isMuted: false,
+  }
+
+  componentDidMount() {
+    this.props.media.onVolumeChange((currentVolume, isMuted) => {
+      this.setState({ isMuted });
+    });
+  }
+
   toggleVolume() {
     this.props.media.toggleVolume();
   }
 
   render() {
+    const className = this.state.isMuted ? 'muted' : 'sound';
     return (
-      <button onClick={ this.toggleVolume }></button>
+      <button className={ className } onClick={ this.toggleVolume }></button>
     );
   }
 
