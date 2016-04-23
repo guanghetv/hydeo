@@ -45,7 +45,7 @@ export default class MediaPlayer {
         this.bufferedEnd = this.buffered.end(this.buffered.length - 1);
 
         if (isFunction(handler)) {
-          handler.call(thisArg, this.buffered, this.bufferedEnd, this.totalTime, event);
+          handler.call(thisArg, event);
         }
       }
     });

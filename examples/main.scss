@@ -20,6 +20,8 @@
   /* Box Model */
   width: 100%;
   height: 3.0em;
+  padding: 2px;
+  box-sizing: border-box;
 
   /* Visual */
   background: black;
@@ -39,6 +41,7 @@ video {
   border: none;
   width: 32px;
   height: 32px;
+  margin: .5em;
   outline: none;
 }
 

@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+import { Component, PropTypes, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 
 export default class PlayControl extends Component {
 
-  static propTypes = propTypes;
+  static propTypes = {
+    ...propTypes,
+    media: PropTypes.object.isRequired,
+  };
   static defaultProps = defaultProps;
 
   constructor(props, ...args) {
     super(props, ...args);
-    this.state = { isPlaying: false };
-
     this.togglePlay = this.togglePlay.bind(this);
   }
+
+  state = {
+    isPlaying: false,
+  };
 
   componentDidMount() {
     this.props.media.onPlay(() => this.setState({ isPlaying: true }));
@@ -24,11 +29,10 @@ export default class PlayControl extends Component {
   }
 
   render() {
-    const className = this.state.isPlaying ? 'pause' : 'play';
-
-    return (
-      <button className={ className } onClick={this.togglePlay}></button>
-    );
+    return cloneElement(Children.only(this.props.children), {
+      className: this.state.isPlaying ? 'pause' : 'play',
+      onClick: this.togglePlay,
+    });
   }
 
 }

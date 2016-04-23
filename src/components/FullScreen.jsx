@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
+import { Component, PropTypes, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 
 export default class FullScreen extends Component {
 
-  static propTypes = propTypes;
+  static propTypes = {
+    ...propTypes,
+    media: PropTypes.object.isRequired,
+  };
   static defaultProps = defaultProps;
 
   constructor(props, ...args) {
     super(props, ...args);
-    this.state = { isFullscreen: false };
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
+
+  state = {
+    isFullScreen: false,
+  };
 
   componentDidMount() {
     this.props.media.onFullScreenChange((isFullScreen) => this.setState({ isFullScreen }));
@@ -22,9 +28,10 @@ export default class FullScreen extends Component {
   }
 
   render() {
-    const className = this.state.isFullScreen ? 'exit' : 'enter';
-
-    return <button className={ className } onClick={this.toggleFullScreen}></button>;
+    return cloneElement(Children.only(this.props.children), {
+      className: this.state.isFullScreen ? 'exit' : 'enter',
+      onClick: this.toggleFullScreen,
+    });
   }
 
 }

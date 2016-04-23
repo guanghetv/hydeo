@@ -22,10 +22,10 @@ class Demo extends Component {
           {
             this.state.media ? (
               <ControlBar media={ this.state.media } autohide={ false }>
-                <PlayControl media={ this.state.media } />
-                <FullScreen media={ this.state.media } />
+                <PlayControl media={ this.state.media }><button /></PlayControl>
+                <FullScreen media={ this.state.media }><button /></FullScreen>
                 <ProgressBar media={ this.state.media } />
-                <Volume media={ this.state.media } />
+                <Volume media={ this.state.media }><button /></Volume>
               </ControlBar>
               ) : ''
           }
