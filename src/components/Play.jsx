@@ -1,14 +1,15 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 
-export default class PlayProgress extends Component {
+export default class Play extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
 
   render() {
     return cloneElement(Children.only(this.props.children), {
-      style: { width: `${this.props.percentagePlayed}%` },
+      className: this.props.paused ? 'play' : 'pause',
+      onClick: this.props.togglePlay,
     });
   }
 

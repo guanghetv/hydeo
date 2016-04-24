@@ -1,6 +1,7 @@
 .container {
   width: 450px;
   height: 300px;
+  position: relative;
 }
 
 .hydeo {
@@ -76,10 +77,6 @@ video {
 }
 
 .progress-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -1em;
   width: auto;
   height: 1em;
   transition: all .4s;

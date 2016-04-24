@@ -43,6 +43,7 @@ export default class Hydeo extends Component {
   constructor(props, ...args) {
     super(props, ...args);
     this.renderChildren = this.renderChildren.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
   }
 
   componentWillMount() {
@@ -98,7 +99,7 @@ export default class Hydeo extends Component {
     this.refs.media.muted = false;
   }
 
-  toggleMute() {
+  toggleVolume() {
     if (this.state.muted) {
       this.unmute();
     } else {
@@ -141,7 +142,6 @@ export default class Hydeo extends Component {
       paused: media.paused,
       muted: media.muted,
       volume: media.volume,
-      isFullScreen: FullScreenApi.isFullScreen,
       percentageBuffered: buffered.length && buffered.end(buffered.length - 1) / duration * 100,
       percentagePlayed: currentTime / duration * 100,
     });
@@ -149,16 +149,16 @@ export default class Hydeo extends Component {
 
   renderChildren() {
     const extendedProps = Object.assign({
-      play: this.play,
-      pause: this.pause,
+      play: this.play.bind(this),
+      pause: this.pause.bind(this),
       togglePlay: this.togglePlay,
-      mute: this.mute,
-      unmute: this.unmute,
-      setVolume: this.setVolume,
-      toggleVolume: this.toggleVolume,
-      requestFullScreen: this.requestFullScreen,
-      exitFullScreen: this.exitFullScreen,
-      toggleFullScreen: this.toggleFullScreen,
+      mute: this.mute.bind(this),
+      unmute: this.unmute.bind(this),
+      setVolume: this.setVolume.bind(this),
+      toggleVolume: this.toggleVolume.bind(this),
+      requestFullScreen: this.requestFullScreen.bind(this),
+      exitFullScreen: this.exitFullScreen.bind(this),
+      toggleFullScreen: this.toggleFullScreen.bind(this),
     }, this.state);
 
     return Children.map(this.props.children, (child) => cloneElement(child, extendedProps));
@@ -166,10 +166,11 @@ export default class Hydeo extends Component {
 
   render() {
     const Media = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
+    const mediaProps = Object.assign({}, this.props, this.mediaEventProps);
 
     return (
-      <div refs="hydeo">
-        <Media ref="media" {...this.props} { ...this.mediaEventProps } />
+      <div ref="hydeo">
+        <Media ref="media" { ...mediaProps } onClick={ this.togglePlay } />
         { this.renderChildren() }
       </div>
     );
