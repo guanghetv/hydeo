@@ -1,32 +1,76 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, Children, cloneElement } from 'react';
 import { propTypes, defaultProps } from '../props';
-import Media from './Media';
-import MediaPlayer from '../MediaPlayer';
+import Hls from 'hls.js';
+
+const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
+const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
+
+const EVENTS = [
+  'onAbort',
+  'onCanPlay',
+  'onCanPlayThrough',
+  'onDurationChange',
+  'onEmptied',
+  'onEncrypted',
+  'onEnded',
+  'onError',
+  'onLoadedData',
+  'onLoadedMetadata',
+  'onLoadStart',
+  'onPause',
+  'onPlay',
+  'onPlaying',
+  'onProgress',
+  'onRateChange',
+  'onSeeked',
+  'onSeeking',
+  'onStalled',
+  'onSuspend',
+  'onTimeUpdate',
+  'onVolumeChange',
+  'onWaiting',
+];
 
 export default class Hydeo extends Component {
 
-  static propTypes = {
-    ...propTypes,
-    src: PropTypes.string.isRequired,
-  };
+  static propTypes = propTypes;
   static defaultProps = defaultProps;
 
   constructor(props, ...args) {
     super(props, ...args);
-    this.ready = this.ready.bind(this);
+    this.renderChildren = this.renderChildren.bind(this);
   }
 
-  ready(element) {
-    const media = this.refs.media.refs.media;
-    this.media = new MediaPlayer(element, media, this.props);
-    this.props.onReady(this.media);
+  componentWillMount() {
+    this.mediaEventProps = EVENTS.reduce((eventMap, current) => {
+      const eventProps = eventMap;
+      eventProps[current] = this[current];
+      return eventProps;
+    }, {});
+  }
+
+  componentDidMount() {
+    const media = this.mediaElement;
+    if (HLS_EXTENSIONS.test(this.props.src) && Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(this.props.src);
+      hls.attachMedia(media);
+      // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
+    }
+  }
+
+  renderChildren() {
+    return Children.map(this.props.children, (child, ref) => cloneElement(child, { ref }));
   }
 
   render() {
+    const Media = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
+
+
     return (
-      <div ref={ this.ready } className="hydeo">
-        <Media ref="media" { ...Object.assign({}, this.props, { children: null }) } />
-        { this.props.children }
+      <div>
+        <Media ref={ (el) => (this.mediaElement = el) } {...this.props} />
+        { this.renderChildren() }
       </div>
     );
   }

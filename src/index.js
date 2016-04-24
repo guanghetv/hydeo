@@ -4,3 +4,6 @@ export FullScreen from './components/FullScreen';
 export PlayControl from './components/PlayControl';
 export ProgressBar from './components/ProgressBar';
 export Volume from './components/Volume';
+export PlayProgress from './components/PlayProgress';
+export LoadProgress from './components/LoadProgress';
+export TimePoint from './components/TimePoint';
