@@ -1,4 +1,4 @@
-import { Hydeo, Play, Sound, FullScreen, ProgressBar, PlayProgress, LoadProgress } from 'hydeo';
+import { Hydeo, Play, Sound, FullScreen, PlayProgress, LoadProgress } from 'hydeo';
 import React from 'react';
 import { render } from 'react-dom';
 import './main.scss';
@@ -10,9 +10,8 @@ function Demo() {
         <Play><button /></Play>
         <Sound><button /></Sound>
         <FullScreen><button /></FullScreen>
-        <ProgressBar>
-          <PlayProgress><div className="play-progress" /></PlayProgress>
-        </ProgressBar>
+        <PlayProgress><div className="play-progress" /></PlayProgress>
+        <LoadProgress><div className="load-progress" /></LoadProgress>
       </Hydeo>
     </div>
   );
