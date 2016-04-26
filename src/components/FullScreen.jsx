@@ -1,6 +1,5 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
-import classNames from 'classnames';
 
 export default class FullScreen extends Component {
 
@@ -9,7 +8,7 @@ export default class FullScreen extends Component {
 
   render() {
     const children = this.props.children;
-    const className = classNames(children.className, this.props.isFullScreen ? 'exit' : 'enter');
+    const className = `${children.className} ${this.props.isFullScreen ? 'exit' : 'enter'}`;
 
     return cloneElement(Children.only(children), {
       className,

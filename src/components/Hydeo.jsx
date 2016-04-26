@@ -1,9 +1,8 @@
 import React, { Component, Children, cloneElement } from 'react';
 import { propTypes, defaultProps } from '../props';
 import Hls from 'hls.js';
-import throttle from 'lodash.throttle';
 import FullScreenApi from '../utils/FullScreenApi';
-import { isFunction } from '../utils';
+import { isFunction, throttle } from '../utils';
 
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
