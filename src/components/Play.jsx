@@ -8,7 +8,7 @@ export default class Play extends Component {
 
   render() {
     const children = this.props.children;
-    const className = `${children.className} ${this.props.paused ? 'play' : 'pause'}`;
+    const className = `${children.props.className} ${this.props.paused ? 'play' : 'pause'}`;
     return cloneElement(Children.only(children), {
       className,
       onClick: this.props.togglePlay,

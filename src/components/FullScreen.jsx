@@ -8,7 +8,7 @@ export default class FullScreen extends Component {
 
   render() {
     const children = this.props.children;
-    const className = `${children.className} ${this.props.isFullScreen ? 'exit' : 'enter'}`;
+    const className = `${children.props.className} ${this.props.isFullScreen ? 'exit' : 'enter'}`;
 
     return cloneElement(Children.only(children), {
       className,
