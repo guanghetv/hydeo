@@ -73,6 +73,11 @@ export default class Hydeo extends Component {
       hls.attachMedia(media);
       // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
     }
+    FullScreenApi.onChange(this.refs.hydeo, () => {
+      const isFullScreen = FullScreenApi.isFullScreen();
+      console.log(isFullScreen);
+      this.setState({ isFullScreen });
+    });
   }
 
   onTimeUpdate(event) {
