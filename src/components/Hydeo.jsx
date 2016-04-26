@@ -3,10 +3,11 @@ import { propTypes, defaultProps } from '../props';
 import Hls from 'hls.js';
 import throttle from 'lodash.throttle';
 import FullScreenApi from '../utils/FullScreenApi';
-import isFunction from '../utils';
+import { isFunction } from '../utils';
 
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
+const DECIMAL = 10;
 
 const EVENTS = [
   'onAbort',
@@ -49,12 +50,17 @@ export default class Hydeo extends Component {
   componentWillMount() {
     this.updateState = throttle(this.updateState, STATE_FRESH_INTERVAL).bind(this);
 
-    this.mediaEventProps = EVENTS.reduce((eventMap, current) => {
+    this.mediaEventProps = EVENTS.reduce((eventMap, currentEvent) => {
       const eventProps = eventMap;
-      eventProps[current] = () => {
-        if (current in this.props && isFunction(this.props[current])) {
-          this.props[current].call();
+      eventProps[currentEvent] = (event) => {
+        if (currentEvent in this.props && isFunction(this.props[currentEvent])) {
+          this.props[currentEvent].call(event);
         }
+
+        if (currentEvent in this && isFunction(this[currentEvent])) {
+          this[currentEvent].call(this, event);
+        }
+
         this.updateState();
       };
       return eventProps;
@@ -69,6 +75,37 @@ export default class Hydeo extends Component {
       hls.attachMedia(media);
       // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
     }
+  }
+
+  onTimeUpdate(event) {
+    const cuepoints = this.props.cuepoints;
+    if (!cuepoints) {
+      return;
+    }
+
+    const currentTime = event.target.currentTime;
+    const currentSecond = parseInt(currentTime, DECIMAL);
+    cuepoints.forEach((item) => {
+      const cuepoint = item;
+      const start = parseInt(cuepoint.time, DECIMAL);
+      if (currentSecond === start) {
+        if (isFunction(cuepoint.onEnter) && !cuepoint.$$isDirty) {
+          cuepoint.onEnter(this.currentTime, cuepoint.params);
+        }
+        cuepoint.$$isDirty = true;
+      }
+
+      if (currentSecond > start) {
+        if (isFunction(cuepoint.onComplete)) {
+          cuepoint.onComplete(this.currentTime, cuepoint.params);
+        }
+        cuepoint.$$isDirty = false;
+      }
+
+      if (currentSecond < start) {
+        cuepoint.$$isDirty = false;
+      }
+    });
   }
 
   setVolume(volume) {
