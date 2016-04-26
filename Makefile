@@ -32,5 +32,5 @@ copy-files: clean
 	cp README.md $(DIST)
 	cp $(PACKAGE) $(DIST)
 
-build: copy-files
-	babel ./src --out-dir $(DIST)
+build: clean
+	webpack --config webpack.config.production.babel.js --progress --colors --inline
