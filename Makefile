@@ -19,6 +19,9 @@ patch minor major: build
 	git commit $(PACKAGE) -m 'chore: bump version to $(NEXT_VERSION)'
 	git tag -a "v$(NEXT_VERSION)" -m 'chore: bump version to $(NEXT_VERSION)'
 	git push --tags origin HEAD:master
+	@[ -d $(DIST) ] || mkdir $(DIST)
+	cp README.md $(DIST)
+	cp $(PACKAGE) $(DIST)
 	npm publish $(DIST)
 
 clean:
@@ -27,10 +30,5 @@ clean:
 dev: clean
 	webpack-dev-server --progress --inline --colors
 
-copy-files: clean
-	@[ -d $(DIST) ] || mkdir $(DIST)
-	cp README.md $(DIST)
-	cp $(PACKAGE) $(DIST)
-
 build: clean
-	webpack --config webpack.config.production.babel.js --progress --colors --inline
+	babel ./src --out-dir $(DIST)
