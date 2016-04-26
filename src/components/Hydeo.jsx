@@ -8,7 +8,7 @@ import { isFunction } from '../utils';
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
 const DECIMAL = 10;
-
+const STATE_FRESH_INTERVAL = 500;
 const EVENTS = [
   'onAbort',
   'onCanPlay',
@@ -34,7 +34,6 @@ const EVENTS = [
   'onVolumeChange',
   'onWaiting',
 ];
-const STATE_FRESH_INTERVAL = 300;
 
 export default class Hydeo extends Component {
 
@@ -70,7 +69,7 @@ export default class Hydeo extends Component {
   componentDidMount() {
     const media = this.refs.media;
     if (HLS_EXTENSIONS.test(this.props.src) && Hls.isSupported()) {
-      const hls = new Hls();
+      const hls = new Hls({ defaultAudioCodec: 'avc1.42E01E, mp4a.40.2' });
       hls.loadSource(this.props.src);
       hls.attachMedia(media);
       // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
