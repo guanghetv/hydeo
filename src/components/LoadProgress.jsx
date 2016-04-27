@@ -1,14 +1,16 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
+import { contextTypes } from '../context';
 
 export default class LoadProgress extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
+  static contextTypes = contextTypes;
 
   render() {
     return cloneElement(Children.only(this.props.children), {
-      style: { width: `${this.props.percentageBuffered}%` },
+      style: { width: `${this.context.percentageBuffered}%` },
     });
   }
 

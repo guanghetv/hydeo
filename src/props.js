@@ -12,8 +12,6 @@ export const propTypes = {
 
 export const defaultProps = {
   autoPlay: false,
-  cuepoints: [],
-  onReady() {},
   autohide: true,
   autohideTime: 2000,
 };

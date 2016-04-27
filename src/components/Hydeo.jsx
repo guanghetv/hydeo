@@ -1,5 +1,6 @@
 import React, { Component, Children, cloneElement } from 'react';
 import { propTypes, defaultProps } from '../props';
+import { contextTypes } from '../context';
 import Hls from 'hls.js';
 import FullScreenApi from '../utils/FullScreenApi';
 import { isFunction, throttle } from '../utils';
@@ -7,7 +8,7 @@ import { isFunction, throttle } from '../utils';
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
 const DECIMAL = 10;
-const STATE_FRESH_INTERVAL = 500;
+const STATE_FRESH_INTERVAL = 300;
 const EVENTS = [
   'onAbort',
   'onCanPlay',
@@ -38,11 +39,27 @@ export default class Hydeo extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
+  static childContextTypes = contextTypes;
 
   constructor(props, ...args) {
     super(props, ...args);
     this.renderChildren = this.renderChildren.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+  }
+
+  getChildContext() {
+    return Object.assign({}, {
+      play: this.play.bind(this),
+      pause: this.pause.bind(this),
+      togglePlay: this.togglePlay,
+      mute: this.mute.bind(this),
+      unmute: this.unmute.bind(this),
+      setVolume: this.setVolume.bind(this),
+      toggleVolume: this.toggleVolume.bind(this),
+      requestFullScreen: this.requestFullScreen.bind(this),
+      exitFullScreen: this.exitFullScreen.bind(this),
+      toggleFullScreen: this.toggleFullScreen.bind(this),
+    }, this.state);
   }
 
   componentWillMount() {
@@ -208,13 +225,9 @@ export default class Hydeo extends Component {
     const mediaProps = Object.assign({}, this.props, this.mediaEventProps);
 
     return (
-      <div ref="hydeo"
-        onClick={ () => this.setState({})}
-        onMouseMove={ () => this.setState({})}
-        onMouseLeave={ () => this.setState({})}
-      >
+      <div ref="hydeo">
         <Media ref="media" { ...mediaProps } onClick={ this.togglePlay } />
-        { this.renderChildren() }
+        { this.props.children }
       </div>
     );
   }

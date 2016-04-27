@@ -1,10 +1,12 @@
 import React, { Component, Children, cloneElement } from 'react';
 import { propTypes, defaultProps } from '../props';
+import { contextTypes } from '../context';
 
 export default class ProgressBar extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
+  static contextTypes = contextTypes;
 
   constructor(props, ...args) {
     super(props, ...args);

@@ -1,10 +1,12 @@
-import React, { Component, Children, cloneElement } from 'react';
+import React, { Component } from 'react';
 import { propTypes, defaultProps } from '../props';
+import { contextTypes } from '../context';
 
 export default class Controls extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
+  static contextTypes = contextTypes;
 
   constructor(props, ...args) {
     super(props, ...args);
@@ -13,7 +15,6 @@ export default class Controls extends Component {
     this.show = this.show.bind(this);
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.isInsideBar = false;
-    this.renderChildren = this.renderChildren.bind(this);
   }
 
   // componentDidMount() {
@@ -45,11 +46,8 @@ export default class Controls extends Component {
     }
   }
 
-  renderChildren(child) {
-    return cloneElement(child, { ...this.props, children: child.props.children });
-  }
-
   render() {
+    console.log(this.context);
     const style = {
       display: this.state.show ? 'block' : 'none',
     };
@@ -60,7 +58,7 @@ export default class Controls extends Component {
         onMouseEnter={ this.onMouseEnter }
         onMouseLeave={ () => (this.isInsideBar = false) }
       >
-        { Children.map(this.props.children, this.renderChildren) }
+        { this.props.children }
       </div>
     );
   }

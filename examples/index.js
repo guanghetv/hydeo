@@ -7,13 +7,15 @@ function Demo() {
   return (
     <div className="container">
       <Hydeo src="http://pchls.media.yangcong345.com/pcL_566989c0c41b293c7f4a04c7.m3u8">
-        <Controls>
-          <Play><button className="another-class md-primary" /></Play>
-          <Sound><button /></Sound>
-          <FullScreen><button /></FullScreen>
-          <PlayProgress><div className="play-progress" /></PlayProgress>
-          <LoadProgress><div className="load-progress" /></LoadProgress>
-        </Controls>
+        <div>
+          <Controls>
+            <Play><button className="another-class md-primary" /></Play>
+            <Sound><button /></Sound>
+            <FullScreen><button /></FullScreen>
+            <PlayProgress><div className="play-progress" /></PlayProgress>
+            <LoadProgress><div className="load-progress" /></LoadProgress>
+          </Controls>
+        </div>
       </Hydeo>
     </div>
   );

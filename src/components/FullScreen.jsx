@@ -1,18 +1,20 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
+import { contextTypes } from '../context';
 
 export default class FullScreen extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
+  static contextTypes = contextTypes;
 
   render() {
     const children = this.props.children;
-    const className = `${children.props.className} ${this.props.isFullScreen ? 'exit' : 'enter'}`;
+    const className = `${children.props.className} ${this.context.isFullScreen ? 'exit' : 'enter'}`;
 
     return cloneElement(Children.only(children), {
       className,
-      onClick: this.props.toggleFullScreen,
+      onClick: this.context.toggleFullScreen,
     });
   }
 
