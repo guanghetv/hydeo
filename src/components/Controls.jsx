@@ -47,7 +47,6 @@ export default class Controls extends Component {
   }
 
   render() {
-    console.log(this.context);
     const style = {
       display: this.state.show ? 'block' : 'none',
     };

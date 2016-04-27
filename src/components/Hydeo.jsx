@@ -1,4 +1,4 @@
-import React, { Component, Children, cloneElement } from 'react';
+import React, { Component } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
 import Hls from 'hls.js';
@@ -43,22 +43,31 @@ export default class Hydeo extends Component {
 
   constructor(props, ...args) {
     super(props, ...args);
-    this.renderChildren = this.renderChildren.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.mute = this.mute.bind(this);
+    this.unmute = this.unmute.bind(this);
+    this.setVolume = this.setVolume.bind(this);
+    this.requestFullScreen = this.requestFullScreen.bind(this);
+    this.exitFullScreen = this.exitFullScreen.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
+    this.toggleVolume = this.toggleVolume.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+    this.getMediaState = this.getMediaState.bind(this);
   }
 
   getChildContext() {
     return Object.assign({}, {
-      play: this.play.bind(this),
-      pause: this.pause.bind(this),
+      play: this.play,
+      pause: this.pause,
       togglePlay: this.togglePlay,
-      mute: this.mute.bind(this),
-      unmute: this.unmute.bind(this),
-      setVolume: this.setVolume.bind(this),
-      toggleVolume: this.toggleVolume.bind(this),
-      requestFullScreen: this.requestFullScreen.bind(this),
-      exitFullScreen: this.exitFullScreen.bind(this),
-      toggleFullScreen: this.toggleFullScreen.bind(this),
+      mute: this.mute,
+      unmute: this.unmute,
+      setVolume: this.setVolume,
+      toggleVolume: this.toggleVolume,
+      requestFullScreen: this.requestFullScreen,
+      exitFullScreen: this.exitFullScreen,
+      toggleFullScreen: this.toggleFullScreen,
     }, this.state);
   }
 
@@ -90,10 +99,15 @@ export default class Hydeo extends Component {
       hls.attachMedia(media);
       // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
     }
+
     FullScreenApi.onChange(this.refs.hydeo, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
       this.setState({ isFullScreen });
     });
+
+    this.props.onReady(Object.assign({}, this.getChildContext(), {
+      getMediaState: this.getMediaState,
+    }));
   }
 
   onTimeUpdate(event) {
@@ -125,6 +139,10 @@ export default class Hydeo extends Component {
         cuepoint.$$isDirty = false;
       }
     });
+  }
+
+  getMediaState() {
+    return this.state;
   }
 
   setVolume(volume) {
@@ -201,23 +219,6 @@ export default class Hydeo extends Component {
       percentageBuffered: buffered.length && buffered.end(buffered.length - 1) / duration * 100,
       percentagePlayed: currentTime / duration * 100,
     });
-  }
-
-  renderChildren() {
-    const extendedProps = Object.assign({
-      play: this.play.bind(this),
-      pause: this.pause.bind(this),
-      togglePlay: this.togglePlay,
-      mute: this.mute.bind(this),
-      unmute: this.unmute.bind(this),
-      setVolume: this.setVolume.bind(this),
-      toggleVolume: this.toggleVolume.bind(this),
-      requestFullScreen: this.requestFullScreen.bind(this),
-      exitFullScreen: this.exitFullScreen.bind(this),
-      toggleFullScreen: this.toggleFullScreen.bind(this),
-    }, this.state);
-
-    return Children.map(this.props.children, (child) => cloneElement(child, extendedProps));
   }
 
   render() {

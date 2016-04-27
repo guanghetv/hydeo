@@ -10,7 +10,7 @@ export default class Sound extends Component {
 
   render() {
     const children = this.props.children;
-    const className = `${children.props.className} ${this.context.muted ? 'muted' : 'sound'}`;
+    const className = `${children.props.className} ${this.context.muted ? 'muted' : 'unmuted'}`;
     return cloneElement(Children.only(children), {
       className,
       onClick: this.context.toggleVolume,

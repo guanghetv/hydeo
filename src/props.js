@@ -1,17 +1,20 @@
 import { PropTypes } from 'react';
 
+const { string, bool, array, func, object, number } = PropTypes;
+
 export const propTypes = {
-  src: PropTypes.string,
-  autoPlay: PropTypes.bool,
-  cuepoints: PropTypes.array,
-  onReady: PropTypes.func,
-  media: PropTypes.object,
-  autohide: PropTypes.bool,
-  autohideTime: PropTypes.number,
+  src: string,
+  autoPlay: bool,
+  cuepoints: array,
+  onReady: func,
+  media: object,
+  autohide: bool,
+  autohideTime: number,
 };
 
 export const defaultProps = {
   autoPlay: false,
   autohide: true,
   autohideTime: 2000,
+  onReady() {},
 };
