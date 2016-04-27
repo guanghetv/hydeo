@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, Children, cloneElement } from 'react';
 import { propTypes, defaultProps } from '../props';
 
-export default class ControlBar extends Component {
+export default class Controls extends Component {
 
-  static propTypes = Object.assign({}, propTypes, { media: PropTypes.object.isRequired });
+  static propTypes = propTypes;
   static defaultProps = defaultProps;
 
   constructor(props, ...args) {
@@ -13,19 +13,20 @@ export default class ControlBar extends Component {
     this.show = this.show.bind(this);
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.isInsideBar = false;
+    this.renderChildren = this.renderChildren.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.autohide) {
-      const container = this.props.media.container;
-
-      container.addEventListener('mousemove', this.show);
-      container.addEventListener('click', this.show);
-      container.addEventListener('mouseleave', this.hide);
-
-      this.timeout = setTimeout(this.hide, this.props.autohideTime);
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.autohide) {
+  //     const container = this.props.media.container;
+  //
+  //     container.addEventListener('mousemove', this.show);
+  //     container.addEventListener('click', this.show);
+  //     container.addEventListener('mouseleave', this.hide);
+  //
+  //     this.timeout = setTimeout(this.hide, this.props.autohideTime);
+  //   }
+  // }
 
   onMouseEnter() {
     this.isInsideBar = true;
@@ -44,6 +45,10 @@ export default class ControlBar extends Component {
     }
   }
 
+  renderChildren(child) {
+    return cloneElement(child, { ...this.props, children: child.props.children });
+  }
+
   render() {
     const style = {
       display: this.state.show ? 'block' : 'none',
@@ -55,7 +60,7 @@ export default class ControlBar extends Component {
         onMouseEnter={ this.onMouseEnter }
         onMouseLeave={ () => (this.isInsideBar = false) }
       >
-        { this.props.children }
+        { Children.map(this.props.children, this.renderChildren) }
       </div>
     );
   }

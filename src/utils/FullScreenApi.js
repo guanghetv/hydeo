@@ -90,7 +90,7 @@ export default {
   /**
    * Determine a user enter/exit the full screen mode.
    */
-  isFullscreen() {
+  isFullScreen() {
     return document[FullscreenApi.element] !== null;
   },
 

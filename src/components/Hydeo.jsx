@@ -75,7 +75,6 @@ export default class Hydeo extends Component {
     }
     FullScreenApi.onChange(this.refs.hydeo, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
-      console.log(isFullScreen);
       this.setState({ isFullScreen });
     });
   }
@@ -209,7 +208,11 @@ export default class Hydeo extends Component {
     const mediaProps = Object.assign({}, this.props, this.mediaEventProps);
 
     return (
-      <div ref="hydeo">
+      <div ref="hydeo"
+        onClick={ () => this.setState({})}
+        onMouseMove={ () => this.setState({})}
+        onMouseLeave={ () => this.setState({})}
+      >
         <Media ref="media" { ...mediaProps } onClick={ this.togglePlay } />
         { this.renderChildren() }
       </div>
