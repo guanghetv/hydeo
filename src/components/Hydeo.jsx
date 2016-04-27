@@ -102,7 +102,7 @@ export default class Hydeo extends Component {
 
     FullScreenApi.onChange(this.refs.hydeo, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
-      this.setState({ isFullScreen });
+      this.updateState({ isFullScreen });
     });
 
     this.props.onReady(Object.assign({}, this.getChildContext(), {
@@ -203,13 +203,14 @@ export default class Hydeo extends Component {
     }
   }
 
-  updateState() {
+  updateState(states) {
     const media = this.refs.media;
     const duration = media.duration;
     const currentTime = media.currentTime;
     const buffered = media.buffered;
 
     this.setState({
+      ...states,
       totalTime: duration,
       currentTime,
       buffered,
@@ -224,10 +225,14 @@ export default class Hydeo extends Component {
   render() {
     const Media = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
     const mediaProps = Object.assign({}, this.props, this.mediaEventProps);
+    const mediaStyle = {
+      width: '100%',
+      height: '100%',
+    };
 
     return (
       <div ref="hydeo">
-        <Media ref="media" { ...mediaProps } onClick={ this.togglePlay } />
+        <Media style={ mediaStyle } ref="media" { ...mediaProps } onClick={ this.togglePlay } />
         { this.props.children }
       </div>
     );
