@@ -34,6 +34,12 @@ const EVENTS = [
   'onVolumeChange',
   'onWaiting',
 ];
+const KEY_MAP = {
+  13: 'enterKey',
+  32: 'spaceKey',
+  37: 'leftKey',
+  39: 'rightKey',
+};
 
 export default class Hydeo extends Component {
 
@@ -55,6 +61,7 @@ export default class Hydeo extends Component {
     this.togglePlay = this.togglePlay.bind(this);
     this.seek = this.seek.bind(this);
     this.getMediaState = this.getMediaState.bind(this);
+    this.handleKeyEvent = this.handleKeyEvent.bind(this);
   }
 
   getChildContext() {
@@ -224,17 +231,43 @@ export default class Hydeo extends Component {
     });
   }
 
+  handleKeyEvent(event) {
+    const code = event.which;
+    const handler = this[KEY_MAP[code]];
+
+    if (isFunction(handler)) {
+      handler.call(this);
+    }
+  }
+
+  leftKey() {
+    this.seek(this.state.currentTime - 10);
+  }
+
+  rightKey() {
+    this.seek(this.state.currentTime + 10);
+  }
+
+  spaceKey() {
+    this.togglePlay();
+  }
+
+  enterKey() {
+    this.togglePlay();
+  }
+
   render() {
     const Media = AUDIO_EXTENSIONS.test(this.props.src) ? 'audio' : 'video';
-    const mediaProps = Object.assign({}, this.props, this.mediaEventProps);
-    const mediaStyle = {
+    const mediaProps = Object.assign({}, this.props, this.mediaEventProps, { children: null });
+    const filledStyle = {
       width: '100%',
       height: '100%',
+      outline: 'none',
     };
 
     return (
-      <div ref="hydeo">
-        <Media style={ mediaStyle } ref="media" { ...mediaProps } onClick={ this.togglePlay } />
+      <div ref="hydeo" style={ filledStyle } tabIndex="-1" onKeyDown={ this.handleKeyEvent }>
+        <Media style={ filledStyle } ref="media" { ...mediaProps } onClick={ this.togglePlay } />
         { this.props.children }
       </div>
     );

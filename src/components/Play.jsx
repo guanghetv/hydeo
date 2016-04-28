@@ -1,6 +1,7 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
+import { isFunction } from '../utils';
 
 export default class Play extends Component {
 
@@ -10,10 +11,22 @@ export default class Play extends Component {
 
   render() {
     const children = this.props.children;
-    const className = `${children.props.className} ${this.context.paused ? 'play' : 'pause'}`;
+    const originClass = this.props.className;
+    let className = this.context.paused ? 'play' : 'pause';
+
+    if (originClass) {
+      className += ` ${originClass}`;
+    }
+
     return cloneElement(Children.only(children), {
       className,
-      onClick: this.context.togglePlay,
+      onClick: () => {
+        this.context.togglePlay();
+
+        if (isFunction(this.props.onClick)) {
+          this.props.onClick();
+        }
+      },
     });
   }
 

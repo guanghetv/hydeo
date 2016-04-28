@@ -1,4 +1,14 @@
-import { Hydeo, Play, Sound, FullScreen, Played, Loaded, Controls, Progress } from 'hydeo';
+import {
+  Hydeo,
+  Play,
+  Sound,
+  FullScreen,
+  Played,
+  Loaded,
+  Controls,
+  Progress,
+  Scrubber,
+} from 'hydeo';
 import React from 'react';
 import { render } from 'react-dom';
 import './main.scss';
@@ -15,6 +25,7 @@ function Demo() {
             <Progress>
               <Played><div className="play-progress" /></Played>
               <Loaded><div className="load-progress" /></Loaded>
+              <Scrubber className="time-point" />
             </Progress>
           </Controls>
         </div>

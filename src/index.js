@@ -6,3 +6,4 @@ export Played from './components/Played';
 export Loaded from './components/Loaded';
 export Controls from './components/Controls';
 export Progress from './components/Progress';
+export Scrubber from './components/Scrubber';

@@ -1,6 +1,7 @@
 import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
+import { isFunction } from '../utils';
 
 export default class Sound extends Component {
 
@@ -10,10 +11,22 @@ export default class Sound extends Component {
 
   render() {
     const children = this.props.children;
-    const className = `${children.props.className} ${this.context.muted ? 'muted' : 'unmuted'}`;
+    const originClass = children.props.className;
+    let className = this.context.muted ? 'muted' : 'unmuted';
+
+    if (originClass) {
+      className += ` ${originClass}`;
+    }
+
     return cloneElement(Children.only(children), {
       className,
-      onClick: this.context.toggleVolume,
+      onClick: () => {
+        this.context.toggleVolume();
+
+        if (isFunction(this.props.onClick)) {
+          this.props.onClick();
+        }
+      },
     });
   }
 
