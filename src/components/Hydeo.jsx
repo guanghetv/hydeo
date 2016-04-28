@@ -53,6 +53,7 @@ export default class Hydeo extends Component {
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.toggleVolume = this.toggleVolume.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+    this.seek = this.seek.bind(this);
     this.getMediaState = this.getMediaState.bind(this);
   }
 
@@ -68,6 +69,7 @@ export default class Hydeo extends Component {
       requestFullScreen: this.requestFullScreen,
       exitFullScreen: this.exitFullScreen,
       toggleFullScreen: this.toggleFullScreen,
+      seek: this.seek,
     }, this.state);
   }
 
@@ -102,7 +104,7 @@ export default class Hydeo extends Component {
 
     FullScreenApi.onChange(this.refs.hydeo, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
-      this.updateState({ isFullScreen });
+      this.setState({ isFullScreen });
     });
 
     this.props.onReady(Object.assign({}, this.getChildContext(), {
@@ -203,14 +205,14 @@ export default class Hydeo extends Component {
     }
   }
 
-  updateState(states) {
+  updateState() {
     const media = this.refs.media;
+    if (!media) return;
     const duration = media.duration;
     const currentTime = media.currentTime;
     const buffered = media.buffered;
 
     this.setState({
-      ...states,
       totalTime: duration,
       currentTime,
       buffered,

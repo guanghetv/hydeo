@@ -48,35 +48,45 @@ video {
 
 .play {
   @extend .btn;
+
   background-image: url("./images/play.png");
 }
 
 .pause {
   @extend .btn;
+
   background-image: url("./images/pause.png");
 }
 
 .enter {
   @extend .btn;
+
   background-image: url("./images/enter.png");
 }
 
 .exit {
   @extend .btn;
+
   background-image: url("./images/exit.png");
 }
 
 .unmuted {
   @extend .btn;
+
   background-image: url("./images/sound.png");
 }
 
 .muted {
   @extend .btn;
+
   background-image: url("./images/muted.png");
 }
 
 .progress-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1em;
   width: auto;
   height: 1em;
   transition: all .4s;

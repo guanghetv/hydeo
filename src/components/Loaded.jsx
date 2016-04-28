@@ -2,7 +2,7 @@ import { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
 
-export default class PlayProgress extends Component {
+export default class Loaded extends Component {
 
   static propTypes = propTypes;
   static defaultProps = defaultProps;
@@ -10,7 +10,7 @@ export default class PlayProgress extends Component {
 
   render() {
     return cloneElement(Children.only(this.props.children), {
-      style: { width: `${this.context.percentagePlayed}%` },
+      style: { width: `${this.context.percentageBuffered}%` },
     });
   }
 
