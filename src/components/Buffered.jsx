@@ -11,7 +11,7 @@ export default class Loaded extends Component {
   render() {
     const props = Object.assign({
       style: { width: `${this.context.percentageBuffered}%` },
-    }, this.props);
+    }, this.props, { children: null });
 
     if (this.props.children) {
       return cloneElement(Children.only(this.props.children), props);

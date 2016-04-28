@@ -13,7 +13,7 @@ export default class Scrubber extends Component {
     const props = Object.assign({
       style,
       onClick: (event) => event.stopPropagation(),
-    }, this.props);
+    }, this.props, { children: null });
 
     if (this.props.children) {
       return cloneElement(Children.only(this.props.children), props);
