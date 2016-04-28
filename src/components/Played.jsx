@@ -1,4 +1,4 @@
-import { Component, cloneElement, Children } from 'react';
+import React, { Component, cloneElement, Children } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
 
@@ -9,9 +9,15 @@ export default class Played extends Component {
   static contextTypes = contextTypes;
 
   render() {
-    return cloneElement(Children.only(this.props.children), {
+    const props = Object.assign({
       style: { width: `${this.context.percentagePlayed}%` },
-    });
+    }, this.props);
+
+    if (this.props.children) {
+      return cloneElement(Children.only(this.props.children), props);
+    }
+
+    return <div { ...props } />;
   }
 
 }

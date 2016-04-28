@@ -19,7 +19,7 @@ export default class Scrubber extends Component {
       return cloneElement(Children.only(this.props.children), props);
     }
 
-    return <span style={ style } { ...props } />;
+    return <span { ...props } />;
   }
 
 }

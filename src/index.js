@@ -3,7 +3,7 @@ export FullScreen from './components/FullScreen';
 export Play from './components/Play';
 export Sound from './components/Sound';
 export Played from './components/Played';
-export Loaded from './components/Loaded';
+export Buffered from './components/Buffered';
 export Controls from './components/Controls';
 export Progress from './components/Progress';
 export Scrubber from './components/Scrubber';

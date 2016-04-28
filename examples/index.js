@@ -4,7 +4,7 @@ import {
   Sound,
   FullScreen,
   Played,
-  Loaded,
+  Buffered,
   Controls,
   Progress,
   Scrubber,
@@ -23,8 +23,8 @@ function Demo() {
             <Sound><button /></Sound>
             <FullScreen><button /></FullScreen>
             <Progress>
-              <Played><div className="play-progress" /></Played>
-              <Loaded><div className="load-progress" /></Loaded>
+              <Played className="play-progress" />
+              <Buffered className="load-progress" />
               <Scrubber className="time-point" />
             </Progress>
           </Controls>
