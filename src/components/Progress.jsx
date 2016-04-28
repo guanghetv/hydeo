@@ -22,7 +22,7 @@ export default class Progress extends Component {
 
   render() {
     return (
-      <div ref="progress" className="progress-bar" onClick={ this.seek }>
+      <div ref="progress" onClick={ this.seek } { ...this.props }>
         { this.props.children }
       </div>
     );

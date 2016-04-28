@@ -21,7 +21,7 @@ function Demo() {
           <Play><button className="another-class md-primary" /></Play>
           <Sound><button /></Sound>
           <FullScreen><button /></FullScreen>
-          <Progress>
+          <Progress className="progress-bar">
             <Played className="play-progress" />
             <Buffered className="load-progress" />
             <Scrubber className="time-point" />
