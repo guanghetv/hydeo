@@ -19,12 +19,9 @@ export default class Controls extends Component {
 
   componentDidMount() {
     if (this.props.autohide) {
-      // const container = this.props.media.container;
-
-      // container.addEventListener('mousemove', this.show);
-      // container.addEventListener('click', this.show);
-      // container.addEventListener('mouseleave', this.hide);
-
+      this.context.on('mousemove', this.show);
+      this.context.on('click', this.show);
+      this.context.on('mouseleave', this.hide);
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
     }
   }
@@ -35,6 +32,7 @@ export default class Controls extends Component {
   }
 
   hide() {
+    this.isInsideBar = false;
     this.setState({ show: false });
   }
 
@@ -52,10 +50,11 @@ export default class Controls extends Component {
     };
 
     return (
-      <div className="control-bar"
+      <div
+        { ...this.props }
         style={ style }
         onMouseEnter={ this.onMouseEnter }
-        onMouseLeave={ () => (this.isInsideBar = false) }
+        onMouseLeave={ this.hide }
       >
         { this.props.children }
       </div>

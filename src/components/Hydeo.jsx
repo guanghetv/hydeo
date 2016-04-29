@@ -62,7 +62,7 @@ export default class Hydeo extends Component {
 
   componentWillMount() {
     this.updateState = throttle(this.updateState, EVENT_INTERVAL).bind(this);
-    this.dispatchEvent = throttle(this.dispatchEvent, EVENT_INTERVAL).bind(this);
+    // this.dispatchEvent = throttle(this.dispatchEvent, EVENT_INTERVAL).bind(this);
 
     this.mediaEventProps = MediaEvents.reduce((eventMap, currentEvent) => {
       const eventProps = eventMap;
