@@ -17,17 +17,17 @@ export default class Controls extends Component {
     this.isInsideBar = false;
   }
 
-  // componentDidMount() {
-  //   if (this.props.autohide) {
-  //     const container = this.props.media.container;
-  //
-  //     container.addEventListener('mousemove', this.show);
-  //     container.addEventListener('click', this.show);
-  //     container.addEventListener('mouseleave', this.hide);
-  //
-  //     this.timeout = setTimeout(this.hide, this.props.autohideTime);
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.autohide) {
+      // const container = this.props.media.container;
+
+      // container.addEventListener('mousemove', this.show);
+      // container.addEventListener('click', this.show);
+      // container.addEventListener('mouseleave', this.hide);
+
+      this.timeout = setTimeout(this.hide, this.props.autohideTime);
+    }
+  }
 
   onMouseEnter() {
     this.isInsideBar = true;

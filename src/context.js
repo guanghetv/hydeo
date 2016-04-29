@@ -23,4 +23,5 @@ export const contextTypes = {
   exitFullScreen: func,
   toggleFullScreen: func,
   seek: func,
+  on: func,
 };

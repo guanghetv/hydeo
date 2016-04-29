@@ -4,36 +4,12 @@ import { contextTypes } from '../context';
 import Hls from 'hls.js';
 import FullScreenApi from '../utils/FullScreenApi';
 import { isFunction, throttle } from '../utils';
+import { MouseEvents, MediaEvents } from '../utils/Events';
 
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
 const DECIMAL = 10;
-const STATE_FRESH_INTERVAL = 300;
-const EVENTS = [
-  'onAbort',
-  'onCanPlay',
-  'onCanPlayThrough',
-  'onDurationChange',
-  'onEmptied',
-  'onEncrypted',
-  'onEnded',
-  'onError',
-  'onLoadedData',
-  'onLoadedMetadata',
-  'onLoadStart',
-  'onPause',
-  'onPlay',
-  'onPlaying',
-  'onProgress',
-  'onRateChange',
-  'onSeeked',
-  'onSeeking',
-  'onStalled',
-  'onSuspend',
-  'onTimeUpdate',
-  'onVolumeChange',
-  'onWaiting',
-];
+const EVENT_INTERVAL = 300;
 const KEY_MAP = {
   13: 'enterKey',
   32: 'spaceKey',
@@ -62,6 +38,9 @@ export default class Hydeo extends Component {
     this.seek = this.seek.bind(this);
     this.getMediaState = this.getMediaState.bind(this);
     this.handleKeyEvent = this.handleKeyEvent.bind(this);
+    this.on = this.on.bind(this);
+
+    this.eventQueue = [];
   }
 
   getChildContext() {
@@ -77,17 +56,19 @@ export default class Hydeo extends Component {
       exitFullScreen: this.exitFullScreen,
       toggleFullScreen: this.toggleFullScreen,
       seek: this.seek,
+      on: this.on,
     }, this.state);
   }
 
   componentWillMount() {
-    this.updateState = throttle(this.updateState, STATE_FRESH_INTERVAL).bind(this);
+    this.updateState = throttle(this.updateState, EVENT_INTERVAL).bind(this);
+    this.dispatchEvent = throttle(this.dispatchEvent, EVENT_INTERVAL).bind(this);
 
-    this.mediaEventProps = EVENTS.reduce((eventMap, currentEvent) => {
+    this.mediaEventProps = MediaEvents.reduce((eventMap, currentEvent) => {
       const eventProps = eventMap;
       eventProps[currentEvent] = (event) => {
         if (currentEvent in this.props && isFunction(this.props[currentEvent])) {
-          this.props[currentEvent].call(event);
+          this.props[currentEvent](event);
         }
 
         if (currentEvent in this && isFunction(this[currentEvent])) {
@@ -96,6 +77,16 @@ export default class Hydeo extends Component {
 
         this.updateState();
       };
+      return eventProps;
+    }, {});
+
+    this.mouseEvents = MouseEvents.reduce((eventMap, currentEvent) => {
+      const eventProps = eventMap;
+
+      eventProps[currentEvent] = (event) => {
+        this.dispatchEvent(event.nativeEvent || event);
+      };
+
       return eventProps;
     }, {});
   }
@@ -156,6 +147,19 @@ export default class Hydeo extends Component {
 
   setVolume(volume) {
     this.refs.media.volume = volume;
+  }
+
+  dispatchEvent(event) {
+    this.eventQueue.forEach((item) => {
+      const handler = item[event.type];
+      if (isFunction(handler)) {
+        handler(event);
+      }
+    });
+  }
+
+  on(eventType, handler) {
+    this.eventQueue.push({ [eventType]: handler });
   }
 
   play() {
@@ -266,7 +270,12 @@ export default class Hydeo extends Component {
     };
 
     return (
-      <div ref="hydeo" style={ filledStyle } tabIndex="-1" onKeyDown={ this.handleKeyEvent }>
+      <div ref="hydeo"
+        style={ filledStyle }
+        tabIndex="-1"
+        onKeyDown={ this.handleKeyEvent }
+        { ...this.mouseEvents }
+      >
         <Media style={ filledStyle } ref="media" { ...mediaProps } onClick={ this.togglePlay } />
         { this.props.children }
       </div>

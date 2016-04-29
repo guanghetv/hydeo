@@ -13,8 +13,6 @@ minor: NEXT_VERSION = $(shell $(SEMVER) -i minor $(VERSION))
 major: NEXT_VERSION = $(shell $(SEMVER) -i major $(VERSION))
 
 patch minor major: build
-	@printf "Current version is $(VERSION). This will publish version $(NEXT_VERSION). Press [enter] to continue." >&2
-	@read nothing
 	sed -i "" 's/"version": "$(VERSION)"/"version": "$(NEXT_VERSION)"/g' $(PACKAGE)
 	git commit $(PACKAGE) -m 'chore: bump version to $(NEXT_VERSION)'
 	git tag -a "v$(NEXT_VERSION)" -m 'chore: bump version to $(NEXT_VERSION)'
