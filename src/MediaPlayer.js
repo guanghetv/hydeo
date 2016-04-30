@@ -60,14 +60,14 @@ export default class MediaPlayer {
   }
 
   changeSource(source) {
+    if (this.media.src !== source) this.media.src = source;
+
     if (HLS_EXTENSIONS.test(source) && Hls.isSupported()) {
       const hls = new Hls({
         defaultAudioCodec: 'avc1.42E01E, mp4a.40.2',
       });
       hls.loadSource(source);
       hls.attachMedia(this.media);
-    } else {
-      if (this.media.src !== source) this.media.src = source;
     }
   }
 
