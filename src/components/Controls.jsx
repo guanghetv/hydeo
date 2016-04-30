@@ -18,26 +18,43 @@ export default class Controls extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     if (this.props.autohide) {
-      this.context.on('mousemove', this.show);
-      this.context.on('click', this.show);
-      this.context.on('mouseleave', this.hide);
+      const { on } = this.context;
+      on('mousemove', () => {
+        if (this._isMounted) this.show();
+      });
+      on('click', () => {
+        if (this._isMounted) this.show();
+      });
+      on('mouseleave', () => {
+        if (this._isMounted) this.hide();
+      });
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   onMouseEnter() {
-    this.isInsideBar = true;
-    clearTimeout(this.timeout);
+    if (this.props.autohide) {
+      this.isInsideBar = true;
+      clearTimeout(this.timeout);
+    }
   }
 
   hide() {
-    this.isInsideBar = false;
-    this.setState({ show: false });
+    if (this.props.autohide) {
+      this.isInsideBar = false;
+      this.setState({ show: false });
+    }
   }
 
   show() {
-    if (!this.isInsideBar) {
+    if (!this.isInsideBar && this.props.autohide) {
       clearTimeout(this.timeout);
       this.setState({ show: true });
       this.timeout = setTimeout(this.hide, this.props.autohideTime);

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
-import Hls from 'hls.js';
 import FullScreenApi from '../utils/FullScreenApi';
 import { isFunction, throttle } from '../utils';
 import { MouseEvents, MediaEvents } from '../utils/Events';
+import MediaPlayer from '../MediaPlayer';
 
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/;
-const HLS_EXTENSIONS = /\.(m3u8)($|\?)/;
 const DECIMAL = 10;
 const EVENT_INTERVAL = 300;
 const KEY_MAP = {
@@ -36,7 +35,6 @@ export default class Hydeo extends Component {
     this.toggleVolume = this.toggleVolume.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
     this.seek = this.seek.bind(this);
-    this.getMediaState = this.getMediaState.bind(this);
     this.handleKeyEvent = this.handleKeyEvent.bind(this);
     this.on = this.on.bind(this);
 
@@ -62,7 +60,6 @@ export default class Hydeo extends Component {
 
   componentWillMount() {
     this.updateState = throttle(this.updateState, EVENT_INTERVAL).bind(this);
-    // this.dispatchEvent = throttle(this.dispatchEvent, EVENT_INTERVAL).bind(this);
 
     this.mediaEventProps = MediaEvents.reduce((eventMap, currentEvent) => {
       const eventProps = eventMap;
@@ -93,21 +90,16 @@ export default class Hydeo extends Component {
 
   componentDidMount() {
     const media = this.refs.media;
-    if (HLS_EXTENSIONS.test(this.props.src) && Hls.isSupported()) {
-      const hls = new Hls({ defaultAudioCodec: 'avc1.42E01E, mp4a.40.2' });
-      hls.loadSource(this.props.src);
-      hls.attachMedia(media);
-      // hls.on(Hls.Events.MANIFEST_PARSED, () => media.play());
-    }
+    const container = this.refs.hydeo;
 
-    FullScreenApi.onChange(this.refs.hydeo, () => {
+    FullScreenApi.onChange(container, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
       this.setState({ isFullScreen });
     });
 
-    this.props.onReady(Object.assign({}, this.getChildContext(), {
-      getMediaState: this.getMediaState,
-    }));
+    const controller = new MediaPlayer(media, container);
+    controller.changeSource(this.props.src);
+    this.props.onReady(controller);
   }
 
   onTimeUpdate(event) {
@@ -139,10 +131,6 @@ export default class Hydeo extends Component {
         cuepoint.$$isDirty = false;
       }
     });
-  }
-
-  getMediaState() {
-    return this.state;
   }
 
   setVolume(volume) {

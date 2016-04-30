@@ -17,7 +17,7 @@ function Demo() {
   return (
     <div className="container">
       <Hydeo src="http://pchls.media.yangcong345.com/pcL_566989c0c41b293c7f4a04c7.m3u8">
-        <Controls className="control-bar">
+        <Controls className="control-bar" >
           <Play><button className="another-class md-primary" /></Play>
           <Sound><button /></Sound>
           <FullScreen><button /></FullScreen>
