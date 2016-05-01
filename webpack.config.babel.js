@@ -28,6 +28,11 @@ export default {
     },
   },
   module: {
+    preLoaders: [{
+      test: /\.js|jsx$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+    }],
     loaders: [{
       test: /\.js|jsx$/,
       loaders: ['react-hot', 'babel'],
@@ -46,8 +51,4 @@ export default {
       from: 'examples',
     }]),
   ],
-  // eslint config options. Part of the eslint-loader package
-  eslint: {
-    configFile: '.eslintrc',
-  },
 };
