@@ -13,6 +13,8 @@ export default class MediaPlayer {
   constructor(media, container) {
     this.media = media;
     this.container = container;
+
+    this.togglePlay = this.togglePlay.bind(this);
   }
 
   play() {
@@ -47,11 +49,11 @@ export default class MediaPlayer {
     }
   }
 
-  muted() {
+  mute() {
     this.media.muted = true;
   }
 
-  unmuted() {
+  unmute() {
     this.media.muted = false;
   }
 
@@ -60,7 +62,9 @@ export default class MediaPlayer {
   }
 
   changeSource(source) {
-    if (this.media.src !== source) this.media.src = source;
+    if (this.media.src !== source) {
+      this.media.src = source;
+    }
 
     if (HLS_EXTENSIONS.test(source) && Hls.isSupported()) {
       const hls = new Hls({
@@ -76,9 +80,9 @@ export default class MediaPlayer {
    */
   toggleVolume() {
     if (this.isMuted) {
-      this.unmuted();
+      this.unmute();
     } else {
-      this.muted();
+      this.mute();
     }
   }
 
@@ -98,7 +102,7 @@ export default class MediaPlayer {
     return this.media.paused;
   }
 
-  get isPlay() {
+  get isPlayed() {
     return !this.isPaused;
   }
 
@@ -112,6 +116,21 @@ export default class MediaPlayer {
 
   get isEnded() {
     return this.media.isEnded;
+  }
+
+  get buffered() {
+    return this.media.buffered;
+  }
+
+  _update() {
+    const media = this.media;
+    const buffered = this.buffered;
+    const duration = media.duration;
+
+    this.duration = duration;
+    this.currentTime = media.currentTime;
+    this.percentagePlayed = this.currentTime / this.duration * 100;
+    this.percentageBuffered = buffered.length && buffered.end(buffered.length - 1) / duration * 100;
   }
 
 }

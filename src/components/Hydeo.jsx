@@ -24,36 +24,15 @@ export default class Hydeo extends Component {
 
   constructor(props, ...args) {
     super(props, ...args);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.mute = this.mute.bind(this);
-    this.unmute = this.unmute.bind(this);
-    this.setVolume = this.setVolume.bind(this);
-    this.requestFullScreen = this.requestFullScreen.bind(this);
-    this.exitFullScreen = this.exitFullScreen.bind(this);
-    this.toggleFullScreen = this.toggleFullScreen.bind(this);
-    this.toggleVolume = this.toggleVolume.bind(this);
-    this.togglePlay = this.togglePlay.bind(this);
-    this.seek = this.seek.bind(this);
     this.handleKeyEvent = this.handleKeyEvent.bind(this);
     this.on = this.on.bind(this);
 
     this.eventQueue = [];
+    this.state = {};
   }
 
   getChildContext() {
     return Object.assign({}, {
-      play: this.play,
-      pause: this.pause,
-      togglePlay: this.togglePlay,
-      mute: this.mute,
-      unmute: this.unmute,
-      setVolume: this.setVolume,
-      toggleVolume: this.toggleVolume,
-      requestFullScreen: this.requestFullScreen,
-      exitFullScreen: this.exitFullScreen,
-      toggleFullScreen: this.toggleFullScreen,
-      seek: this.seek,
       on: this.on,
     }, this.state);
   }
@@ -97,9 +76,9 @@ export default class Hydeo extends Component {
       this.setState({ isFullScreen });
     });
 
-    const controller = new MediaPlayer(media, container);
-    controller.changeSource(this.props.src);
-    this.props.onReady(controller);
+    this.controller = new MediaPlayer(media, container);
+    this.controller.changeSource(this.props.src);
+    this.props.onReady(this.controller);
   }
 
   onTimeUpdate(event) {
@@ -133,10 +112,6 @@ export default class Hydeo extends Component {
     });
   }
 
-  setVolume(volume) {
-    this.refs.media.volume = volume;
-  }
-
   dispatchEvent(event) {
     this.eventQueue.forEach((item) => {
       const handler = item[event.type];
@@ -150,77 +125,20 @@ export default class Hydeo extends Component {
     this.eventQueue.push({ [eventType]: handler });
   }
 
-  play() {
-    this.refs.media.play();
-  }
-
-  pause() {
-    this.refs.media.pause();
-  }
-
-  togglePlay() {
-    if (this.state.paused) {
-      this.play();
-    } else {
-      this.pause();
-    }
-  }
-
-  mute() {
-    this.refs.media.muted = true;
-  }
-
-  unmute() {
-    this.refs.media.muted = false;
-  }
-
-  toggleVolume() {
-    if (this.state.muted) {
-      this.unmute();
-    } else {
-      this.mute();
-    }
-  }
-
-  seek(time) {
-    this.refs.media.currentTime = time;
-  }
-
-  requestFullScreen() {
-    FullScreenApi.request(this.refs.hydeo);
-    this.setState({ isFullScreen: true });
-  }
-
-  exitFullScreen() {
-    FullScreenApi.exit();
-    this.setState({ isFullScreen: false });
-  }
-
-  toggleFullScreen() {
-    if (this.state.isFullScreen) {
-      this.exitFullScreen();
-    } else {
-      this.requestFullScreen();
-    }
-  }
-
   updateState() {
-    const media = this.refs.media;
-    if (!media) return;
-    const duration = media.duration;
-    const currentTime = media.currentTime;
-    const buffered = media.buffered;
+    if (!this.controller) return;
+    this.controller._update();
+    const controller = {};
+    const properties = Object.getOwnPropertyNames(MediaPlayer.prototype)
+      .concat(Object.keys(this.controller));
 
-    this.setState({
-      totalTime: duration,
-      currentTime,
-      buffered,
-      paused: media.paused,
-      muted: media.muted,
-      volume: media.volume,
-      percentageBuffered: buffered.length && buffered.end(buffered.length - 1) / duration * 100,
-      percentagePlayed: currentTime / duration * 100,
+    // Do not map the constructor & private function/property(start with '_')
+    properties.forEach((prop) => {
+      if (prop === 'constructor' || prop.startsWith('_')) return;
+      controller[prop] = this.controller[prop];
     });
+
+    this.setState({ ...controller });
   }
 
   handleKeyEvent(event) {
@@ -264,7 +182,12 @@ export default class Hydeo extends Component {
         onKeyDown={ this.handleKeyEvent }
         { ...this.mouseEvents }
       >
-        <Media style={ filledStyle } ref="media" { ...mediaProps } onClick={ this.togglePlay } />
+        <Media style={ filledStyle }
+          ref="media"
+          onClick={ this.state.togglePlay }
+          { ...mediaProps }
+        />
+
         { this.props.children }
       </div>
     );

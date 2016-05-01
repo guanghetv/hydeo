@@ -16,7 +16,7 @@ export default class Progress extends Component {
   seek(event) {
     const element = this.refs.progress;
     const width = element.offsetWidth;
-    const time = event.nativeEvent.offsetX / width * this.context.totalTime;
+    const time = event.nativeEvent.offsetX / width * this.context.duration;
     this.context.seek(time);
   }
 

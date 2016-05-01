@@ -12,7 +12,7 @@ export default class Sound extends Component {
   render() {
     const children = this.props.children;
     const originClass = children.props.className;
-    let className = this.context.muted ? 'muted' : 'unmuted';
+    let className = this.context.isMuted ? 'muted' : 'unmuted';
 
     if (originClass) {
       className += ` ${originClass}`;

@@ -12,7 +12,7 @@ export default class Play extends Component {
   render() {
     const children = this.props.children;
     const originClass = children.props.className;
-    let className = this.context.paused ? 'play' : 'pause';
+    let className = this.context.isPaused ? 'play' : 'pause';
 
     if (originClass) {
       className += ` ${originClass}`;

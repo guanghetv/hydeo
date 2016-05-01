@@ -3,11 +3,16 @@ import { PropTypes } from 'react';
 const { number, object, bool, func } = PropTypes;
 
 export const contextTypes = {
+  media: object,
+  container: object,
   buffered: object,
-  paused: bool,
-  muted: bool,
   isFullScreen: bool,
-  totalTime: number,
+  isMuted: bool,
+  isPaused: bool,
+  isPlayed: bool,
+  isAutoPlay: bool,
+  isEnded: bool,
+  duration: number,
   currentTime: number,
   volume: number,
   percentageBuffered: number,
@@ -24,4 +29,5 @@ export const contextTypes = {
   toggleFullScreen: func,
   seek: func,
   on: func,
+  changeSource: func,
 };
