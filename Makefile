@@ -30,3 +30,6 @@ dev: clean
 
 build: clean
 	babel ./src --out-dir $(DIST)
+
+test:
+	jest
