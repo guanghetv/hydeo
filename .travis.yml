@@ -1,8 +1,11 @@
-language: node_js
+language:
+  node_js
+
 node_js:
   - "stable"
 
-script: make test
+script:
+  make test
 
 before_install:
   - export DISPLAY=:99.0

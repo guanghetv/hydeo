@@ -1,4 +1,4 @@
-SHELL := /bin/zsh
+SHELL := /bin/bash
 PATH := node_modules/.bin:$(PATH)
 
 .PHONY: dev build copy-files
