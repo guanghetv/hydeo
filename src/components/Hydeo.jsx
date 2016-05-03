@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { propTypes, defaultProps } from '../props';
 import { contextTypes } from '../context';
 import FullScreenApi from '../utils/FullScreenApi';
@@ -18,7 +18,10 @@ const KEY_MAP = {
 
 export default class Hydeo extends Component {
 
-  static propTypes = propTypes;
+  static propTypes = {
+    ...propTypes,
+    src: PropTypes.string.isRequired,
+  };
   static defaultProps = defaultProps;
   static childContextTypes = contextTypes;
 
