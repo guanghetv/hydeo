@@ -158,19 +158,19 @@ export default class Hydeo extends Component {
   }
 
   leftKey() {
-    this.seek(this.state.currentTime - 10);
+    this.state.seek(this.state.currentTime - 10);
   }
 
   rightKey() {
-    this.seek(this.state.currentTime + 10);
+    this.state.seek(this.state.currentTime + 10);
   }
 
   spaceKey() {
-    this.togglePlay();
+    this.state.togglePlay();
   }
 
   enterKey() {
-    this.togglePlay();
+    this.state.togglePlay();
   }
 
   render() {

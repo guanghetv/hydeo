@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-PATH := node_modules/.bin:$(PATH)
+PATH := $(shell npm bin):$(PATH)
 
 .PHONY: dev build copy-files
 
@@ -17,10 +17,6 @@ patch minor major: build
 	git commit $(PACKAGE) -m 'chore: bump version to $(NEXT_VERSION)'
 	git tag -a "v$(NEXT_VERSION)" -m 'chore: bump version to $(NEXT_VERSION)'
 	git push --tags origin HEAD:master
-	@[ -d $(DIST) ] || mkdir $(DIST)
-	cp README.md $(DIST)
-	cp $(PACKAGE) $(DIST)
-	npm publish $(DIST)
 
 clean:
 	rm -rf $(DIST)
@@ -33,3 +29,9 @@ build: clean
 
 test:
 	jest
+
+publish:
+	@[ -d $(DIST) ] || mkdir $(DIST)
+	cp README.md $(DIST)
+	cp $(PACKAGE) $(DIST)
+	npm publish $(DIST)
