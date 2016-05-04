@@ -84,6 +84,10 @@ export default class Hydeo extends Component {
     this.props.onReady(this.controller);
   }
 
+  componentWillUnmount() {
+    this.controller._destroyHls();
+  }
+
   onTimeUpdate(event) {
     const cuepoints = this.props.cuepoints;
     if (!cuepoints) {

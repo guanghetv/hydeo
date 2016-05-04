@@ -72,7 +72,12 @@ export default class MediaPlayer {
       });
       hls.loadSource(source);
       hls.attachMedia(this.media);
+      this._hls = hls;
     }
+  }
+
+  _destroyHls() {
+    if (this._hls) this._hls.destroy();
   }
 
   /**
