@@ -1,4 +1,4 @@
-# Hydeo [![Build Status](https://travis-ci.org/centsent/hydeo.svg?branch=master)](https://travis-ci.org/centsent/hydeo)
+# Hydeo [![Build Status](https://travis-ci.org/guanghetv/hydeo.svg?branch=master)](https://travis-ci.org/centsent/hydeo)
 
 Hydeo is an html5 video player based on [react](https://facebook.github.io/react).
 
@@ -15,7 +15,7 @@ import { Hydeo, Controls, Play, Sound, Fullscreen, Progress, Played, Buffered } 
 render() {
     return (
         <Hydeo autoPlay src="http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8">
-            <Controls className="control-bar" >
+            <Controls>
                 <Play />
                 <Sound />
                 <FullScreen />
