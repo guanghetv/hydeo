@@ -76,6 +76,7 @@ export default class Hydeo extends Component {
 
     FullScreenApi.onChange(container, () => {
       const isFullScreen = FullScreenApi.isFullScreen();
+      container.focus();
       this.setState({ isFullScreen });
     });
 
