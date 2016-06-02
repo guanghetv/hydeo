@@ -23,10 +23,10 @@ export default class Controls extends Component {
     if (this.props.autohide) {
       const { on } = this.context;
       on('mousemove', () => {
-        if (this._isMounted) this.show();
+        if (this._isMounted && !this.context.isOnCuepoint) this.show();
       });
       on('click', () => {
-        if (this._isMounted) this.show();
+        if (this._isMounted && !this.context.isOnCuepoint) this.show();
       });
       on('mouseleave', () => {
         if (this._isMounted) this.hide();
@@ -65,6 +65,10 @@ export default class Controls extends Component {
     const style = {
       display: this.state.show ? 'block' : 'none',
     };
+
+    if (this.context.isOnCuepoint) {
+      style.display = 'none';
+    }
 
     return (
       <div

@@ -105,6 +105,7 @@ export default class Hydeo extends Component {
           cuepoint.onEnter(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = true;
+        this.setState({ isOnCuepoint: true });
       }
 
       if (currentSecond > start) {
@@ -112,9 +113,11 @@ export default class Hydeo extends Component {
           cuepoint.onComplete(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = false;
+        this.setState({ isOnCuepoint: false });
       }
 
       if (currentSecond < start) {
+        this.setState({ isOnCuepoint: false });
         cuepoint.$$isDirty = false;
       }
     });

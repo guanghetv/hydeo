@@ -12,6 +12,7 @@ export const contextTypes = {
   isPlayed: bool,
   isAutoPlay: bool,
   isEnded: bool,
+  isOnCuepoint: bool,
   duration: number,
   currentTime: number,
   volume: number,
