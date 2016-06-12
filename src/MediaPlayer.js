@@ -17,14 +17,23 @@ export default class MediaPlayer {
     this.togglePlay = this.togglePlay.bind(this);
   }
 
+  /**
+   *
+   */
   play() {
     this.media.play();
   }
 
+  /**
+   *
+   */
   pause() {
     this.media.pause();
   }
 
+  /**
+   *
+   */
   togglePlay() {
     if (this.isPaused) {
       this.play();
@@ -33,14 +42,23 @@ export default class MediaPlayer {
     }
   }
 
+  /**
+   *
+   */
   requestFullScreen() {
     FullScreenApi.request(this.container);
   }
 
+  /**
+   *
+   */
   exitFullScreen() {
     FullScreenApi.exit();
   }
 
+  /**
+   *
+   */
   toggleFullScreen() {
     if (this.isFullScreen) {
       this.exitFullScreen();
@@ -49,18 +67,30 @@ export default class MediaPlayer {
     }
   }
 
+  /**
+   *
+   */
   mute() {
     this.media.muted = true;
   }
 
+  /**
+   *
+   */
   unmute() {
     this.media.muted = false;
   }
 
+  /**
+   *
+   */
   seek(time) {
     this.media.currentTime = time;
   }
 
+  /**
+   *
+   */
   changeSource(source) {
     if (this.media.src !== source) {
       this.media.src = source;
@@ -76,6 +106,9 @@ export default class MediaPlayer {
     }
   }
 
+  /**
+   *
+   */
   _destroyHls() {
     if (this._hls) this._hls.destroy();
   }
@@ -91,42 +124,72 @@ export default class MediaPlayer {
     }
   }
 
+  /**
+   *
+   */
   get isMuted() {
     return this.media.muted;
   }
 
+  /**
+   *
+   */
   set volume(volume) {
     this.media.volume = volume;
   }
 
+  /**
+   *
+   */
   get volume() {
     return this.media.volume;
   }
 
+  /**
+   *
+   */
   get isPaused() {
     return this.media.paused;
   }
 
+  /**
+   *
+   */
   get isPlayed() {
     return !this.isPaused;
   }
 
+  /**
+   *
+   */
   get isAutoPlay() {
     return this.media.autoplay;
   }
 
+  /**
+   *
+   */
   get isFullScreen() {
     return FullScreenApi.isFullScreen();
   }
 
+  /**
+   *
+   */
   get isEnded() {
     return this.media.isEnded;
   }
 
+  /**
+   *
+   */
   get buffered() {
     return this.media.buffered;
   }
 
+  /**
+   *
+   */
   _update() {
     const media = this.media;
     const buffered = this.buffered;

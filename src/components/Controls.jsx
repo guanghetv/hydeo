@@ -22,15 +22,10 @@ export default class Controls extends Component {
 
     if (this.props.autohide) {
       const { on } = this.context;
-      on('mousemove', () => {
-        if (this._isMounted && !this.context.isOnCuepoint) this.show();
-      });
-      on('click', () => {
-        if (this._isMounted && !this.context.isOnCuepoint) this.show();
-      });
-      on('mouseleave', () => {
-        if (this._isMounted) this.hide();
-      });
+      on('mousemove', this.show);
+      // on('click', this.show);
+      on('mouseleave', this.hide);
+
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
     }
   }
@@ -40,21 +35,21 @@ export default class Controls extends Component {
   }
 
   onMouseEnter() {
-    if (this.props.autohide) {
+    if (this.props.autohide && this._isMounted) {
       this.isInsideBar = true;
       clearTimeout(this.timeout);
     }
   }
 
   hide() {
-    if (this.props.autohide) {
+    if (this.props.autohide && this._isMounted) {
       this.isInsideBar = false;
       this.setState({ show: false });
     }
   }
 
   show() {
-    if (!this.isInsideBar && this.props.autohide) {
+    if (!this.isInsideBar && this.props.autohide && this._isMounted) {
       clearTimeout(this.timeout);
       this.setState({ show: true });
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
@@ -65,10 +60,6 @@ export default class Controls extends Component {
     const style = {
       display: this.state.show ? 'block' : 'none',
     };
-
-    if (this.context.isOnCuepoint) {
-      style.display = 'none';
-    }
 
     return (
       <div

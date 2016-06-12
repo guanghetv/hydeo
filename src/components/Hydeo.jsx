@@ -83,10 +83,13 @@ export default class Hydeo extends Component {
     this.controller = new MediaPlayer(media, container);
     this.controller.changeSource(this.props.src);
     this.props.onReady(this.controller);
+
+    this._isMounted = true;
   }
 
   componentWillUnmount() {
     this.controller._destroyHls();
+    this._isMounted = false;
   }
 
   onTimeUpdate(event) {
@@ -105,7 +108,6 @@ export default class Hydeo extends Component {
           cuepoint.onEnter(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = true;
-        this.setState({ isOnCuepoint: true });
       }
 
       if (currentSecond > start) {
@@ -113,11 +115,9 @@ export default class Hydeo extends Component {
           cuepoint.onComplete(this.currentTime, cuepoint.params);
         }
         cuepoint.$$isDirty = false;
-        this.setState({ isOnCuepoint: false });
       }
 
       if (currentSecond < start) {
-        this.setState({ isOnCuepoint: false });
         cuepoint.$$isDirty = false;
       }
     });
@@ -137,7 +137,7 @@ export default class Hydeo extends Component {
   }
 
   updateState() {
-    if (!this.controller) return;
+    if (!this.controller || !this._isMounted) return;
     this.controller._update();
     const controller = {};
     const properties = Object.getOwnPropertyNames(MediaPlayer.prototype)
