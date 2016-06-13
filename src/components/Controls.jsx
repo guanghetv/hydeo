@@ -23,7 +23,6 @@ export default class Controls extends Component {
     if (this.props.autohide) {
       const { on } = this.context;
       on('mousemove', this.show);
-      // on('click', this.show);
       on('mouseleave', this.hide);
 
       this.timeout = setTimeout(this.hide, this.props.autohideTime);
@@ -60,6 +59,10 @@ export default class Controls extends Component {
     const style = {
       display: this.state.show ? 'block' : 'none',
     };
+
+    if (this.context.isPaused) {
+      style.display = 'block';
+    }
 
     return (
       <div
