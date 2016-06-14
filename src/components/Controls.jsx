@@ -57,11 +57,11 @@ export default class Controls extends Component {
 
   render() {
     const style = {
-      display: this.state.show ? 'block' : 'none',
+      opacity: this.state.show ? 1 : 0,
     };
 
     if (this.context.isPaused) {
-      style.display = 'block';
+      style.opacity = 1;
     }
 
     return (
