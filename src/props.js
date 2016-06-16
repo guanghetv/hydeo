@@ -15,6 +15,6 @@ export const propTypes = {
 export const defaultProps = {
   autoPlay: false,
   autohide: true,
-  autohideTime: 1000,
+  autohideTime: 2000,
   onReady() {},
 };

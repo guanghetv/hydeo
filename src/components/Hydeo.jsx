@@ -63,7 +63,7 @@ export default class Hydeo extends Component {
       const eventProps = eventMap;
 
       eventProps[currentEvent] = (event) => {
-        this.dispatchEvent(event.nativeEvent || event);
+        this.dispatchEvent(event);
       };
 
       return eventProps;

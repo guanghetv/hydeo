@@ -11,6 +11,8 @@ export const MouseEvents = [
   'onMouseUp',
   'onMouseOver',
   'onMouseOut',
+  'onMouseLeave',
+  'onMouseEnter',
   'onClick',
   'onDbClick',
   'onDrag',

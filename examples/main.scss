@@ -29,7 +29,7 @@
   color: white;
   display: block;
   opacity: 1;
-  transition: 0.5s opacity linear;
+  transition: 0.2s cubic-bezier(0,.21,.62,1);
 }
 
 video {
