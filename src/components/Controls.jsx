@@ -59,7 +59,7 @@ export default class Controls extends Component {
     const style = {
       ...this.props.style,
       opacity: this.state.show ? 1 : 0,
-      bottom: this.state.show ? '4px' : '',
+      bottom: this.state.show ? '12px' : '4px',
     };
 
     if (this.context.isPaused) {
