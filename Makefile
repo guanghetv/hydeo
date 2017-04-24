@@ -15,7 +15,7 @@ lint:
 	eslint ./
 
 test: lint
-	jest
+	jest -u
 
 patch: NEXT_VERSION = $(shell $(SEMVER) -i patch $(VERSION))
 minor: NEXT_VERSION = $(shell $(SEMVER) -i minor $(VERSION))

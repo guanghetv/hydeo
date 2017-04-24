@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import pkg from '../package.json';
@@ -44,22 +43,20 @@ export default options => ({
 
   module: {
     rules: [{
-        enforce: 'pre',
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            failOnWarning: process.env.NODE_ENV !== 'development',
-            failOnError: process.env.NODE_ENV !== 'development',
-          },
+      enforce: 'pre',
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'eslint-loader',
+        options: {
+          failOnWarning: process.env.NODE_ENV !== 'development',
+          failOnError: process.env.NODE_ENV !== 'development',
         },
-      }, {
-        test: /\.(js|jsx)?$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
       },
-
-    ],
+    }, {
+      test: /\.(js|jsx)?$/,
+      exclude: /node_modules/,
+      use: 'babel-loader',
+    }],
   },
 });
