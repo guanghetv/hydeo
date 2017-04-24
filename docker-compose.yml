@@ -1,0 +1,15 @@
+version: '3'
+services:
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hydeo
+    expose:
+      - "4101"
+    ports:
+      - "4101:4101"
+    volumes:
+      - .:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules
+    command: ["/bin/ash", "-c", "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.babel.js"]
